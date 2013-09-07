@@ -31,7 +31,15 @@ Need help with your Scripts? Want to meet people who make ModPE Scripts? Join th
 
 [Internet IRC] (http://webchat.freenode.net/)
 
-__Connor4898, CheesyFriedBacon, Donalddoesmc, Lambo_car16, MrARM, Hexdro, mcpemodder, arjay_07 and kacperski1!__
+* __Connor4898!__
+* __CheesyFriedBacon!__
+* __Donalddoesmc!__
+* __Lambo_car16!__
+* __MrARM!__
+* __Hexdro!__
+* __mcpemodder!__
+* __arjay_07!__
+* __kacperski1!__
 
 ###[My Forum] (http://www.minecraftforum.net/topic/1931167-)
 
