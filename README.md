@@ -18,7 +18,7 @@ Please don't copy or claim these scripts as your own. You can release your own v
 
 -Add me on Skype (connor4898)
 
--Message me via [Minecraft Forums] (http://www.minecraftforum.net/user/Connor4898/)
+-Message me via [Minecraft Forums] (http://www.minecraftforum.net/user/2053871-connor4898/)
 
 -Find me on Antisober's SurvivalCraft server
 
