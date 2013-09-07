@@ -596,3 +596,165 @@ var SecondM0 = function SecondM0() {
         }
     } setTile(stopwatchX-6,stopwatchY+1,stopwatchZ,57);
     setTile(stopwatchX-5,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+}
+
+function useItem(x,y,z,itemId,blockId,side) {
+    if(itemId == 267) {
+        stopwatchMode = 1;
+        stopwatchX = x;
+        stopwatchY = y;
+        stopwatchZ = z;
+        clientMessage("Set!");
+        stopwatchTick = 0;
+        for(i=-6;i<=12;i++) {
+            for(j=1;j<=7;j++) {
+                setTile(x+i,y+j,z,0);
+                setTile(x,y+3,z,22);
+                setTile(x,y+5,z,22);
+                if(j == 1 || j == 7) {
+                    if(i >= -6 && i <= -2) {
+                        setTile(x+i,y+j,z,57);
+                    } if((i >= 2 && i <= 6) || (i >= 8 && i <= 12)) {
+                        setTile(x+i,y+j,z,41);
+                    }
+                } if(j >= 2 && j <= 6) {
+                    if(i == -6 || i == -2) {
+                        setTile(x+i,y+j,z,57);
+                    } if(i == 2 || i == 6 || i == 8 || i == 12) {
+                        setTile(x+i,y+j,z,41);
+                    }
+                }
+            }
+        }
+    } if(itemId == 292) {
+        stopwatchTick = 0;
+        stopwatchTens = 0;
+        stopwatchMins = 0;
+        stopwatchStart = 1;
+        clientMessage("Started!")
+    }
+}
+
+function modTick() {
+    if(stopwatchMode == 1) {
+        if(stopwatchStart == 1) {
+            stopwatchTick++;
+            if(stopwatchTick == 1) {
+                Second1();
+            } if(stopwatchTick == 2) {
+                Second2();
+            } if(stopwatchTick == 3) {
+                Second3();
+            } if(stopwatchTick == 4) {
+                Second4();
+            } if(stopwatchTick == 5) {
+                Second5();
+            } if(stopwatchTick == 6) {
+                Second6();
+            } if(stopwatchTick == 7) {
+                Second7();
+            } if(stopwatchTick == 8) {
+                Second8();
+            } if(stopwatchTick == 9) {
+                Second9();
+            } if(stopwatchTick == 10) {
+                Second0();
+                stopwatchTensActive = 1;
+                stopwatchTens++;
+            } if(stopwatchTensActive == 1) {
+                if(stopwatchTens == 1) {
+                    SecondT1();
+                    stopwatchTick = 0;
+                    stopwatchTensActive = 0;
+                } if(stopwatchTens == 2) {
+                    SecondT2();
+                    stopwatchTick = 0;
+                    stopwatchTensActive = 0;
+                } if(stopwatchTens == 3) {
+                    SecondT3();
+                    stopwatchTick = 0;
+                    stopwatchTensActive = 0;
+                } if(stopwatchTens == 4) {
+                    SecondT4();
+                    stopwatchTick = 0;
+                    stopwatchTensActive = 0;
+                } if(stopwatchTens == 5) {
+                    SecondT5();
+                    stopwatchTick = 0;
+                    stopwatchTensActive = 0;
+                } if(stopwatchTens == 6) {
+                    SecondT0();
+                    stopwatchTick = 0;
+                    stopwatchTens = 0;
+                    stopwatchTensActive = 0;
+                    stopwatchMinsActive = 1;
+                    stopwatchMins++;
+                }
+            } if(stopwatchMinsActive == 1) {
+                if(stopwatchMins == 1) {
+                    SecondM1();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0
+                } if(stopwatchMins == 2) {
+                    SecondM2();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0;
+                } if(stopwatchMins == 3) {
+                    SecondM3();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0;
+                } if(stopwatchMins == 4) {
+                    SecondM4();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0;
+                } if(stopwatchMins == 5) {
+                    SecondM5();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0;
+                } if(stopwatchMins == 6) {
+                    SecondM6();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0;
+                } if(stopwatchMins == 7) {
+                    SecondM7();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0;
+                } if(stopwatchMins == 8) {
+                    SecondM8();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0;
+                } if(stopwatchMins == 9) {
+                    SecondM9();
+                    stopwatchTens = 0;
+                    stopwatchMinsActive = 0;
+                } if(stopwatchMins == 10) {
+                    SecondM0();
+                    stopwatchTens = 0;
+                    stopwatctMins = 0;
+                    stopwatchTensActive = 0;
+                    stopwatchMinsActive = 0;
+                    stopwatchMode = 0;
+                    clientMessage("Ten minutes has passed!");
+                }
+            }
+        }
+    }
+}
