@@ -5,4 +5,5 @@ I decided to create a GitHub Repo for my ModPE Scripts, so everyone can easily s
 Please don't copy or claim these scripts as your own. You can release your own versions of these scripts, but give me credit and post a link to my forum too.
 
 Many thanks,
+
    Connor4898
