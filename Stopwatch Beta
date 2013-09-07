@@ -297,3 +297,302 @@ var SecondT3 = function SecondT3() {
     setTile(stopwatchX+6,stopwatchY+2,stopwatchZ,41);
     setTile(stopwatchX+6,stopwatchY+3,stopwatchZ,41);
     setTile(stopwatchX+2,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+3,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+4,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+5,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+5,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+6,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+3,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+4,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+5,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+7,stopwatchZ,41);
+}
+var SecondT4 = function SecondT4() {
+    for(secT4X=2;secT4X<=6;secT4X++) {
+        for(secT4Y=1;secT4Y<=7;secT4Y++) {
+            setTile(stopwatchX+secT4X,stopwatchY+secT4Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX+6,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+2,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+3,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+3,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+4,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+5,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+5,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+5,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+6,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+6,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+7,stopwatchZ,41);
+};
+var SecondT5 = function SecondT5() {
+    for(secT5X=2;secT5X<=6;secT5X++) {
+        for(secT5Y=1;secT5Y<=7;secT5Y++) {
+            setTile(stopwatchX+secT5X,stopwatchY+secT5Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX+2,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+3,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+4,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+5,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+2,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+3,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+3,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+4,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+5,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+5,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+6,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+3,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+4,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+5,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+7,stopwatchZ,41);
+};
+var SecondT0 = function SecondT0() {
+    for(secT0X=2;secT0X<=6;secT0X++) {
+        for(secT0Y=1;secT0Y<=7;secT0Y++) {
+            setTile(stopwatchX+secT0X,stopwatchY+secT0Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX+2,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+3,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+4,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+5,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+1,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+2,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+2,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+3,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+3,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+4,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+5,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+5,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+6,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+6,stopwatchZ,41);
+    setTile(stopwatchX+2,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+3,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+4,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+5,stopwatchY+7,stopwatchZ,41);
+    setTile(stopwatchX+6,stopwatchY+7,stopwatchZ,41);
+};
+var SecondM1 = function SecondM1() {
+    for(secM1X=-6;secM1X<=-2;secM1X++) {
+        for(secM1Y=1;secM1Y<=7;secM1Y++) {
+            setTile(stopwatchX+secM1X,stopwatchY+secM1Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX-6,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX+-5,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+};
+var SecondM2 = function SecondM2() {
+    for(secM2X=-6;secM2X<=-2;secM2X++) {
+        for(secM2Y=1;secM2Y<=7;secM2Y++) {
+            setTile(stopwatchX+secM2X,stopwatchY+secM2Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX+-6,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+};
+var SecondM3 = function SecondM3() {
+    for(secM3X=-6;secM3X<=-2;secM3X++) {
+        for(secM3Y=1;secM3Y<=7;secM3Y++) {
+            setTile(stopwatchX+secM3X,stopwatchY+secM3Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX+-6,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX+-5,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+}
+var SecondM4 = function SecondM4() {
+    for(secM4X=-6;secM4X<=-2;secM4X++) {
+        for(secM4Y=1;secM4Y<=7;secM4Y++) {
+            setTile(stopwatchX+secM4X,stopwatchY+secM4Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+};
+var SecondM5 = function SecondM5() {
+    for(secM5X=-6;secM5X<=-2;secM5X++) {
+        for(secM5Y=1;secM5Y<=7;secM5Y++) {
+            setTile(stopwatchX+secM5X,stopwatchY+secM5Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX-6,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+};
+var SecondM6 = function SecondM6() {
+    for(secM6X=-6;secM6X<=-2;secM6X++) {
+        for(secM6Y=1;secM6Y<=7;secM6Y++) {
+            setTile(stopwatchX+secM6X,stopwatchY+secM6Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX-6,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+3,stopwatchZ,57)
+    setTile(stopwatchX-2,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+}
+var SecondM7 = function SecondM7() {
+    for(secM7X=-6;secM7X<=-2;secM7X++) {
+        for(secM7Y=1;secM7Y<=7;secM7Y++) {
+            setTile(stopwatchX+secM7X,stopwatchY+secM7Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+}
+var SecondM8 = function SecondM8() {
+    for(secM8X=-6;secM8X<=-2;secM8X++) {
+        for(secM8Y=1;secM8Y<=7;secM8Y++) {
+            setTile(stopwatchX+secM8X,stopwatchY+secM8Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX-6,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+}
+var SecondM9 = function SecondM9() {
+    for(secM9X=-6;secM9X<=-2;secM9X++) {
+        for(secM9Y=1;secM9Y<=7;secM9Y++) {
+            setTile(stopwatchX+secM9X,stopwatchY+secM9Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX-2,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+2,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+3,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+4,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+5,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+6,stopwatchZ,57);
+    setTile(stopwatchX-6,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-4,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-3,stopwatchY+7,stopwatchZ,57);
+    setTile(stopwatchX-2,stopwatchY+7,stopwatchZ,57);
+}
+var SecondM0 = function SecondM0() {
+    for(secM0X=-6;secM0X<=-2;secM0X++) {
+        for(secM0Y=1;secM0Y<=7;secM0Y++) {
+            setTile(stopwatchX+secM0X,stopwatchY+secM0Y,stopwatchZ,0);
+        }
+    } setTile(stopwatchX-6,stopwatchY+1,stopwatchZ,57);
+    setTile(stopwatchX-5,stopwatchY+1,stopwatchZ,57);
