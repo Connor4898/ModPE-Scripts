@@ -29,7 +29,7 @@ Please don't copy or claim these scripts as your own. You can release your own v
 
 Need help with your Scripts? Want to meet people who make ModPE Scripts? Join this channel!
 
-[Internet IRC] (http://webchat.freenode.net/)
+#### [Internet IRC] (http://webchat.freenode.net/)
 
 * __Connor4898!__
 * __CheesyFriedBacon!__
