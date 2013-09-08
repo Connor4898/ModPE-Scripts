@@ -32,9 +32,11 @@ function useItem(x,y,z,itemId,blockId) {
         }
     } if(spawnTouch == 1) {
         if(itemId == 295) {
-            spawnChicken(x,y+1,z);
+            spawnChicken(x,y+1,z,'mob/chicken.png');
         } if(itemId == 296) {
-            spawnCow(x,y+1,z);
+            spawnCow(x,y+1,z,'mob/cow.png');
+        } if(itemId == 406) {
+            spawnPigZombie(x,y+1,z,'mob/pigzombie.png');
         }
     } if(instabreakMode == 1) {
         if(itemId == 285) {
@@ -402,14 +404,14 @@ function procCmd(c) {
             if(p[1] == 'chicken') {
                 for(chickenX=-21;chickenX<=21;chickenX = chickenX + 3) {
                     for(chickenZ=-21;chickenZ<=21;chickenZ = chickenZ + 3) {
-                        spawnChicken(getPlayerX()+chickenX,getPlayerY()+20,getPlayerZ()+chickenZ);
+                        spawnChicken(getPlayerX()+chickenX,getPlayerY()+20,getPlayerZ()+chickenZ,'mob/chicken.png');
                     }
                 }
                 clientMessage("\nIT'S RAINING CHICKENS!!");
             } if(p[1] == 'cow') {
                 for(cowX=-21;cowX<=21;cowX = cowX + 3) {
                     for(cowZ=-21;cowZ<=21;cowZ = cowZ + 3) {
-                        spawnCow(getPlayerX()+cowX,getPlayerY()+15,getPlayerZ()+cowZ);
+                        spawnCow(getPlayerX()+cowX,getPlayerY()+15,getPlayerZ()+cowZ,'mob/cow.png');
                     }
                 }
                 clientMessage("\nIT'S RAINING COWS!!");
@@ -424,6 +426,7 @@ function procCmd(c) {
                     spawnTouch = 1;
                     addItemInventory(295,1);
                     addItemInventory(296,1);
+                    addItemInventory(406,1);
                     clientMessage("\nSpawn Touch turned on!");
                 }
             } if(p[1] == 'off') {
@@ -571,6 +574,7 @@ function procCmd(c) {
             } if(spawnTouch == 1) {
                 addItemInventory(295,1);
                 addItemInventory(296,1);
+                addItemInventory(406,1);
             } if(instabreakMode == 1) {
                 addItemInventory(285,1);
             } if(warpMode == 1) {
