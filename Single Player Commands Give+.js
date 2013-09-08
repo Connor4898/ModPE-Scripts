@@ -1132,6 +1132,25 @@ function procCmd(c) {
                 addItemInventory(294,1);
             }
             break;
+        } case 'panorama': {
+            if(p[1] == 'on') {
+                if(panoramaMode == 1) {
+                    clientMessage("\nPanorama Mode is already active!");
+                    break;
+                } if(panoramaMode == 0) {
+                    panoramaMode = 1;
+                    clientMessage("\nPanorama Mode activated!");
+                }
+            } if(p[1] == 'off') {
+                if(panoramaMode == 0) {
+                    clientMessage("\nPanorama Mode is already off!");
+                    break;
+                } if(panoramaMode == 1) {
+                    panoramaMode = 0;
+                    clientMessage("\nPanorama Mode deactivated!");
+                }
+            }
+            break;
         } default: {
             clientMessage("\nCommand does not exist!");
             break;
