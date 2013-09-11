@@ -1,5 +1,5 @@
 /*
-Single Player Commands
+Single Player Commands Give+
 Made by Connor4898 & CheesyFriedBacon
 Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
 
@@ -207,7 +207,7 @@ function procCmd(c) {
                     msgTime();
                     break;
                 } case 'give': {
-                    msg = "\nType /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64";
+                    msg = "\nType /give <Item/Block ID|Name> <amount> to add any item to your inventory.\nExample: /give 57 64";
                     msgTime();
                     break;
                 } case 'ignite': {
@@ -1038,7 +1038,7 @@ if(p[1] == 'stone') {
                     msgTime();
                 }
             }
-            break
+            break;
         } case 'ignite': {
             setTile(getPlayerX(), getPlayerY()-1, getPlayerZ(), 51);
             break;
