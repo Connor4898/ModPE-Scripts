@@ -1,5 +1,5 @@
 /*
-Single Player Commands Give+
+Single Player Commands
 Made by Connor4898 & CheesyFriedBacon
 Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
 
@@ -10,7 +10,7 @@ Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
     (at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorSet = 0, portableDoorActive = 0, pDoorX, pDoorY, pDoorZ, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, instabreakMode = 0, instabreakBlock, warpMode = 0, warpSetA1 = 0, warpA1X, warpA1Y, warpA1Z, warpSetA2 = 0, warpA2X, warpA2Y, warpA2Z, warpSetB1 = 0, warpB1X, warpB1Y, warpB1Z, warpSetB2 = 0, warpB2X, warpB2Y, warpB2Z, warpSetC1 = 0, warpC1X, warpC1Y, warpC1Z, warpSetC2 = 0, warpC2X, warpC2Y, warpC2Z, warpSetD1 = 0, warpD1X, warpD1Y, warpD1Z, warpSetD2 = 0, warpD2X, warpD2Y, warpD2Z, nextYaw = 0, panoramaMode = 0, panCountdown = 0, msg, msgTick = 100;
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorSet = 0, portableDoorActive = 0, pDoorX, pDoorY, pDoorZ, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, warpSetA1 = 0, warpA1X, warpA1Y, warpA1Z, warpSetA2 = 0, warpA2X, warpA2Y, warpA2Z, warpSetB1 = 0, warpB1X, warpB1Y, warpB1Z, warpSetB2 = 0, warpB2X, warpB2Y, warpB2Z, warpSetC1 = 0, warpC1X, warpC1Y, warpC1Z, warpSetC2 = 0, warpC2X, warpC2Y, warpC2Z, warpSetD1 = 0, warpD1X, warpD1Y, warpD1Z, warpSetD2 = 0, warpD2X, warpD2Y, warpD2Z, nextYaw = 0, panoramaMode = 0, panCountdown = 0, msg, msgTick = 100;
 
 function useItem(x,y,z,itemId,blockId) {
     if(bombMode == 1) {
@@ -33,12 +33,8 @@ function useItem(x,y,z,itemId,blockId) {
             msgTime();
         }
     } if(spawnTouch == 1) {
-        if(itemId == 295) {//Wheat seeds
-            spawnChicken(x,y+1,z,'mob/chicken.png');
-        } if(itemId == 296) {//Wheat
-            spawnCow(x,y+1,z,'mob/cow.png');
-        } if(itemId == 406) {//Quartz item
-            spawnPigZombie(x,y+1,z,283,'mob/pigzombie.png');
+        if(spawnTouchMob != null) {
+            bl_spawnMob(x,y+1,z,spawnTouchMobID,spawnTouchMob);
         }
     } if(instabreakMode == 1) {
         if(itemId == 285) {//Gold pickaxe
@@ -197,7 +193,7 @@ function procCmd(c) {
     var command = p[0];
     switch(command) {
         case 'commands': {
-            msg = "\nCommands: /commands, /help <command>, /explode <raduis>, /give <ID> <amount>, /ignite, /tp <x> <y> <z>, /sethome, /home, /delhome, /bomb <on|detonate|off>, /pdoor <on|open|off>, /mc <on|off>, /sprint <on|off>, /hole, /spawn <on|off>, /rain <chicken|cow|zombiepigman>, /nuke, /instabreak <on|off>, /surface, /ascend, /descend, /panorama <on|off>.\nMade by Connor4898 & CheesyFriedBacon";
+            msg = "\nCommands: /commands, /help <command>, /explode <raduis>, /give <ID> <amount>, /ignite, /tp <x> <y> <z>, /sethome, /home, /delhome, /bomb <on|detonate|off>, /pdoor <on|open|off>, /mc <on|off>, /sprint <on|off>, /hole, /spawntouch <mobname|off>, /rain <mobname>, /nuke, /instabreak <on|off>, /surface, /ascend, /descend, /panorama <on|off>.\nMade by Connor4898 & CheesyFriedBacon";
             msgTime();
             break;
         } case 'help': {
@@ -211,7 +207,7 @@ function procCmd(c) {
                     msgTime();
                     break;
                 } case 'give': {
-                    msg = "\nType /give <ID|Item/Block Name> <amount> to add any item to your inventory.\nExample: /give 57 64";
+                    msg = "\nType /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64";
                     msgTime();
                     break;
                 } case 'ignite': {
@@ -263,11 +259,11 @@ function procCmd(c) {
                     msgTime();
                     break;
                 } case 'rain': {
-                    msg = "\nType /rain <chicken|cow|zombiepigman> to make it rain animals!\nExample: /rain chicken";
+                    msg = "\nType /rain <mobname> to make it rain animals!\nExample: /rain chicken";
                     msgTime();
                     break;
-                } case 'spawn': {
-                    msg = "\nType /spawn <on|off> to turn Spawn Touch on or off.\nExample: /spawn on";
+                } case 'spawntouch': {
+                    msg = "\nType /spawntouch <mobname|off> to make that mob spawn when you tap a block.\nExample: /spawntouch chicken";
                     msgTime();
                     break;
                 } case 'nuke': {
@@ -295,12 +291,12 @@ function procCmd(c) {
                     break;
                 } case 'refresh': {
                     msg = "\nType /refresh to regain all items required for currently active commands.\nExample: /refresh";
+                    msgTime()
                 } case 'panorama': {
                     msg = "\nType /panorama <on|off> to activate or deactivate Panorama Mode.\nExample: /panorama on";
                     msgTime();
-                    msgTime();
                 } default: {
-                    msg = "\nCommands: /commands, /help <command>, /explode <raduis>, /give <ID> <amount>, /ignite, /tp <x> <y> <z>, /sethome, /home, /delhome, /bomb <on|detonate|off>, /pdoor <on|open|off>, /mc <on|off>, /sprint <on|off>, /hole, /spawn <on|off>, /rain <chicken|cow|zombiepigman>, /nuke, /instabreak <on|off>, /surface, /ascend, /descend, /panorama <on|off>.\nMade by Connor4898 & CheesyFriedBacon";
+                    msg = "\nCommands: /commands, /help <command>, /explode <raduis>, /give <ID> <amount>, /ignite, /tp <x> <y> <z>, /sethome, /home, /delhome, /bomb <on|detonate|off>, /pdoor <on|open|off>, /mc <on|off>, /sprint <on|off>, /hole, /spawntouch <mobname|off>, /rain <mobname>, /nuke, /instabreak <on|off>, /surface, /ascend, /descend, /panorama <on|off>.\nMade by Connor4898 & CheesyFriedBacon";
                     msgTime();
                     break;
                 }
@@ -1029,17 +1025,20 @@ if(p[1] == 'stone') {
                 msgTime();
             } if(p[1] == 'camera') {
                 addItemInventory(456,p[2]);
-                clientMessage("\nSpawned " + p[2] + " of " + p[1] + "!");
+                msg = "\nSpawned " + p[2] + " of " + p[1] + "!";
+                msgTime();
             } if(p[1] >= 1) {
                 if(p[1] == 1 || p[1] == 2 || p[1] == 3 || p[1] == 4 || p[1] == 5 || p[1] == 6 || p[1] == 7 || p[1] == 8 || p[1] == 9 || p[1] == 10 || p[1] == 11 || p[1] == 12 || p[1] == 13 || p[1] == 14 || p[1] == 15 || p[1] == 16 || p[1] == 17 || p[1] == 18 || p[1] == 20 || p[1] == 21 || p[1] == 22 || p[1] == 24 || p[1] == 26 || p[1] == 30 || p[1] == 31 || p[1] == 32 || p[1] == 35 || p[1] == 37 || p[1] == 38 || p[1] == 39 || p[1] == 40 || p[1] == 41 || p[1] == 42 || p[1] == 43 || p[1] == 44 || p[1] == 45 || p[1] == 46 || p[1] == 47 || p[1] == 48 || p[1] == 49 || p[1] == 50 || p[1] == 51 || p[1] == 53 || p[1] == 54 || p[1] == 56 || p[1] == 57 || p[1] == 58 || p[1] == 59 || p[1] == 60 || p[1] == 61 || p[1] == 62 || p[1] == 63 || p[1] == 64 || p[1] == 65 || p[1] == 67 || p[1] == 68 || p[1] == 71 || p[1] == 73 || p[1] == 74 || p[1] == 78 || p[1] == 79 || p[1] == 80 || p[1] == 81 || p[1] == 82 || p[1] == 83 || p[1] == 85 || p[1] == 87 || p[1] == 88 || p[1] == 89 || p[1] == 92 || p[1] == 95 || p[1] == 96 || p[1] == 98 || p[1] == 102 || p[1] == 103 || p[1] == 105 || p[1] == 107 || p[1] == 108 || p[1] == 109 || p[1] == 112 || p[1] == 114 || p[1] == 128 || p[1] == 155 || p[1] == 156 || p[1] == 245 || p[1] == 246 || p[1] == 247 || p[1] == 248 || p[1] == 255 || p[1] == 256 || p[1] == 257 || p[1] == 258 || p[1] == 259 || p[1] == 260 || p[1] == 261 || p[1] == 262 || p[1] == 263 || p[1] == 264 || p[1] == 265 || p[1] == 266 || p[1] == 267 || p[1] == 268 || p[1] == 269 || p[1] == 270 || p[1] == 271 || p[1] == 272 || p[1] == 273 || p[1] == 274 || p[1] == 275 || p[1] == 276 || p[1] == 277 || p[1] == 278 || p[1] == 279 || p[1] == 280 || p[1] == 281 || p[1] == 282 || p[1] == 283 || p[1] == 284 || p[1] == 285 || p[1] == 286 || p[1] == 287 || p[1] == 288 || p[1] == 289 || p[1] == 290 || p[1] == 291 || p[1] == 292 || p[1] == 293 || p[1] == 294 || p[1] == 295 || p[1] == 296 || p[1] == 297 || p[1] == 298 || p[1] == 299 || p[1] == 300 || p[1] == 301 || p[1] == 302 || p[1] == 303 || p[1] == 304 || p[1] == 305 || p[1] == 306 || p[1] == 307 || p[1] == 308 || p[1] == 309 || p[1] == 310 || p[1] == 311 || p[1] == 312 || p[1] == 313 || p[1] == 314 || p[1] == 315 || p[1] == 316 || p[1] == 317 || p[1] == 318 || p[1] == 319 || p[1] == 320 || p[1] == 321 || p[1] == 322 || p[1] == 323 || p[1] == 324 || p[1] == 325 || p[1] == 330 || p[1] == 332 || p[1] == 334 || p[1] == 336 || p[1] == 337 || p[1] == 338 || p[1] == 339 || p[1] == 341 || p[1] == 344 || p[1] == 345 || p[1] == 347 || p[1] == 348 || p[1] == 349 || p[1] == 351 || p[1] == 352 || p[1] == 353 || p[1] == 354 || p[1] == 355 || p[1] == 359 || p[1] == 360 || p[1] == 362 || p[1] == 363 || p[1] == 364 || p[1] == 365 || p[1] == 366 || p[1] == 383 || p[1] == 405 || p[1] == 406 || p[1] == 456) {
-                    addItemInventory(p[1],p[2]);
-                    clientMessage("\nSpawned " + p[2] + " of " + p[1] + "!");
+                    addItemInventory(parseInt(p[1]),parseInt(p[2]));
+                    msg = "\nSpawned " + parseInt(p[2]) + " of " + parseInt(p[1]) + "!";
+                    msgTime();
                     break;
                 } else {
-                    clientMessage("\nItem/Block ID does not exist!")
+                    msg = "\nItem/Block ID does not exist!";
+                    msgTime();
                 }
             }
-            break;
+            break
         } case 'ignite': {
             setTile(getPlayerX(), getPlayerY()-1, getPlayerZ(), 51);
             break;
@@ -1197,59 +1196,88 @@ if(p[1] == 'stone') {
             msgTime();
             break;
         } case 'rain': {
-            if(p[1] == 'chicken') {
-                for(rainX=-21;rainX<=21;rainX = rainX + 3) {
-                    for(rainZ=-21;rainZ<=21;rainZ = rainZ + 3) {
-                        spawnChicken(getPlayerX()+rainX,getPlayerY()+15,getPlayerZ()+rainZ,'mob/chicken.png');
+            for(rainX=-21;rainX<=21;rainX = rainX + 3) {
+                for(rainZ=-21;rainZ<=21;rainZ = rainZ + 3) {
+                    if(p[1] == 'chicken') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+10,getPlayerZ()+rainZ,10,'mob/chicken.png');
+                    } if(p[1] == 'cow') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+10,getPlayerZ()+rainZ,11,'mob/cow.png');
+                    } if(p[1] == 'pig') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+10,getPlayerZ()+rainZ,12,'mob/pig.png');
+                    } if(p[1] == 'sheep') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+8,getPlayerZ()+rainZ,13,'mob/sheep.png');
+                    } if(p[1] == 'zombie') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+15,getPlayerZ()+rainZ,32,'mob/zombie.png');
+                    } if(p[1] == 'creeper') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+17,getPlayerZ()+rainZ,33,'mob/creeper.png');
+                    } if(p[1] == 'skeleton') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+15,getPlayerZ()+rainZ,34,'mob/skeleton.png');
+                    } if(p[1] == 'spider') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+9,getPlayerZ()+rainZ,35,'mob/spider.png');
+                    } if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
+                        bl_spawnMob(getPlayerX()+rainX,getPlayerY()+15,getPlayerZ()+rainZ,36,'mob/pigzombie.png');
                     }
                 }
-                msg = "\nIT'S RAINING CHICKENS!!";
-                msgTime();
-            } if(p[1] == 'cow') {
-                for(rainX=-21;rainX<=21;rainX = rainX + 3) {
-                    for(rainZ=-21;rainZ<=21;rainZ = rainZ + 3) {
-                        spawnCow(getPlayerX()+rainX,getPlayerY()+15,getPlayerZ()+rainZ,'mob/cow.png');
-                    }
-                }
-                msg = "\nIT'S RAINING COWS!!";
-                msgTime();
-            } if(p[1] == 'zombiepigman') {
-                for(rainX=-21;rainX<=21;rainX = rainX + 3) {
-                    for(rainZ=-21;rainZ<=21;rainZ = rainZ + 3) {
-                        spawnPigZombie(getPlayerX()+rainX,getPlayerY()+15,getPlayerZ()+rainZ,283,'mob/pigzombie');
-                    }
-                }
-                msg = "\nIT'S RAINING ZOMBIE PIGMEN!!";
-                msgTime();
             }
             break;
-        } case 'spawn': {
-            if(p[1] == 'on') {
-                if(spawnTouch == 1) {
-                    msg = "\nSpawn Touch is already on!";
-                    msgTime();
-                    break;
-                } if(spawnTouch == 0) {
-                    spawnTouch = 1;
-                    addItemInventory(295,1);
-                    addItemInventory(296,1);
-                    addItemInventory(406,1);
-                    msg = "\nSpawn Touch turned on!";
-                    msgTime();
-                }
+        } case 'spawntouch': {
+            if(p[1] == 'chicken') {
+                spawnTouchMob = 'mob/chicken.png';
+                spawnTouchMobID = 10;
+                spawnTouch = 1;
+                msg = "\nChicken SpawnTouch activated!";
+                msgTime();
+            } if(p[1] == 'cow') {
+                spawnTouchMob = 'mob/cow.png';
+                spawnTouchMobID = 11;
+                spawnTouch = 1;
+                msg = "\nCow SpawnTouch activated!";
+                msgTime();
+            } if(p[1] == 'pig') {
+                spawnTouchMob = 'mob/pig.png';
+                spawnTouchMobID = 12;
+                spawnTouch = 1;
+                msg = "\nPig SpawnTouch activated!";
+                msgTime();
+            } if(p[1] == 'sheep') {
+                spawnTouchMob = 'mob/sheep.png';
+                spawnTouchMobID = 13;
+                spawnTouch = 1;
+                msg = "\nSheep SpawnTouch activated!";
+                msgTime();
+            } if(p[1] == 'zombie') {
+                spawnTouchMob = 'mob/zombie.png';
+                spawnTouchMobID = 32;
+                spawnTouch = 1;
+                msg = "\nZombie SpawnTouch activated!";
+                msgTime();
+            } if(p[1] == 'creeper') {
+                spawnTouchMob = 'mob/creeper.png';
+                spawnTouchMobID = 33;
+                spawnTouch = 1;
+                msg = "\nCreeper SpawnTouch activated!";
+                msgTime();
+            } if(p[1] == 'skeleton') {
+                spawnTouchMob = 'mob/skeleton.png';
+                spawnTouchMobID = 34;
+                spawnTouch = 1;
+                msg = "\nSkeleton SpawnTouch activated!";
+                msgTime();
+            } if(p[1] == 'spider') {
+                spawnTouchMob = 'mob/spider.png';
+                spawnTouchMobID = 35;
+                spawnTouch = 1;
+                msg = "\nSpider SpawnTouch activated!";
+                msgTime();
+            } if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
+                spawnTouchMob = 'mob/pigzombie.png';
+                spawnTouchMobID = 36;
+                spawnTouch = 1;
+                msg = "\nZombie Pigman SpawnTouch activated!";
+                msgTime();
             } if(p[1] == 'off') {
-                if(spawnTouch == 0) {
-                    msg = "\nSpawn Touch is already off!";
-                    msgTime();
-                    break;
-                } if(spawnTouch == 1) {
-                    spawnTouch = 0;
-                    addItemInventory(295,-1);
-                    addItemInventory(296,-1);
-                    addItemInventory(406,-1);
-                    msg = "\nSpawn Touch turned off!";
-                    msgTime();
-                }
+                spawnTouch = 0;
+                spawnTouchMob = null;
             }
             break;
         } case 'pdoor': {
@@ -1548,19 +1576,23 @@ function modTick() {
         }
     } msgTick++;
     if(msgTick == 1) {
-        if(msg.length > 25) {
+        if(msg.length > 40) {
             print(msg);
         }
     } if(msgTick == 2) {
-        if(msg.length > 50) {
+        if(msg.length > 80) {
             print(msg);
         }
     } if(msgTick == 3) {
-        if(msg.length > 75) {
+        if(msg.length > 120) {
             print(msg);
         }
     } if(msgTick == 4) {
-        if(msg.length > 100) {
+        if(msg.length > 160) {
+            print(msg);
+        }
+    } if(msgTick == 5) {
+        if(msg.length > 200) {
             print(msg);
         }
     }
