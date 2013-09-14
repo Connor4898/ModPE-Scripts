@@ -17,9 +17,7 @@
 /give ID amount
 	-Gives you the block/item you enter into the command
 	-Usage: /give 57 64
-		Gives you a stack (64) of diamond blocks (57)
-	-Usage: /give steak 64
-		Gives you some steak
+		Gives you a stack (64) of diamond blocks (ID: 57)
 /home
 	-Teleports you to your home. NOTE: /sethome must be used before this
 /sethome
