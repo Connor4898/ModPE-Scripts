@@ -20,7 +20,7 @@ Please don't copy or claim these scripts as your own. You can release your own v
 
 -Message me via [Minecraft Forums] (http://www.minecraftforum.net/user/2053871-connor4898/)
 
--Find me on Antisober's SurvivalCraft server
+-Find me on [Antisober's SurvivalCraft server] (http://www.minecraftforum.net/topic/1817519-)
 
 -Find me on IRC
 
