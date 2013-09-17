@@ -1,4 +1,4 @@
-#Single Player Commands v9.1
+#Single Player Commands v10
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
@@ -128,4 +128,9 @@ Single Player Commands v9.1:
 	-Renamed /spawn to /spawntouch
 	-Added all mobs to /spawntouch and /rain
 	-Added all help messages
+
+Single Player Commands v10:
+-Added saving!
+-Added clientMessage (again)
+-Added help pages
 ```
