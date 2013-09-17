@@ -10,7 +10,7 @@ Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
     (at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorSet = 0, portableDoorActive = 0, pDoorX, pDoorY, pDoorZ, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, warpSetA1 = 0, warpA1X, warpA1Y, warpA1Z, warpSetA2 = 0, warpA2X, warpA2Y, warpA2Z, warpSetB1 = 0, warpB1X, warpB1Y, warpB1Z, warpSetB2 = 0, warpB2X, warpB2Y, warpB2Z, warpSetC1 = 0, warpC1X, warpC1Y, warpC1Z, warpSetC2 = 0, warpC2X, warpC2Y, warpC2Z, warpSetD1 = 0, warpD1X, warpD1Y, warpD1Z, warpSetD2 = 0, warpD2X, warpD2Y, warpD2Z, nextYaw = 0, panoramaMode = 0, panCountdown = 0, msg, msgTick = 100;
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panCountdown = 0, msg, msgTick = 100;
 
 function useItem(x,y,z,itemId,blockId) {
     if(bombMode == 1) {
@@ -19,18 +19,16 @@ function useItem(x,y,z,itemId,blockId) {
             bombY = y;
             bombZ = z;
             bombSet = 1;
-            msg = "\nSet bomb at x: " + bombX + " y:" + bombY + " z:" + bombZ;
-            msgTime();
+            clientMessage("Set bomb at x: " + bombX + " y:" + bombY + " z:" + bombZ);
         }
     } if(portableDoorMode == 1) {
         if((itemId == 280) || (itemId == 292)) {//stick or Iron hoe
-            pDoorX = x;
-            pDoorY = y;
-            pDoorY1 = y + 1;
-            pDoorZ = z;
-            portableDoorSet = 1;
-            msg = "\nPortable Door set to x: " + pDoorX + "y: " + pDoorY + "/" + pDoorY1 + "z: " + pDoorZ;
-            msgTime();
+            bl_saveData("pDoorX",parseInt(x));
+            bl_saveData("pDoorY",parseInt(y));
+            bl_saveData("pDoorY1",parseInt(y) + 1);
+            bl_saveData("pDoorZ",parseInt(z));
+            bl_saveData("portableDoorSet",1);
+            clientMessage("Portable Door set to x: " + bl_readData("pDoorX") + " y: " + bl_readData("pDoorY") + "/" + bl_readData("pDoorY1") + " z: " + bl_readData("pDoorZ"));
         }
     } if(spawnTouch == 1) {
         if(spawnTouchMob != null) {
@@ -84,105 +82,97 @@ function useItem(x,y,z,itemId,blockId) {
     } if(warpMode == 1) {
         if(itemId == 341 || itemId == 267) {//Slimeball or Iron sword
             if(getTile(getPlayerX(),getPlayerY()-2,getPlayerZ()) == 57) {
-                if(Math.floor(getPlayerX()) == warpA2X && Math.floor(getPlayerY()) - 2 == warpA2Y && Math.floor(getPlayerZ()) == warpA2Z) {
-                    if(warpSetA1 == 1) {
-                        setPosition(getPlayerEnt(), warpA1X + 0.5, warpA1Y + 3, warpA1Z + 0.5);
+                if(Math.floor(getPlayerX()) == bl_readData("warpA2X") && Math.floor(getPlayerY()) - 2 == bl_readData("warpA2Y") && Math.floor(getPlayerZ()) == bl_readData("warpA2Z")) {
+                    if(bl_readData("warpSetA1") == 1) {
+                        setPosition(getPlayerEnt(), parseInt(bl_readData("warpA1X")) + 0.5, parseInt(bl_readData("warpA1Y")) + 3, parseInt(bl_readData("warpA1Z")) + 0.5);
                     }
-                } if(Math.floor(getPlayerX()) == warpA1X && Math.floor(getPlayerY()) - 2 == warpA1Y && Math.floor(getPlayerZ()) == warpA1Z) {
-                    if(warpSetA2 == 1) {
-                        setPosition(getPlayerEnt(), warpA2X + 0.5, warpA2Y + 3, warpA2Z + 0.5);
+                } if(Math.floor(getPlayerX()) == bl_readData("warpA1X") && Math.floor(getPlayerY()) - 2 == bl_readData("warpA1Y") && Math.floor(getPlayerZ()) == bl_readData("warpA1Z")) {
+                    if(bl_readData("warpSetA2") == 1) {
+                        setPosition(getPlayerEnt(), parseInt(bl_readData("warpA2X")) + 0.5, parseInt(bl_readData("warpA2Y")) + 3, parseInt(bl_readData("warpA2Z")) + 0.5);
                     }
                 }
             } if(getTile(getPlayerX(),getPlayerY()-2,getPlayerZ()) == 41) {
-                if(Math.floor(getPlayerX()) == warpB2X && Math.floor(getPlayerY()) - 2 == warpB2Y && Math.floor(getPlayerZ()) == warpB2Z) {
-                    if(warpSetB1 == 1) {
-                        setPosition(getPlayerEnt(), warpB1X + 0.5, warpB1Y + 3, warpB1Z + 0.5);
+                if(Math.floor(getPlayerX()) == bl_readData("warpB2X") && Math.floor(getPlayerY()) - 2 == bl_readData("warpB2Y") && Math.floor(getPlayerZ()) == bl_readData("warpB2Z")) {
+                    if(bl_readData("warpSetB1") == 1) {
+                        setPosition(getPlayerEnt(), parseInt(bl_readData("warpB1X")) + 0.5, parseInt(bl_readData("warpB1Y")) + 3, parseInt(bl_readData("warpB1Z")) + 0.5);
                     }
-                } if(Math.floor(getPlayerX()) == warpB1X && Math.floor(getPlayerY()) - 2 == warpB1Y && Math.floor(getPlayerZ()) == warpB1Z) {
-                    if(warpSetB2 == 1) {
-                        setPosition(getPlayerEnt(), warpB2X + 0.5, warpB2Y + 3, warpB2Z + 0.5);
+                } if(Math.floor(getPlayerX()) == bl_readData("warpB1X") && Math.floor(getPlayerY()) - 2 == bl_readData("warpB1Y") && Math.floor(getPlayerZ()) == bl_readData("warpB1Z")) {
+                    if(bl_readData("warpSetB2") == 1) {
+                        setPosition(getPlayerEnt(), parseInt(bl_readData("warpB2X")) + 0.5, parseInt(bl_readData("warpB2Y")) + 3, parseInt(bl_readData("warpB2Z")) + 0.5);
                     }
                 }
             } if(getTile(getPlayerX(),getPlayerY()-2,getPlayerZ()) == 42) {
-                if(Math.floor(getPlayerX()) == warpC2X && Math.floor(getPlayerY()) - 2 == warpC2Y && Math.floor(getPlayerZ()) == warpC2Z) {
-                    if(warpSetC1 == 1) {
-                        setPosition(getPlayerEnt(), warpC1X + 0.5, warpC1Y + 3, warpC1Z + 0.5);
+                if(Math.floor(getPlayerX()) == bl_readData("warpC2X") && Math.floor(getPlayerY()) - 2 == bl_readData("warpC2Y") && Math.floor(getPlayerZ()) == bl_readData("warpC2Z")) {
+                    if(bl_readData("warpSetC1") == 1) {
+                        setPosition(getPlayerEnt(), parseInt(bl_readData("warpC1X")) + 0.5, parseInt(bl_readData("warpC1Y")) + 3, parseInt(bl_readData("warpC1Z")) + 0.5);
                     }
-                } if(Math.floor(getPlayerX()) == warpC1X && Math.floor(getPlayerY()) - 2 == warpC1Y && Math.floor(getPlayerZ()) == warpC1Z) {
-                    if(warpSetC2 == 1) {
-                        setPosition(getPlayerEnt(), warpC2X + 0.5, warpC2Y + 3, warpC2Z + 0.5);
+                } if(Math.floor(getPlayerX()) == bl_readData("warpC1X") && Math.floor(getPlayerY()) - 2 == bl_readData("warpC1Y") && Math.floor(getPlayerZ()) == bl_readData("warpC1Z")) {
+                    if(bl_readData("warpSetC2") == 1) {
+                        setPosition(getPlayerEnt(), parseInt(bl_readData("warpC2X")) + 0.5, parseInt(bl_readData("warpC2Y")) + 3, parseInt(bl_readData("warpC2Z")) + 0.5);
                     }
                 }
             } if(getTile(getPlayerX(),getPlayerY()-2,getPlayerZ()) == 22) {
-                if(Math.floor(getPlayerX()) == warpD2X && Math.floor(getPlayerY()) - 2 == warpD2Y && Math.floor(getPlayerZ()) == warpD2Z) {
-                    if(warpSetD1 == 1) {
-                        setPosition(getPlayerEnt(), warpD1X + 0.5, warpD1Y + 3, warpD1Z + 0.5);
+                if(Math.floor(getPlayerX()) == bl_readData("warpD2X") && Math.floor(getPlayerY()) - 2 == bl_readData("warpD2Y") && Math.floor(getPlayerZ()) == bl_readData("warpD2Z")) {
+                    if(bl_readData("warpSetD1") == 1) {
+                        setPosition(getPlayerEnt(), parseInt(bl_readData("warpD1X")) + 0.5, parseInt(bl_readData("warpD1Y")) + 3, parseInt(bl_readData("warpD1Z")) + 0.5);
                     }
-                } if(Math.floor(getPlayerX()) == warpD1X && Math.floor(getPlayerY()) - 2 == warpD1Y && Math.floor(getPlayerZ()) == warpD1Z) {
-                    if(warpSetD2 == 1) {
-                        setPosition(getPlayerEnt(), warpD2X + 0.5, warpD2Y + 3, warpD2Z + 0.5);
+                } if(Math.floor(getPlayerX()) == bl_readData("warpD1X") && Math.floor(getPlayerY()) - 2 == bl_readData("warpD1Y") && Math.floor(getPlayerZ()) == bl_readData("warpD1Z")) {
+                    if(bl_readData("warpSetD2") == 1) {
+                        setPosition(getPlayerEnt(), parseInt(bl_readData("warpD2X")) + 0.5, parseInt(bl_readData("warpD2Y")) + 3, parseInt(bl_readData("warpD2Z")) + 0.5);
                     }
                 }
             }
         } if(itemId == 293 || itemId == 292) {//Diamond or Iron hoe
             if(blockId == 57) {
-                warpSetA1 = 1;
-                warpA1X = x;
-                warpA1Y = y;
-                warpA1Z = z;
-                msg = "\nA1 set!";
-                msgTime();
+                bl_saveData("warpSetA1",1);
+                bl_saveData("warpA1X",parseInt(x));
+                bl_saveData("warpA1Y",parseInt(y));
+                bl_saveData("warpA1Z",parseInt(z));
+                clientMessage("A1 set!");
             } if(blockId == 41) {
-                warpSetB1 = 1;
-                warpB1X = x;
-                warpB1Y = y;
-                warpB1Z = z;
-                msg = "\nB1 set!";
-                msgTime();
+                bl_saveData("warpSetB1",1);
+                bl_saveData("warpB1X",parseInt(x));
+                bl_saveData("warpB1Y",parseInt(y));
+                bl_saveData("warpB1Z",parseInt(z));
+                clientMessage("B1 set!");
             } if(blockId == 42) {
-                warpSetC1 = 1;
-                warpC1X = x;
-                warpC1Y = y;
-                warpC1Z = z;
-                msg = "\nC1 set!";
-                msgTime();
+                bl_saveData("warpSetC1",1);
+                bl_saveData("warpC1X",parseInt(x));
+                bl_saveData("warpC1Y",parseInt(y));
+                bl_saveData("warpC1Z",parseInt(z));
+                clientMessage("C1 set!");
             } if(blockId == 22) {
-                warpSetD1 = 1;
-                warpD1X = x;
-                warpD1Y = y;
-                warpD1Z = z;
-                msg = "\nD1 set!";
-                msgTime();
+                bl_saveData("warpSetD1",1);
+                bl_saveData("warpD1X",parseInt(x));
+                bl_saveData("warpD1Y",parseInt(y));
+                bl_saveData("warpD1Z",parseInt(z));
+                clientMessage("D1 set!");
             }
         } if(itemId == 294 || itemId == 261) {//Gold hoe or Bow
             if(blockId == 57) {
-                warpSetA2 = 1;
-                warpA2X = x;
-                warpA2Y = y;
-                warpA2Z = z;
-                msg = "\nA2 set!";
-                msgTime();
+                bl_saveData("warpSetA2",1);
+                bl_saveData("warpA2X",parseInt(x));
+                bl_saveData("warpA2Y",parseInt(y));
+                bl_saveData("warpA2Z",parseInt(z));
+                clientMessage("A2 set!");
             } if(blockId == 41) {
-                warpSetB2 = 1;
-                warpB2X = x;
-                warpB2Y = y;
-                warpB2Z = z;
-                msg = "\nB2 set!";
-                msgTime();
+                bl_saveData("warpSetB2",1);
+                bl_saveData("warpB2X",parseInt(x));
+                bl_saveData("warpB2Y",parseInt(y));
+                bl_saveData("warpB2Z",parseInt(z));
+                clientMessage("B2 set!");
             } if(blockId == 42) {
-                warpSetC2 = 1;
-                warpC2X = x;
-                warpC2Y = y;
-                warpC2Z = z;
-                msg = "\nC2 set!";
-                msgTime();
+                bl_saveData("warpSetC2",1);
+                bl_saveData("warpC2X",parseInt(x));
+                bl_saveData("warpC2Y",parseInt(y));
+                bl_saveData("warpC2Z",parseInt(z));
+                clientMessage("C2 set!");
             } if(blockId == 22) {
-                warpSetD2 = 1;
-                warpD2X = x;
-                warpD2Y = y;
-                warpD2Z = z;
-                msg = "\nD2 set!";
-                msgTime();
+                bl_saveData("warpSetD2",1);
+                bl_saveData("warpD2X",parseInt(x));
+                bl_saveData("warpD2Y",parseInt(y));
+                bl_saveData("warpD2Z",parseInt(z));
+                clientMessage("D2 set!");
             }
         }
     }
@@ -193,127 +183,110 @@ function procCmd(c) {
     var command = p[0];
     switch(command) {
         case 'commands': {
-            msg = "\nCommands: /commands, /help <command>, /explode <raduis>, /give <ID> <amount>, /ignite, /tp <x> <y> <z>, /sethome, /home, /delhome, /bomb <on|detonate|off>, /pdoor <on|open|off>, /mc <on|off>, /sprint <on|off>, /hole, /spawntouch <mobname|off>, /rain <mobname>, /nuke, /instabreak <on|off>, /surface, /ascend, /descend, /panorama <on|off>.\nMade by Connor4898 & CheesyFriedBacon";
-            msgTime();
+            clientMessage("Type /help");
             break;
         } case 'help': {
             switch(p[1]) {
-                case 'commands': {
-                    msg = "\nType /commands or /help to show all of the available commands./nExample: /commands";
-                    msgTime();
-                    break;
-                } case 'explode': {
-                    msg = "\nType /explode <radius> to blow up. WARNING: It may hurt/nExample: /explode 5";
-                    msgTime();
+                case 'explode': {
+                    clientMessage("Type /explode <radius> to blow up. WARNING: It may hurt/nExample: /explode 5");
                     break;
                 } case 'give': {
-                    msg = "\nType /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64";
-                    msgTime();
+                    clientMessage("Type /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64");
                     break;
                 } case 'ignite': {
-                    msg = "\nType /ignite to set the ground underneath you on fire. WARNING: High chance of burning.\nExample: /ignite";
-                    msgTime();
+                    clientMessage("Type /ignite to set the ground underneath you on fire. WARNING: High chance of burning.\nExample: /ignite");
                     break;
                 } case 'tp': {
-                    msg = "\nType /tp <x> <y> <z>, where x, y, and z are your desired coordinates.\n Example: /tp 128 70 128";
-                    msgTime();
+                    clientMessage("Type /tp <x> <y> <z>, where x, y, and z are your desired coordinates.\n Example: /tp 128 70 128)");
                     break;
                 } case 'coords': {
-                    msg = "\nType /coords to get the current coordinates at your feet.\nExample: /coords";
-                    msgTime();
+                    clientMessage("Type /coords to get the current coordinates at your feet.\nExample: /coords");
                     break;
                 } case 'sethome': {
-                    msg = "\nType /sethome to set coordinates you can easily tp back to, using /home.\n Example: /sethome";
-                    msgTime();
+                    clientMessage("Type /sethome to set coordinates you can easily tp back to, using /home.\n Example: /sethome");
                     break;
                 } case 'home': {
-                    msg = "\nType /home to tp to your home (Use /sethome first)\nExample: /home";
-                    msgTime();
+                    clientMessage("Type /home to tp to your home (Use /sethome first)\nExample: /home");
                     break;
                 } case 'delhome': {
-                    msg = "\nType /delhome to delete your current home coordinates.\nExample: /delhome";
-                    msgTime();
+                    clientMessage("Type /delhome to delete your current home coordinates.\nExample: /delhome");
                     break;
                 } case 'bomb': {
-                    msg = "\nType /bomb <on|off|detonate>. Use a Stick or Iron sword as the bomb setter, when Bomb Mode is on. WARNING: May be explosive!\n Example: /bomb on";
-                    msgTime();
+                    clientMessage("Type /bomb <on|off|detonate>. Use a Stick or Iron sword as the bomb setter, when Bomb Mode is on. WARNING: May be explosive!\n Example: /bomb on");
                     break;
                 } case 'pdoor': {
-                    msg = "\nType /pdoor <on|off|open>. Use a stick or Iron hoe to set the position of the door.\nExample: /pdoor on";
-                    msgTime();
+                    clientMessage("Type /pdoor <on|off|open>. Use a stick or Iron hoe to set the position of the door.\nExample: /pdoor on");
                     break;
                 } case 'mc': {
-                    msg = "\nType /mc <on|off> to activate or deactivate the Magic Carpet.\nExample: /mc on";
-                    msgTime();
+                    clientMessage("Type /mc <on|off> to activate or deactivate the Magic Carpet.\nExample: /mc on");
                     break;
                 } case 'sprint': {
-                    msg = "\nType /sprint <on|off> to activate or deactivate Sprint Mode.\nExample: /sprint on\nOriginal Sprint Script made by WhyToFu.";
-                    msgTime();
+                    clientMessage("Type /sprint <on|off> to activate or deactivate Sprint Mode.\nExample: /sprint on\nOriginal Sprint Script made by WhyToFu.");
                     break;
                 } case 'bounce': {
-                    msg = "\nType /bounce <power> to get launched into the air\nExample: /bounce 2";
-                    msgTime();
+                    clientMessage("Type /bounce <power> to get launched into the air\nExample: /bounce 2");
                     break;
                 } case 'hole': {
-                    msg = "\nType /hole to commit suicide. WARNING: USE WITH CAUTION!\n Example: /hole";
-                    msgTime();
+                    clientMessage("Type /hole to commit suicide. WARNING: USE WITH CAUTION!\n Example: /hole");
                     break;
                 } case 'rain': {
-                    msg = "\nType /rain <mobname> to make it rain animals!\nExample: /rain chicken";
-                    msgTime();
+                    clientMessage("Type /rain <mobname> to make it rain animals!\nExample: /rain chicken");
                     break;
                 } case 'spawntouch': {
-                    msg = "\nType /spawntouch <mobname|off> to make that mob spawn when you tap a block.\nExample: /spawntouch chicken";
-                    msgTime();
+                    clientMessage("Type /spawntouch <mobname|off> to make that mob spawn when you tap a block.\nExample: /spawntouch chicken");
                     break;
                 } case 'nuke': {
-                    msg = "\nType /nuke to cause a MAHOOSIVE explosion!\nExample: /nuke";
-                    msgTime();
+                    clientMessage("Type /nuke to cause a MAHOOSIVE explosion!\nExample: /nuke");
                     break;
                 } case 'instabreak': {
-                    msg = "\nType /instabreak <on|off> to turn InstaBreak on or off.\nExample: /instabreak on";
-                    msgTime();
+                    clientMessage("Type /instabreak <on|off> to turn InstaBreak on or off.\nExample: /instabreak on");
                     break;
                 } case 'warp': {
-                    msg = "\nType /warp <on|off> to turn Warp Panels on or off.\nExample: /warp on";
-                    msgTime();
+                    clientMessage("Type /warp <on|off> to turn Warp Panels on or off.\nExample: /warp on");
                     break;
                 } case 'surface': {
-                    msg = "\nType /surface to teleport to the surface above you.\nExample: /surface";
-                    msgTime();
+                    clientMessage("Type /surface to teleport to the surface above you.\nExample: /surface");
+                    break;
                 } case 'ascend': {
-                    msg = "\nType /ascend to teleport to the platform above you.\nExample: /ascend";
-                    msgTime();
+                    clientMessage("Type /ascend to teleport to the platform above you.\nExample: /ascend");
                     break;
                 } case 'descend': {
-                    msg = "\nType /descend to teleport to the platform below you.\nExample: /descend";
-                    msgTime();
+                    clientMessage("Type /descend to teleport to the platform below you.\nExample: /descend");
                     break;
                 } case 'refresh': {
-                    msg = "\nType /refresh to regain all items required for currently active commands.\nExample: /refresh";
-                    msgTime()
+                    clientMessage("Type /refresh to regain all items required for currently active commands.\nExample: /refresh");
+                    break;
                 } case 'panorama': {
-                    msg = "\nType /panorama <on|off> to activate or deactivate Panorama Mode.\nExample: /panorama on";
-                    msgTime();
+                    clientMessage("Type /panorama <on|off> to activate or deactivate Panorama Mode.\nExample: /panorama on");
+                    break;
+                } case '1': {
+                    clientMessage("Showing help page 1 of 4 (/help page)\n /ascend\n /bomb <on|detonate|off>\n /delhome\n /descend \n /explode <radius>");
+                    break;
+                } case '2': {
+                    clientMessage("Showing help page 2 of 4 (/help page)\n /give <ID> <amount>\n /help <page|command>\n /hole\n /home\n /ignite");
+                    break;
+                } case '3': {
+                    clientMessage("Showing help page 3 of 4 (/help page)\n /instabreak <on|off>\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>");
+                    break;
+                } case '4': {
+                    clientMessage("Showing help page 4 of 4 (/help page)\n /rain <mobname>\n /sethome\n /spawntouch <mobname|off>\n /sprint <on|off> \n /tp <x> <y> <z>");
+                    break;
                 } default: {
-                    msg = "\nCommands: /commands, /help <command>, /explode <raduis>, /give <ID> <amount>, /ignite, /tp <x> <y> <z>, /sethome, /home, /delhome, /bomb <on|detonate|off>, /pdoor <on|open|off>, /mc <on|off>, /sprint <on|off>, /hole, /spawntouch <mobname|off>, /rain <mobname>, /nuke, /instabreak <on|off>, /surface, /ascend, /descend, /panorama <on|off>.\nMade by Connor4898 & CheesyFriedBacon";
-                    msgTime();
+                    clientMessage("Showing help page 1 of 4 (/help page)\n /ascend\n /bomb <on|detonate|off>\n /delhome\n /descend \n /explode <radius>");
                     break;
                 }
             }
             break;
         } case 'give': {
             addItemInventory(parseInt(p[1]),parseInt(p[2]));
-            msg = "\nSpawned " + parseInt(p[2]) + " of " + parseInt(p[1]) + "!";
-            msgTime();
+            clientMessage("Spawned " + parseInt(p[2]) + " of " + parseInt(p[1]) + "!");
             break;
         } case 'ignite': {
             setTile(getPlayerX(), getPlayerY()-1, getPlayerZ(), 51);
             break;
         } case 'tp': {
             setPosition(getPlayerEnt(), parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
-            msg = "\nTeleported to x: " + parseInt(p[1]) + ", y: " + parseInt(p[2]) + ", z: " + parseInt(p[3]);
-            msgTime();
+            clientMessage("Teleported to x: " + parseInt(p[1]) + ", y: " + parseInt(p[2]) + ", z: " + parseInt(p[3]));
             break;
         } case 'surface': {
             for(i=1;i<=128;i++) {
@@ -321,8 +294,7 @@ function procCmd(c) {
                 if(getTile(getPlayerX(),surfaceFloor,getPlayerZ()) != 0 && getTile(getPlayerX(),surfaceFloor + 1,getPlayerZ()) == 0 && getTile(getPlayerX(),surfaceFloor + 2,getPlayerZ()) == 0) {
                     setPosition(getPlayerEnt(),getPlayerX(),surfaceFloor + 3,getPlayerZ());
                 }
-            } msg = "\nTeleported to the surface!";
-            msgTime();
+            } clientMessage("Teleported to the surface!");
             break;
         } case 'ascend': {
             for(i=1;i<=128;i++) {
@@ -330,8 +302,7 @@ function procCmd(c) {
                 if(getTile(getPlayerX(),surfaceFloor,getPlayerZ()) != 0 && getTile(getPlayerX(),surfaceFloor + 1,getPlayerZ()) == 0 && getTile(getPlayerX(),surfaceFloor + 2,getPlayerZ()) == 0) {
                     setPosition(getPlayerEnt(),getPlayerX(),surfaceFloor + 3,getPlayerZ());
                 }
-            } msg = "\nTeleported to the floor above you!";
-            msgTime();
+            } clientMessage("Teleported to the floor above you!");
             break;
         } case 'descend': {
             for(i=-1;i>=-128;i--) {
@@ -339,66 +310,56 @@ function procCmd(c) {
                 if(getTile(getPlayerX(),surfaceFloor,getPlayerZ()) != 0 && getTile(getPlayerX(),surfaceFloor + 1,getPlayerZ()) == 0 && getTile(getPlayerX(),surfaceFloor + 2,getPlayerZ()) == 0) {
                     setPosition(getPlayerEnt(),getPlayerX(),surfaceFloor + 3,getPlayerZ());
                 }
-            } msg = "\nTeleported to the floor beneath you!";
-            msgTime();
+            } clientMessage("Teleported to the floor beneath you!");
             break;
         } case 'coords': {
-            msg = "\nCurrent coordinates are:\nHead: x: " + Math.floor(getPlayerX()) + " y: " + Math.floor(getPlayerY()) + " z: " + Math.floor(getPlayerZ()) + "\nFeet: x: " + Math.floor(getPlayerX()) + " y: " + Math.floor(getPlayerY() - 1) + " z: " + Math.floor(getPlayerZ());
-            msgTime();
+            clientMessage("Current coordinates are:\nHead: x: " + Math.floor(getPlayerX()) + " y: " + Math.floor(getPlayerY()) + " z: " + Math.floor(getPlayerZ()) + "\nFeet: x: " + Math.floor(getPlayerX()) + " y: " + Math.floor(getPlayerY() - 1) + " z: " + Math.floor(getPlayerZ()));
             break;
         } case 'explode': {
             explode(getPlayerX(), getPlayerY(), getPlayerZ(), p[1]);
+            clientMessage("KAPLOOEY!!!");
             break;
         } case 'sethome': {
-            homeX = getPlayerX();
-            homeY = getPlayerY();
-            homeZ = getPlayerZ();
-            setHomeData = 1;
-            msg = "\nHome set to x: " + Math.floor(homeX) + ", y: " + Math.floor(homeY) + ", z: " + Math.floor(homeZ);
-            msgTime();
+            bl_saveData("homeX",parseInt(getPlayerX()));
+            bl_saveData("homeY",parseInt(getPlayerY()));
+            bl_saveData("homeZ",parseInt(getPlayerZ()));
+            bl_saveData("setHomeData",1);
+            clientMessage("Home set to x: " + Math.floor(bl_readData("homeX")) + ", y: " + Math.floor(bl_readData("homeY")) + ", z: " + Math.floor(bl_readData("homeZ")));
             break;
         } case 'delhome': {
-            if(setHomeData == 1) {
-                setHomeData = 0;
-                msg = "\nHome successfully deleted!";
-                msgTime();
+            if(bl_readData("setHomeData") == 1) {
+                bl_saveData("setHomeData",0);
+                clientMessage("Home successfully deleted!");
                 break;
-            } if(setHomeData == 0) {
-                msg = "\nNo home is set!";
-                msgTime();
+            } if(bl_readData("setHomeData") == 0) {
+                clientMessage("No home is set!");
             }
             break;
         } case 'home': {
-            if(setHomeData == 0) {
-                msg = "\nNo home has been set!";
-                msgTime();
+            if(bl_readData("setHomeData") == 0) {
+                clientMessage("No home has been set!");
                 break;
-            } if(setHomeData == 1) {
-                setPosition(getPlayerEnt(), homeX, homeY, homeZ);
-                msg = "\nTeleported to home!";
-                msgTime();
+            } if(bl_readData("setHomeData") == 1) {
+                setPosition(getPlayerEnt(), parseInt(bl_readData("homeX")) + 0.5, parseInt(bl_readData("homeY")) + 2, parseInt(bl_readData("homeZ")) + 0.5);
+                clientMessage("Teleported to home!");
             }
             break;
         } case 'mc': {
             if(p[1] == 'on') {
                 if(magicCarpet == 1) {
-                    msg = "\nMagic carpet is already active!";
-                    msgTime();
+                    clientMessage("Magic carpet is already active!");
                     break;
                 } if(magicCarpet == 0) {
                     magicCarpet = 1;
-                    msg = "\nMagic carpet activated!";
-                    msgTime();
+                    clientMessage("Magic carpet activated!");
                 }
             } if(p[1] == 'off') {
                 if(magicCarpet == 0) {
-                    msg = "\nMagic carpet is already off!";
-                    msgTime();
+                    clientMessage("Magic carpet is already off!");
                     break;
                 } if(magicCarpet == 1) {
                     magicCarpet = 0;
-                    msg = "\nMagic carpet disappeared!";
-                    msgTime();
+                    clientMessage("Magic carpet disappeared!");
                     mcX = Math.floor(getPlayerX());
                     mcY = Math.floor(getPlayerY())-2;
                     mcZ = Math.floor(getPlayerZ());
@@ -418,35 +379,29 @@ function procCmd(c) {
             break;
         } case 'bounce': {
             if((!p[1]) || (p[1] < 1)) {
-                msg = "\nUsage: /bounce <power>";
-                msgTime();
+                clientMessage("Usage: /bounce <power>");
             } else if(p[1] >= 1) {
                 setVelY(getPlayerEnt(),parseInt(p[1]));
             } else {
-                msg = "\nThe bounce power must be a number!";
-                msgTime();
+                clientMessage("The bounce power must be a number!");
             }
             break;
         } case 'sprint': {
             if(p[1] == 'on') {
                 if(sprintMode == 1) {
-                    msg = "\nSprint Mode is already active!";
-                    msgTime();
+                    clientMessage("Sprint Mode is already active!");
                     break;
                 } if(sprintMode == 0) {
                     sprintMode = 1;
-                    msg = "\nSprint Mode activated! Original Sprint Script made by WhyTuFu.";
-                    msgTime();
+                    clientMessage("Sprint Mode activated! Original Sprint Script made by WhyTuFu.");
                 }
             } if(p[1] == 'off') {
                 if(sprintMode == 0) {
-                    msg = "\nSprint Mode is already off!";
-                    msgTime();
+                    clientMessage("Sprint Mode is already off!");
                     break;
                 } if(sprintMode == 1) {
                     sprintMode = 0;
-                    msg = "\nSprint Mode deactivated!";
-                    msgTime();
+                    clientMessage("Sprint Mode deactivated!");
                 }
             }
             break;
@@ -460,8 +415,7 @@ function procCmd(c) {
                     }
                 }
             }
-            msg = "\nGoodbye World";
-            msgTime();
+            clientMessage("Goodbye World");
             break;
         } case 'rain': {
             for(rainX=-21;rainX<=21;rainX = rainX + 3) {
@@ -493,56 +447,47 @@ function procCmd(c) {
                 spawnTouchMob = 'mob/chicken.png';
                 spawnTouchMobID = 10;
                 spawnTouch = 1;
-                msg = "\nChicken SpawnTouch activated!";
-                msgTime();
+                clientMessage("Chicken SpawnTouch activated!");
             } if(p[1] == 'cow') {
                 spawnTouchMob = 'mob/cow.png';
                 spawnTouchMobID = 11;
                 spawnTouch = 1;
-                msg = "\nCow SpawnTouch activated!";
-                msgTime();
+                clientMessage("Cow SpawnTouch activated!");
             } if(p[1] == 'pig') {
                 spawnTouchMob = 'mob/pig.png';
                 spawnTouchMobID = 12;
                 spawnTouch = 1;
-                msg = "\nPig SpawnTouch activated!";
-                msgTime();
+                clientMessage("Pig SpawnTouch activated!");
             } if(p[1] == 'sheep') {
                 spawnTouchMob = 'mob/sheep.png';
                 spawnTouchMobID = 13;
                 spawnTouch = 1;
-                msg = "\nSheep SpawnTouch activated!";
-                msgTime();
+                clientMessage("Sheep SpawnTouch activated!");
             } if(p[1] == 'zombie') {
                 spawnTouchMob = 'mob/zombie.png';
                 spawnTouchMobID = 32;
                 spawnTouch = 1;
-                msg = "\nZombie SpawnTouch activated!";
-                msgTime();
+                clientMessage("Zombie SpawnTouch activated!");
             } if(p[1] == 'creeper') {
                 spawnTouchMob = 'mob/creeper.png';
                 spawnTouchMobID = 33;
                 spawnTouch = 1;
-                msg = "\nCreeper SpawnTouch activated!";
-                msgTime();
+                clientMessage("Creeper SpawnTouch activated!");
             } if(p[1] == 'skeleton') {
                 spawnTouchMob = 'mob/skeleton.png';
                 spawnTouchMobID = 34;
                 spawnTouch = 1;
-                msg = "\nSkeleton SpawnTouch activated!";
-                msgTime();
+                clientMessage("Skeleton SpawnTouch activated!");
             } if(p[1] == 'spider') {
                 spawnTouchMob = 'mob/spider.png';
                 spawnTouchMobID = 35;
                 spawnTouch = 1;
-                msg = "\nSpider SpawnTouch activated!";
-                msgTime();
+                clientMessage("Spider SpawnTouch activated!");
             } if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
                 spawnTouchMob = 'mob/pigzombie.png';
                 spawnTouchMobID = 36;
                 spawnTouch = 1;
-                msg = "\nZombie Pigman SpawnTouch activated!";
-                msgTime();
+                clientMessage("Zombie Pigman SpawnTouch activated!");
             } if(p[1] == 'off') {
                 spawnTouch = 0;
                 spawnTouchMob = null;
@@ -551,39 +496,32 @@ function procCmd(c) {
         } case 'pdoor': {
             if(p[1] == 'on') {
                 if(portableDoorMode == 1) {
-                    msg = "\nPortable Door mode is already on!";
-                    msgTime();
+                    clientMessage("Portable Door mode is already on!");
                 } if(portableDoorMode == 0) {
                     portableDoorMode = 1;
                     addItemInventory(280,1);
-                    msg = "\nPortable Door mode has been turned on!";
-                    msgTime();
+                    clientMessage("Portable Door mode has been turned on!");
                 }
             } if(p[1] == 'off') {
                 if(portableDoorMode == 0) {
-                    msg = "\nPortable Door mode is already off!";
-                    msgTime();
+                    clientMessage("Portable Door mode is already off!");
                 } if(portableDoorMode == 1) {
                     portableDoorMode = 0;
                     portableDoorSet = 0;
                     addItemInventory(280,-1);
-                    msg = "\nPortable Door mode has been turned off!";
-                    msgTime();
+                    clientMessage("Portable Door mode has been turned off!");
                 }
             } if(p[1] == 'open') {
                 if(portableDoorMode == 0) {
-                    msg = "\nPortable Door mode is off!";
-                    msgTime();
-                } if(portableDoorSet == 0) {
-                    msg = "\nNo Portable Door is set!";
-                    msgTime();
-                } if((portableDoorMode == 1) && (portableDoorSet == 1) && (portableDoorActive == 0)) {
-                    pDoor = getTile(pDoorX,pDoorY,pDoorZ);
-                    pDoor1 = getTile(pDoorX,pDoorY1,pDoorZ);
-                    setTile(pDoorX,pDoorY,pDoorZ,0);
-                    setTile(pDoorX,pDoorY1,pDoorZ,0);
-                    msg = "\nPortable Door active for 5 seconds!";
-                    msgTime();
+                    clientMessage("Portable Door mode is off!");
+                } if(bl_readData("portableDoorSet") == 0) {
+                    clientMessage("No Portable Door is set!");
+                } if((portableDoorMode == 1) && (bl_readData("portableDoorSet") == 1) && (portableDoorActive == 0)) {
+                    pDoor = getTile(bl_readData("pDoorX"),bl_readData("pDoorY"),bl_readData("pDoorZ"));
+                    pDoor1 = getTile(bl_readData("pDoorX"),bl_readData("pDoorY1"),bl_readData("pDoorZ"));
+                    setTile(bl_readData("pDoorX"),bl_readData("pDoorY"),bl_readData("pDoorZ"),0);
+                    setTile(bl_readData("pDoorX"),bl_readData("pDoorY1"),bl_readData("pDoorZ"),0);
+                    clientMessage("Portable Door active for 5 seconds!");
                     portableDoorActive = 1;
                     countdown = 100;
                     countdownMode = 1;
@@ -593,36 +531,29 @@ function procCmd(c) {
         } case 'bomb': {
             if(p[1] == 'on') {
                 if(bombMode == 1) {
-                    msg = "\nBomb detonation mode is already on!";
-                    msgTime();
+                    clientMessage("Bomb detonation mode is already on!");
                 } if(bombMode == 0) {
                     bombMode = 1;
                     addItemInventory(280,1);
-                    msg = "\nBomb detonation mode has been turned on!";
-                    msgTime();
+                    clientMessage("Bomb detonation mode has been turned on!");
                 }
             } if(p[1] == 'off') {
                 if(bombMode == 0) {
-                    msg = "\nBomb detonation mode is already off!";
-                    msgTime();
+                    clientMessage("Bomb detonation mode is already off!");
                 } if(bombMode == 1) {
                     bombMode = 0;
                     addItemInventory(280,-1);
-                    msg = "\nBomb detonation mode has been turned off!";
-                    msgTime();
+                    clientMessage("Bomb detonation mode has been turned off!");
                 }
             } if(p[1] == 'detonate') {
                 if(bombMode == 0) {
-                    msg = "\nBomb detonation mode is off!";
-                    msgTime();
+                    clientMessage("Bomb detonation mode is off!");
                 } if(bombMode == 1) {
                     if(bombSet == 0) {
-                        msg = "\nSet a bomb first!";
-                        msgTime();
+                        clientMessage("Set a bomb first!");
                 } if(bombSet == 1) {
                         explode(bombX, bombY, bombZ, 5);
-                        msg = "\nDetonated!";
-                        msgTime();
+                        clientMessage("Detonated!");
                         bombSet = 0;
                     }
                 }
@@ -639,33 +570,28 @@ function procCmd(c) {
         } case 'instabreak': {
             if(p[1] == 'on') {
                 if(instabreakMode == 1) {
-                    msg = "\nInstabreak is already on!";
-                    msgTime();
+                    clientMessage("Instabreak is already on!");
                     break;
                 } if(instabreakMode == 0) {
                     instabreakMode = 1;
-                    msg = "\nInstabreak has been turned on!";
-                    msgTime();
+                    clientMessage("Instabreak has been turned on!");
                     addItemInventory(285,1);
                 }
             } if(p[1] == 'off') {
                 if(instabreakMode == 0) {
-                    msg = "\nInstabreak is already on!";
-                    msgTime();
+                    clientMessage("Instabreak is already on!");
                     break;
             } if(instabreakMode == 1) {
                     instabreakMode = 0;
                     addItemInvntory(285,-1);
-                    msg = "\nInstabreak has been turned off!";
-                    msgTime();
+                    clientMessage("Instabreak has been turned off!");
                 }
             }
             break;
         } case 'warp': {
             if(p[1] == 'on') {
                 if(warpMode == 1) {
-                    msg = "\nWarp Mode is already on!";
-                    msgTime();
+                    clientMessage("Warp Mode is already on!");
                     break;
                 } if(warpMode == 0) {
                     warpMode = 1;
@@ -676,27 +602,23 @@ function procCmd(c) {
                     addItemInventory(41,2);
                     addItemInventory(42,2);
                     addItemInventory(22,2);
-                    msg = "\nWarp Panels activated!";
-                    msgTime();
+                    clientMessage("Warp Panels activated!");
                 }
             } if(p[1] == 'off') {
                 if(warpMode == 0) {
-                    msg = "\nWarp mode is already off!";
-                    msgTime();
+                    clientMessage("Warp mode is already off!");
                     break;
                 } if(warpMode == 1) {
                     warpMode = 0;
                     addItemInventory(341,-1);
                     addItemInventory(293,-1);
                     addItemInventory(294,-1);
-                    msg = "\nWarp Panels deactivated!";
-                    msgTime();
+                    clientMessage("Warp Panels deactivated!");
                 }
             }
             break;
         } case 'refresh': {
-            msg = "\nRefreshed all command items in your inventory!";
-            msgTime();
+            clientMessage("Refreshed all command items in your inventory!");
             if(bombMode == 1) {
                 addItemInventory(280,1);
             } if(portableDoorMode == 1) {
@@ -715,37 +637,27 @@ function procCmd(c) {
         } case 'panorama': {
             if(p[1] == 'on') {
                 if(panoramaMode == 1) {
-                    msg = "\nPanorama Mode is already active!";
-                    msgTime();
+                    clientMessage("Panorama Mode is already active!");
                     break;
                 } if(panoramaMode == 0) {
                     panoramaMode = 1;
-                    msg = "\nPanorama Mode activated!";
-                    msgTime();
+                    clientMessage("Panorama Mode activated!");
                 }
             } if(p[1] == 'off') {
                 if(panoramaMode == 0) {
-                    msg = "\nPanorama Mode is already off!";
-                    msgTime();
+                    clientMessage("Panorama Mode is already off!");
                     break;
                 } if(panoramaMode == 1) {
                     panoramaMode = 0;
-                    msg = "\nPanorama Mode deactivated!";
-                    msgTime();
+                    clientMessage("Panorama Mode deactivated!");
                 }
             }
             break;
         } default: {
-            msg = "\nCommand does not exist!";
-            msgTime();
+            clientMessage("Command does not exist!");
             break;
         }
     }
-}
-
-function msgTime() {
-    msgTick = 0;
-    print(msg);
 }
 
 function modTick() {
@@ -818,15 +730,14 @@ function modTick() {
         } if(sprintTick != 1) {
             sprintTick++;
         }
-    } if((portableDoorMode == 1) && (portableDoorSet == 1) && (portableDoorActive == 1)) {
+    } if((portableDoorMode == 1) && (bl_readData("portableDoorSet") == 1) && (portableDoorActive == 1)) {
         if(countdownMode == 1) {
             if(countdown != 0) {
                 countdown--;
             } if(countdown == 0) {
-                setTile(pDoorX,pDoorY,pDoorZ,pDoor);
-                setTile(pDoorX,pDoorY1,pDoorZ,pDoor1);
-                msg = "\nPortable Door closed!";
-                msgTime();
+                setTile(bl_readData("pDoorX"),bl_readData("pDoorY"),bl_readData("pDoorZ"),pDoor);
+                setTile(bl_readData("pDoorX"),bl_readData("pDoorY1"),bl_readData("pDoorZ"),pDoor1);
+                clientMessage("Portable Door closed!");
                 portableDoorActive = 0;
                 countdownMode = 100;
             }
@@ -841,27 +752,6 @@ function modTick() {
             } if(nextYaw < 0) {
                 setRot(getPlayerEnt(),359,getPitch());
             } panCountdown = 0;
-        }
-    } msgTick++;
-    if(msgTick == 1) {
-        if(msg.length > 40) {
-            print(msg);
-        }
-    } if(msgTick == 2) {
-        if(msg.length > 80) {
-            print(msg);
-        }
-    } if(msgTick == 3) {
-        if(msg.length > 120) {
-            print(msg);
-        }
-    } if(msgTick == 4) {
-        if(msg.length > 160) {
-            print(msg);
-        }
-    } if(msgTick == 5) {
-        if(msg.length > 200) {
-            print(msg);
         }
     }
 }
