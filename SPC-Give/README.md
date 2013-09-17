@@ -1,93 +1,44 @@
-#Single Player Commands Give+ v9.1
+#Single Player Commands Give+ v10
 
-###This is more enhanced version of Single Player Commands, with item/block names in the /give command
+###This is a script that adds commands to Minecraft Pocket Edition
 
 ###Commands:
-````
-/commands
-	-Shows every available command
-/help command
-	-Shows help about a specific command
-	-Usage: /help explode
-		Gives help about the explode command
-/explode
-	-Be like a creeper! This command explodes you. WARNING: DO NOT USE A NUMBER HIGHER THAN 20 FOR THE RADIUS IF YOU DONT WANT TO LAG OR CRASH.
-	-Usage: /explode 5
-		Explodes yourself with a radius of 5
-/give ID|name amount
-	-Gives you the block/item you enter into the command
-	-Usage: /give 57 64
-		Gives you a stack (64) of diamond blocks (ID: 57)
-/home
-	-Teleports you to your home. NOTE: /sethome must be used before this
-/sethome
-	-Sets your current coordinates as your home
-/delhome
-	-Deletes your saved coordinates made by /sethome
-/ignite
-	-Sets the block at your feet on fire. WARNING: THIS MAY HURT
-/tp x y z
-	-Teleports you to specified coordinates
-	-Usage: /tp 79 68 143
-		Teleports you to x:79 y:68 z:143
-/coords
-	-Shows your current coordinates (feet)
-/bomb on
-	-Activates Bomb Mode
-/bomb off
-	-Deactivates Bomb Mode
-/bomb detonate
-	-Detonates the selected block
-/pdoor on
-	-Activates Portable Door Mode
-/pdoor off
-	-Deactivates Portable Door Mode
-/pdoor open
-	-Opens the 'door' at the selected block
-/mc on
-	-Creates a 5x5 sheet of glass underneath your feet
-/mc off
-	-Makes the Magic Carpet disappear
-/sprint on
-	-Turns on Sprint Mode. This allows you to walk at a faster speed.
-/sprint off
-	-Turns off Sprint Mode.
-/bounce power
-	-Makes you bounce high
-	-Usage: /bounce 2
-/hole
-	-Creates a hole underneath you. WARNING: USE WITH CAUTION
-/spawntouch MobName
-	-Spawns the specified animal when a block is tapped
-	-Usage: /spawntouch chicken
-/spawntouch off
-	-Turns Spawn Touch off
-/rain MobName
-	-Makes it rain the specified mob.
-/nuke
-	-Spawns and detonates 49 TNT above you.
-/instabreak on
-	-Gives you a gold pickaxe to tap blocks with.
-/instabreak off
-	-Turns off InstaBreak mode
-/warp on
-	-Gives you a slimeball, a diamond hoe, a gold hoe, and a few blocks of diamond, gold, iron, and lapis
-	-Activates the Warp Panels
-/warp off
-	-Deactivates the Warp Panels
-/surface
-	-Teleports you to the surface
-/refresh
-	-Gives you all currently active command items
-/ascend
-	-Warps you to a floor/surface above you
-/decend
-	-Warps you to a floor/surface beneath you
-/panorama on
-	-Turns on Panorama mode, which slowly turns you clockwise
-/panorama off
-	-Turns off Panorama mode
-```
+| Command | Parameters | Description | Example |
+| :---: | :---: | :--- | :---: |
+| /commands | | Shows every available command | |
+| /help | `<command>` | Shows help about a specific command | /help explode |
+| /explode | `<radius>` | Be like a creeper! This command makes you explode | /explode 5 |
+| /give | `<ID>` `<amount>` | Gives you the block/item you enter into the command | /give 57 64 |
+| /home | | Teleports you to your home. NOTE: /sethome must be used before this command | |
+| /sethome | | Sets your current coordinates as your home | |
+| /delhome | | Deletes your saved coordinates made by /sethome | |
+| /ignite | | Sets the block at your feet on fire. WARNING: This may hurt | |
+| /tp | `<x>` `<y>` `<z>` | Teleports you to specified coordinates | /tp 79 68 143 |
+| /coords | | Shows the current coordinates at your feet | |
+| /bomb | `<on/off>` | Activates/Deactivates Bomb Mode | |
+| /bomb | `<detonate>` | Detonates the selected block | |
+| /pdoor | `<on/off>` | Activates/Deactivates Portable Door Mode | |
+| /pdoor | `<open>` | Opens the 'door' at the selected block | |
+| /mc | `<on>` | Creates a 5x5 sheet of glass underneath your feet | |
+| /mc | `<off>` | Makes the Magic Carpet disappear | |
+| /sprint | `<on>` | Activates Sprint Mode. This allows you to walk at a faster speed | |
+| /sprint | `<off>` | Turns off Sprint Mode | |
+| /bounce | `<power>` | Makes you bounce high | /bounce 2 |
+| /hole | | Creates a hole underneath you. WARNING: USE WITH CAUTION | |
+| /spawntouch | `<MobName>` | Spawns the specified mob when a block is tapped | /spawntouch chicken |
+| /spawntouch | `<off>` | Deactivates Spawn Touch | |
+| /rain | `<MobName>` | Makes it rain the specified mob | /rain chicken |
+| /nuke | | Spawns and detonates 49 TNT above you | |
+| /instabreak | `<on>` | Gives you a gold pickaxe to tap blocks with | |
+| /instabreak | `<off>` | Deactivates InstaBreak | |
+| /warp | `<on>` | Gives you a slimeball, a diamond hoe, a gold hoe, and a few blocks of diamond, gold, iron, and lapis, and activates Warp Panels | |
+| /warp | `<off>` | Deactivates the Warp Panels | |
+| /surface | | Teleports you to the surface | |
+| /refresh | | Gives you all currently active command items | |
+| /ascend | | Warps you to a floor/surface above you | |
+| /decend | | Warps you to a floor/surface beneath you | |
+| /panorama | `<on>` | Turns on Panorama mode, which slowly turns you clockwise | |
+| /panorama | `<off>` | Turns off Panorama mode | |
 
 ###Changelog:
 
@@ -177,4 +128,10 @@ Single Player Commands v9.1:
 	-Renamed /spawn to /spawntouch
 	-Added all mobs to /spawntouch and /rain
 	-Added all help messages
+
+Single Player Commands v10:
+-Added saving!
+-Added clientMessage (again)
+-Added help pages
+-Fixed minor bugs in Give+
 ```
