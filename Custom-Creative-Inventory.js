@@ -13,7 +13,7 @@ function procCmd(c) {
     var command = p[0];
     switch(command) {
         case 'setItem': {
-            if(p[1] > 0 && p[1] < 457) {
+            if(p[1] > 0) {
                 setCarriedItem(getPlayerEnt(),p[1]);
             }
         }
