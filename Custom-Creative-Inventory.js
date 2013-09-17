@@ -14,7 +14,7 @@ function procCmd(c) {
     switch(command) {
         case 'setitem': {
             if(p[1] > 0) {
-                setCarriedItem(getPlayerEnt(),p[1]);
+                Entity.setCarriedItem(getPlayerEnt(),p[1]);
             }
         }
     }
