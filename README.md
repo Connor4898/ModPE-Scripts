@@ -43,6 +43,8 @@ Need help with your Scripts? Want to meet people who make ModPE Scripts? Join th
 
 ###[My Forum] (http://www.minecraftforum.net/topic/1931167-)
 
+###[ModPE Functions Wiki] (https://gitub.com/Connor4898/ModPE-Scripts/wiki/ModPE-Scripts-Functions-List)
+
 ###[CheesyFriedBacon's Forum] (http://www.minecraftforum.net/topic/1927514-)
 
 ###[WhyToFu's Forum] (http://www.minecraftforum.net/topic/1927514-)
