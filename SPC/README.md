@@ -1,4 +1,4 @@
-#Single Player Commands v10
+#Single Player Commands v10.1
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
@@ -39,6 +39,9 @@
 | /decend | | Warps you to a floor/surface beneath you | |
 | /panorama | `<on>` | Turns on Panorama mode, which slowly turns you clockwise | |
 | /panorama | `<off>` | Turns off Panorama mode | |
+| /setitem | `<ID>` | Sets the specified item ID to the current held item in creative | /setitem 264 |
+| /heal | `<amount>` | Sets your health to the specified amount | /heal 20 |
+| /kill | | Kills the player | |
 
 ###Changelog:
 
@@ -133,4 +136,8 @@ Single Player Commands v10:
 -Added saving!
 -Added clientMessage (again)
 -Added help pages
+Single Player Commands v10.1:
+-Added commands: /heal, /kill
+-Merged with Custom Creative Inventory
+-Used more Object-Orientated functions
 ```
