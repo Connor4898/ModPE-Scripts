@@ -10,7 +10,7 @@ Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
     (at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panCountdown = 0, msg, msgTick = 100;
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100;
 
 function useItem(x,y,z,itemId,blockId) {
     if(bombMode == 1) {
@@ -23,12 +23,12 @@ function useItem(x,y,z,itemId,blockId) {
         }
     } if(portableDoorMode == 1) {
         if((itemId == 280) || (itemId == 292)) {//stick or Iron hoe
-            bl_saveData("pDoorX",parseInt(x));
-            bl_saveData("pDoorY",parseInt(y));
-            bl_saveData("pDoorY1",parseInt(y) + 1);
-            bl_saveData("pDoorZ",parseInt(z));
-            bl_saveData("portableDoorSet",1);
-            clientMessage("Portable Door set to x: " + bl_readData("pDoorX") + " y: " + bl_readData("pDoorY") + "/" + bl_readData("pDoorY1") + " z: " + bl_readData("pDoorZ"));
+            ModPE.saveData("pDoorX",parseInt(x));
+            ModPE.saveData("pDoorY",parseInt(y));
+            ModPE.saveData("pDoorY1",parseInt(y) + 1);
+            ModPE.saveData("pDoorZ",parseInt(z));
+            ModPE.saveData("portableDoorSet",1);
+            clientMessage("Portable Door set to x: " + ModPE.readData("pDoorX") + " y: " + ModPE.readData("pDoorY") + "/" + ModPE.readData("pDoorY1") + " z: " + ModPE.readData("pDoorZ"));
         }
     } if(spawnTouch == 1) {
         if(spawnTouchMob != null) {
@@ -82,96 +82,96 @@ function useItem(x,y,z,itemId,blockId) {
     } if(warpMode == 1) {
         if(itemId == 341 || itemId == 267) {//Slimeball or Iron sword
             if(Level.getTile(Player.getX(),Player.getY()-2,Player.getZ()) == 57) {
-                if(Math.floor(Player.getX()) == bl_readData("warpA2X") && Math.floor(Player.getY()) - 2 == bl_readData("warpA2Y") && Math.floor(Player.getZ()) == bl_readData("warpA2Z")) {
-                    if(bl_readData("warpSetA1") == 1) {
-                        Entity.setPosition(Player.getEntity(), parseInt(bl_readData("warpA1X")) + 0.5, parseInt(bl_readData("warpA1Y")) + 3, parseInt(bl_readData("warpA1Z")) + 0.5);
+                if(Math.floor(Player.getX()) == ModPE.readData("warpA2X") && Math.floor(Player.getY()) - 2 == ModPE.readData("warpA2Y") && Math.floor(Player.getZ()) == ModPE.readData("warpA2Z")) {
+                    if(ModPE.readData("warpSetA1") == 1) {
+                        Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("warpA1X")) + 0.5, parseInt(ModPE.readData("warpA1Y")) + 3, parseInt(ModPE.readData("warpA1Z")) + 0.5);
                     }
-                } if(Math.floor(Player.getX()) == bl_readData("warpA1X") && Math.floor(Player.getY()) - 2 == bl_readData("warpA1Y") && Math.floor(Player.getZ()) == bl_readData("warpA1Z")) {
-                    if(bl_readData("warpSetA2") == 1) {
-                        Entity.setPosition(Player.getEntity(), parseInt(bl_readData("warpA2X")) + 0.5, parseInt(bl_readData("warpA2Y")) + 3, parseInt(bl_readData("warpA2Z")) + 0.5);
+                } if(Math.floor(Player.getX()) == ModPE.readData("warpA1X") && Math.floor(Player.getY()) - 2 == ModPE.readData("warpA1Y") && Math.floor(Player.getZ()) == ModPE.readData("warpA1Z")) {
+                    if(ModPE.readData("warpSetA2") == 1) {
+                        Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("warpA2X")) + 0.5, parseInt(ModPE.readData("warpA2Y")) + 3, parseInt(ModPE.readData("warpA2Z")) + 0.5);
                     }
                 }
             } if(Level.getTile(Player.getX(),Player.getY()-2,Player.getZ()) == 41) {
-                if(Math.floor(Player.getX()) == bl_readData("warpB2X") && Math.floor(Player.getY()) - 2 == bl_readData("warpB2Y") && Math.floor(Player.getZ()) == bl_readData("warpB2Z")) {
-                    if(bl_readData("warpSetB1") == 1) {
-                        Entity.setPosition(Player.getEntity(), parseInt(bl_readData("warpB1X")) + 0.5, parseInt(bl_readData("warpB1Y")) + 3, parseInt(bl_readData("warpB1Z")) + 0.5);
+                if(Math.floor(Player.getX()) == ModPE.readData("warpB2X") && Math.floor(Player.getY()) - 2 == ModPE.readData("warpB2Y") && Math.floor(Player.getZ()) == ModPE.readData("warpB2Z")) {
+                    if(ModPE.readData("warpSetB1") == 1) {
+                        Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("warpB1X")) + 0.5, parseInt(ModPE.readData("warpB1Y")) + 3, parseInt(ModPE.readData("warpB1Z")) + 0.5);
                     }
-                } if(Math.floor(Player.getX()) == bl_readData("warpB1X") && Math.floor(Player.getY()) - 2 == bl_readData("warpB1Y") && Math.floor(Player.getZ()) == bl_readData("warpB1Z")) {
-                    if(bl_readData("warpSetB2") == 1) {
-                        Entity.setPosition(Player.getEntity(), parseInt(bl_readData("warpB2X")) + 0.5, parseInt(bl_readData("warpB2Y")) + 3, parseInt(bl_readData("warpB2Z")) + 0.5);
+                } if(Math.floor(Player.getX()) == ModPE.readData("warpB1X") && Math.floor(Player.getY()) - 2 == ModPE.readData("warpB1Y") && Math.floor(Player.getZ()) == ModPE.readData("warpB1Z")) {
+                    if(ModPE.readData("warpSetB2") == 1) {
+                        Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("warpB2X")) + 0.5, parseInt(ModPE.readData("warpB2Y")) + 3, parseInt(ModPE.readData("warpB2Z")) + 0.5);
                     }
                 }
             } if(Level.getTile(Player.getX(),Player.getY()-2,Player.getZ()) == 42) {
-                if(Math.floor(Player.getX()) == bl_readData("warpC2X") && Math.floor(Player.getY()) - 2 == bl_readData("warpC2Y") && Math.floor(Player.getZ()) == bl_readData("warpC2Z")) {
-                    if(bl_readData("warpSetC1") == 1) {
-                        Entity.setPosition(Player.getEntity(), parseInt(bl_readData("warpC1X")) + 0.5, parseInt(bl_readData("warpC1Y")) + 3, parseInt(bl_readData("warpC1Z")) + 0.5);
+                if(Math.floor(Player.getX()) == ModPE.readData("warpC2X") && Math.floor(Player.getY()) - 2 == ModPE.readData("warpC2Y") && Math.floor(Player.getZ()) == ModPE.readData("warpC2Z")) {
+                    if(ModPE.readData("warpSetC1") == 1) {
+                        Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("warpC1X")) + 0.5, parseInt(ModPE.readData("warpC1Y")) + 3, parseInt(ModPE.readData("warpC1Z")) + 0.5);
                     }
-                } if(Math.floor(Player.getX()) == bl_readData("warpC1X") && Math.floor(Player.getY()) - 2 == bl_readData("warpC1Y") && Math.floor(Player.getZ()) == bl_readData("warpC1Z")) {
-                    if(bl_readData("warpSetC2") == 1) {
-                        Entity.setPosition(Player.getEntity(), parseInt(bl_readData("warpC2X")) + 0.5, parseInt(bl_readData("warpC2Y")) + 3, parseInt(bl_readData("warpC2Z")) + 0.5);
+                } if(Math.floor(Player.getX()) == ModPE.readData("warpC1X") && Math.floor(Player.getY()) - 2 == ModPE.readData("warpC1Y") && Math.floor(Player.getZ()) == ModPE.readData("warpC1Z")) {
+                    if(ModPE.readData("warpSetC2") == 1) {
+                        Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("warpC2X")) + 0.5, parseInt(ModPE.readData("warpC2Y")) + 3, parseInt(ModPE.readData("warpC2Z")) + 0.5);
                     }
                 }
             } if(Level.getTile(Player.getX(),Player.getY()-2,Player.getZ()) == 22) {
-                if(Math.floor(Player.getX()) == bl_readData("warpD2X") && Math.floor(Player.getY()) - 2 == bl_readData("warpD2Y") && Math.floor(Player.getZ()) == bl_readData("warpD2Z")) {
-                    if(bl_readData("warpSetD1") == 1) {
-                        Entity.setPosition(Player.getEntity(), parseInt(bl_readData("warpD1X")) + 0.5, parseInt(bl_readData("warpD1Y")) + 3, parseInt(bl_readData("warpD1Z")) + 0.5);
+                if(Math.floor(Player.getX()) == ModPE.readData("warpD2X") && Math.floor(Player.getY()) - 2 == ModPE.readData("warpD2Y") && Math.floor(Player.getZ()) == ModPE.readData("warpD2Z")) {
+                    if(ModPE.readData("warpSetD1") == 1) {
+                        Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("warpD1X")) + 0.5, parseInt(ModPE.readData("warpD1Y")) + 3, parseInt(ModPE.readData("warpD1Z")) + 0.5);
                     }
-                } if(Math.floor(Player.getX()) == bl_readData("warpD1X") && Math.floor(Player.getY()) - 2 == bl_readData("warpD1Y") && Math.floor(Player.getZ()) == bl_readData("warpD1Z")) {
-                    if(bl_readData("warpSetD2") == 1) {
-                        Entity.setPosition(Player.getEntity(), parseInt(bl_readData("warpD2X")) + 0.5, parseInt(bl_readData("warpD2Y")) + 3, parseInt(bl_readData("warpD2Z")) + 0.5);
+                } if(Math.floor(Player.getX()) == ModPE.readData("warpD1X") && Math.floor(Player.getY()) - 2 == ModPE.readData("warpD1Y") && Math.floor(Player.getZ()) == ModPE.readData("warpD1Z")) {
+                    if(ModPE.readData("warpSetD2") == 1) {
+                        Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("warpD2X")) + 0.5, parseInt(ModPE.readData("warpD2Y")) + 3, parseInt(ModPE.readData("warpD2Z")) + 0.5);
                     }
                 }
             }
         } if(itemId == 293 || itemId == 292) {//Diamond or Iron hoe
             if(blockId == 57) {
-                bl_saveData("warpSetA1",1);
-                bl_saveData("warpA1X",parseInt(x));
-                bl_saveData("warpA1Y",parseInt(y));
-                bl_saveData("warpA1Z",parseInt(z));
+                ModPE.saveData("warpSetA1",1);
+                ModPE.saveData("warpA1X",parseInt(x));
+                ModPE.saveData("warpA1Y",parseInt(y));
+                ModPE.saveData("warpA1Z",parseInt(z));
                 clientMessage("A1 set!");
             } if(blockId == 41) {
-                bl_saveData("warpSetB1",1);
-                bl_saveData("warpB1X",parseInt(x));
-                bl_saveData("warpB1Y",parseInt(y));
-                bl_saveData("warpB1Z",parseInt(z));
+                ModPE.saveData("warpSetB1",1);
+                ModPE.saveData("warpB1X",parseInt(x));
+                ModPE.saveData("warpB1Y",parseInt(y));
+                ModPE.saveData("warpB1Z",parseInt(z));
                 clientMessage("B1 set!");
             } if(blockId == 42) {
-                bl_saveData("warpSetC1",1);
-                bl_saveData("warpC1X",parseInt(x));
-                bl_saveData("warpC1Y",parseInt(y));
-                bl_saveData("warpC1Z",parseInt(z));
+                ModPE.saveData("warpSetC1",1);
+                ModPE.saveData("warpC1X",parseInt(x));
+                ModPE.saveData("warpC1Y",parseInt(y));
+                ModPE.saveData("warpC1Z",parseInt(z));
                 clientMessage("C1 set!");
             } if(blockId == 22) {
-                bl_saveData("warpSetD1",1);
-                bl_saveData("warpD1X",parseInt(x));
-                bl_saveData("warpD1Y",parseInt(y));
-                bl_saveData("warpD1Z",parseInt(z));
+                ModPE.saveData("warpSetD1",1);
+                ModPE.saveData("warpD1X",parseInt(x));
+                ModPE.saveData("warpD1Y",parseInt(y));
+                ModPE.saveData("warpD1Z",parseInt(z));
                 clientMessage("D1 set!");
             }
         } if(itemId == 294 || itemId == 261) {//Gold hoe or Bow
             if(blockId == 57) {
-                bl_saveData("warpSetA2",1);
-                bl_saveData("warpA2X",parseInt(x));
-                bl_saveData("warpA2Y",parseInt(y));
-                bl_saveData("warpA2Z",parseInt(z));
+                ModPE.saveData("warpSetA2",1);
+                ModPE.saveData("warpA2X",parseInt(x));
+                ModPE.saveData("warpA2Y",parseInt(y));
+                ModPE.saveData("warpA2Z",parseInt(z));
                 clientMessage("A2 set!");
             } if(blockId == 41) {
-                bl_saveData("warpSetB2",1);
-                bl_saveData("warpB2X",parseInt(x));
-                bl_saveData("warpB2Y",parseInt(y));
-                bl_saveData("warpB2Z",parseInt(z));
+                ModPE.saveData("warpSetB2",1);
+                ModPE.saveData("warpB2X",parseInt(x));
+                ModPE.saveData("warpB2Y",parseInt(y));
+                ModPE.saveData("warpB2Z",parseInt(z));
                 clientMessage("B2 set!");
             } if(blockId == 42) {
-                bl_saveData("warpSetC2",1);
-                bl_saveData("warpC2X",parseInt(x));
-                bl_saveData("warpC2Y",parseInt(y));
-                bl_saveData("warpC2Z",parseInt(z));
+                ModPE.saveData("warpSetC2",1);
+                ModPE.saveData("warpC2X",parseInt(x));
+                ModPE.saveData("warpC2Y",parseInt(y));
+                ModPE.saveData("warpC2Z",parseInt(z));
                 clientMessage("C2 set!");
             } if(blockId == 22) {
-                bl_saveData("warpSetD2",1);
-                bl_saveData("warpD2X",parseInt(x));
-                bl_saveData("warpD2Y",parseInt(y));
-                bl_saveData("warpD2Z",parseInt(z));
+                ModPE.saveData("warpSetD2",1);
+                ModPE.saveData("warpD2X",parseInt(x));
+                ModPE.saveData("warpD2Y",parseInt(y));
+                ModPE.saveData("warpD2Z",parseInt(z));
                 clientMessage("D2 set!");
             }
         }
@@ -191,7 +191,7 @@ function procCmd(c) {
                     clientMessage("[SPC] [HELP] Type explode <radius> to blow up. WARNING: It may hurt/nExample: /explode 5");
                     break;
                 } case 'give': {
-                    clientMessage("[SPC] [HELP] Type /give <ID|name> <amount> to add any item to your inventory.\nExample: /give 57 64");
+                    clientMessage("[SPC] [HELP] Type /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64");
                     break;
                 } case 'ignite': {
                     clientMessage("[SPC] [HELP] Type /ignite to set the ground underneath you on fire. WARNING: High chance of burning.\nExample: /ignite");
@@ -272,7 +272,7 @@ function procCmd(c) {
                     clientMessage("Showing help page 1 of 5 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /delhome\n /descend \n /explode <radius>");
                     break;
                 } case '2': {
-                    clientMessage("Showing help page 2 of 5 (/help <page>)\n /give <ID|name> <amount>\n /heal <amount>\n /help <page|command>\n /hole\n /home");
+                    clientMessage("Showing help page 2 of 5 (/help <page>)\n /give <ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole\n /home");
                     break;
                 } case '3': {
                     clientMessage("Showing help page 3 of 5 (/help <page>)\n /ignite \n /instabreak <on|off>\n /kill\n /mc <on|off>\n /nuke");
@@ -284,7 +284,7 @@ function procCmd(c) {
                     clientMessage("Showing help page 5 of 5 (/help <page>)\n /spawntouch <mobname|off>\n /sprint <on|off>\n /tp <x> <y> <z>");
                     break;
                 } default: {
-                    clientMessage("Showing help page 1 of 4 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /delhome\n /descend \n /explode <radius>");
+                    clientMessage("Showing help page 1 of 5 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /delhome\n /descend \n /explode <radius>");
                     break;
                 }
             }
@@ -759,6 +759,7 @@ function procCmd(c) {
                 Player.addItemInventory(332,p[2]);
                 clientMessage("[SPC] Spawned " + p[2] + " of " + p[1] + "!");
             } if(p[1] == 'leather') {
+                Player.addItemInventory(334,p[2]);
                 clientMessage("[SPC] Spawned " + p[2] + " of " + p[1] + "!");
             } if(p[1] == 'brick') {
                 Player.addItemInventory(336,p[2]);
@@ -884,27 +885,27 @@ function procCmd(c) {
             clientMessage("[SPC] KAPLOOEY!!!");
             break;
         } case 'sethome': {
-            bl_saveData("homeX",parseInt(Player.getX()));
-            bl_saveData("homeY",parseInt(Player.getY()));
-            bl_saveData("homeZ",parseInt(Player.getZ()));
-            bl_saveData("setHomeData",1);
-            clientMessage("[SPC] Home set to x: " + Math.floor(bl_readData("homeX")) + ", y: " + Math.floor(bl_readData("homeY")) + ", z: " + Math.floor(bl_readData("homeZ")));
+            ModPE.saveData("homeX",parseInt(Player.getX()));
+            ModPE.saveData("homeY",parseInt(Player.getY()));
+            ModPE.saveData("homeZ",parseInt(Player.getZ()));
+            ModPE.saveData("setHomeData",1);
+            clientMessage("[SPC] Home set to x: " + Math.floor(ModPE.readData("homeX")) + ", y: " + Math.floor(ModPE.readData("homeY")) + ", z: " + Math.floor(ModPE.readData("homeZ")));
             break;
         } case 'delhome': {
-            if(bl_readData("setHomeData") == 1) {
-                bl_saveData("setHomeData",0);
+            if(ModPE.readData("setHomeData") == 1) {
+                ModPE.saveData("setHomeData",0);
                 clientMessage("[SPC] Home successfully deleted!");
                 break;
-            } if(bl_readData("setHomeData") == 0) {
+            } if(ModPE.readData("setHomeData") == 0) {
                 clientMessage("[SPC] No home is set!");
             }
             break;
         } case 'home': {
-            if(bl_readData("setHomeData") == 0) {
+            if(ModPE.readData("setHomeData") == 0) {
                 clientMessage("[SPC] No home has been set!");
                 break;
-            } if(bl_readData("setHomeData") == 1) {
-                Entity.setPosition(Player.getEntity(), parseInt(bl_readData("homeX")) + 0.5, parseInt(bl_readData("homeY")) + 2, parseInt(bl_readData("homeZ")) + 0.5);
+            } if(ModPE.readData("setHomeData") == 1) {
+                Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("homeX")) + 0.5, parseInt(ModPE.readData("homeY")) + 2, parseInt(ModPE.readData("homeZ")) + 0.5);
                 clientMessage("[SPC] Teleported to home!");
             }
             break;
@@ -1098,13 +1099,13 @@ function procCmd(c) {
             } if(p[1] == 'open') {
                 if(portableDoorMode == 0) {
                     clientMessage("[SPC] Portable Door mode is off!");
-                } if(bl_readData("portableDoorSet") == 0) {
+                } if(ModPE.readData("portableDoorSet") == 0) {
                     clientMessage("[SPC] No Portable Door is set!");
-                } if((portableDoorMode == 1) && (bl_readData("portableDoorSet") == 1) && (portableDoorActive == 0)) {
-                    pDoor = Level.getTile(bl_readData("pDoorX"),bl_readData("pDoorY"),bl_readData("pDoorZ"));
-                    pDoor1 = Level.getTile(bl_readData("pDoorX"),bl_readData("pDoorY1"),bl_readData("pDoorZ"));
-                    Level.setTile(bl_readData("pDoorX"),bl_readData("pDoorY"),bl_readData("pDoorZ"),0);
-                    Level.setTile(bl_readData("pDoorX"),bl_readData("pDoorY1"),bl_readData("pDoorZ"),0);
+                } if((portableDoorMode == 1) && (ModPE.readData("portableDoorSet") == 1) && (portableDoorActive == 0)) {
+                    pDoor = Level.getTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY"),ModPE.readData("pDoorZ"));
+                    pDoor1 = Level.getTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"));
+                    Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY"),ModPE.readData("pDoorZ"),0);
+                    Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"),0);
                     clientMessage("[SPC] Portable Door active for 5 seconds!");
                     portableDoorActive = 1;
                     countdown = 100;
@@ -1219,23 +1220,14 @@ function procCmd(c) {
             }
             break;
         } case 'panorama': {
-            if(p[1] == 'on') {
-                if(panoramaMode == 1) {
-                    clientMessage("[SPC] Panorama Mode is already active!");
-                    break;
-                } if(panoramaMode == 0) {
-                    panoramaMode = 1;
-                    clientMessage("[SPC] Panorama Mode activated!");
-                }
-            } if(p[1] == 'off') {
-                if(panoramaMode == 0) {
-                    clientMessage("[SPC] Panorama Mode is already off!");
-                    break;
-                } if(panoramaMode == 1) {
-                    panoramaMode = 0;
-                    clientMessage("[SPC] Panorama Mode deactivated!");
-                }
-            }
+            if(p[1] == 'off') {
+                panoramaSpeed = 0;
+                panoramaMode = 0;
+                clientMessage("[SPC] Panorama deactivated!");
+                break;
+            } panoramaMode = 1;
+            panoramaSpeed = parseInt(p[1]);
+            clientMessage("[SPC] Panorama activated at speed " + parseInt(p[1]) + "!");
             break;
         } default: {
             clientMessage("[SPC] Command does not exist!");
@@ -1314,13 +1306,13 @@ function modTick() {
         } if(sprintTick != 1) {
             sprintTick++;
         }
-    } if((portableDoorMode == 1) && (bl_readData("portableDoorSet") == 1) && (portableDoorActive == 1)) {
+    } if((portableDoorMode == 1) && (ModPE.readData("portableDoorSet") == 1) && (portableDoorActive == 1)) {
         if(countdownMode == 1) {
             if(countdown != 0) {
                 countdown--;
             } if(countdown == 0) {
-                Level.setTile(bl_readData("pDoorX"),bl_readData("pDoorY"),bl_readData("pDoorZ"),pDoor);
-                Level.setTile(bl_readData("pDoorX"),bl_readData("pDoorY1"),bl_readData("pDoorZ"),pDoor1);
+                Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY"),ModPE.readData("pDoorZ"),pDoor);
+                Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"),pDoor1);
                 clientMessage("[SPC] Portable Door closed!");
                 portableDoorActive = 0;
                 countdownMode = 100;
@@ -1329,7 +1321,7 @@ function modTick() {
     } if(panoramaMode == 1) {
         panCountdown++;
         if(panCountdown == 1) {
-            nextYaw = Entity.getYaw() + 0.33;
+            nextYaw = parseInt(panoramaSpeed) / 3 + parseInt(Entity.getYaw());
             Entity.setRot(Player.getEntity(),nextYaw,Entity.getPitch());
             if(nextYaw >= 360) {
                 Entity.setRot(Player.getEntity(),0,Entity.getPitch());
