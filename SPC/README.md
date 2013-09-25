@@ -12,7 +12,7 @@
 | /home | | Teleports you to your home. NOTE: /sethome must be used before this command | |
 | /sethome | | Sets your current coordinates as your home | |
 | /delhome | | Deletes your saved coordinates made by /sethome | |
-| /ignite | | Sets the block at your feet on fire. WARNING: This may hurt | |
+| /ignite | <seconds> | Sets the player on fire. WARNING: This may hurt | |
 | /tp | `<x>` `<y>` `<z>` | Teleports you to specified coordinates | /tp 79 68 143 |
 | /coords | | Shows the current coordinates at your feet | |
 | /bomb | `<on/off>` | Activates/Deactivates Bomb Mode | |
