@@ -194,7 +194,7 @@ function procCmd(c) {
                     clientMessage("[SPC] [HELP] Type /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64");
                     break;
                 } case 'ignite': {
-                    clientMessage("[SPC] [HELP] Type /ignite to set the ground underneath you on fire. WARNING: High chance of burning.\nExample: /ignite");
+                    clientMessage("[SPC] [HELP] Type /ignite or /ignite <seconds> to set you on fire. WARNING: High chance of being burnt.\nExample: /ignite 3");
                     break;
                 } case 'tp': {
                     clientMessage("[SPC] [HELP]Type /tp <x> <y> <z>, where x, y, and z are your desired coordinates.\n Example: /tp 128 70 128)");
@@ -268,6 +268,12 @@ function procCmd(c) {
                 } case 'kill': {
                     clientMessage("[SPC] [HELP] Type /kill to kill yourself");
                     break;
+                } case 'summon': {
+                    clientMessage("[SPC] [HELP] Type /summon <mob> <x> <y> <z> to spawn a mob at the specified coordinates.\nExample: /summon pig 147 84 123");
+                    break;
+                } case 'time': {
+                    clientMessage("[SPC] [HELP] Type /time or /time set <sunrise|day|sunset|night|value> to get the time, or set the time to the specified time (respectively). NOTE: Does not work properly.\nExample: /time set day");
+                    break;
                 } case '1': {
                     clientMessage("Showing help page 1 of 5 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /delhome\n /descend \n /explode <radius>");
                     break;
@@ -275,13 +281,13 @@ function procCmd(c) {
                     clientMessage("Showing help page 2 of 5 (/help <page>)\n /give <ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole\n /home");
                     break;
                 } case '3': {
-                    clientMessage("Showing help page 3 of 5 (/help <page>)\n /ignite \n /instabreak <on|off>\n /kill\n /mc <on|off>\n /nuke");
+                    clientMessage("Showing help page 3 of 5 (/help <page>)\n /ignite <secs> \n /instabreak <on|off>\n /kill\n /mc <on|off>\n /nuke");
                     break;
                 } case '4': {
                     clientMessage("Showing help page 4 of 5 (/help <page>)\n /panorama <on|off>\n /pdoor <on|open|off>\n /rain <mobname>\n /setitem <ID>\n /sethome");
                     break;
                 } case '5': {
-                    clientMessage("Showing help page 5 of 5 (/help <page>)\n /spawntouch <mobname|off>\n /sprint <on|off>\n /tp <x> <y> <z>");
+                    clientMessage("Showing help page 5 of 5 (/help <page>)\n /spawntouch <mobname|off>\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>");
                     break;
                 } default: {
                     clientMessage("Showing help page 1 of 5 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /delhome\n /descend \n /explode <radius>");
@@ -847,7 +853,13 @@ function procCmd(c) {
             }
             break;
         } case 'ignite': {
-            Level.setTile(Player.getX(), Player.getY()-1, Player.getZ(), 51);
+            if(!p[1]) {
+                Entity.setFireTicks(Player.getEntity(),5);
+                clientMessage("[SPC] Cooking player for 5 seconds");
+            } else {
+                Entity.setFireTicks(Player.getEntity(),parseInt(p[1]));
+                clientMessage("[SPC] Cooking player for " + parseInt(p[1]) + " seconds");
+            }
             break;
         } case 'tp': {
             Entity.setPosition(Player.getEntity(), parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
@@ -976,13 +988,43 @@ function procCmd(c) {
                 clientMessage("[SPC] Fully healed!");
                 break;
             } else {
-                setPlayerHealth(parseInt(p[1]));
+                Player.setHealth(parseInt(p[1]));
                 clientMessage("[SPC] Set health to " + parseInt(p[1]));
             }
             break;
         } case 'kill': {
-            setPlayerHealth(0);
+            Player.setHealth(0);
             clientMessage("[SPC] You died.");
+            break;
+        } case 'time': {
+            if(p[1] == 'set') {
+                if(p[2] == 'day' || p[2] == 'daytime') {
+                    Level.setTime(0);
+                    clientMessage("[SPC] Time set to day!");
+                    break;
+                } if(p[2] == 'sunset') {
+                    Level.setTime(7200);
+                    clientMessage("[SPC] Time set to sunset!");
+                    break;
+                } if(p[2] == 'night') {
+                    Level.setTime(8280);
+                    clientMessage("[SPC] Time set to night!");
+                    break;
+                } if(p[2] == 'sunrise') {
+                    Level.setTime(13320);
+                    clientMessage("[SPC] Time set to sunrise!");
+                    break;
+                } if(!p[2]) {
+                    clientMessage("[SPC] Specify a time!");
+                    break;
+                } else {
+                    Level.setTime(parseInt(p[2]));
+                    clientMessage("[SPC] Time set to " + parseInt(p[2]));
+                    break; 
+                }
+            } if(!p[1]) {
+                clientMessage("[SPC] The current time is " + Level.getTime());
+            }
             break;
         } case 'hole': {
             holeX = Math.floor(Player.getX());
@@ -1000,6 +1042,38 @@ function procCmd(c) {
             if(p[1] > 0) {
                 Entity.setCarriedItem(Player.getEntity(),p[1],1,p[2]);
                 clientMessage("[SPC] Saved current item as " + p[1]);
+            }
+            break;
+        } case 'summon': {
+            if(p[1] == 'chicken') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,10,'mob/chicken.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } if(p[1] == 'cow') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,11,'mob/cow.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } if(p[1] == 'pig') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,12,'mob/pig.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } if(p[1] == 'sheep') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,13,'mob/sheep.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } if(p[1] == 'zombie') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,32,'mob/zombie.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } if(p[1] == 'creeper') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,33,'mob/creeper.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } if(p[1] == 'skeleton') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,34,'mob/skeleton.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } if(p[1] == 'spider') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,35,'mob/spider.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
+                Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,36,'mob/pigzombie.png');
+                clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+            } else if(!p[1]) {
+                clientMessage("[SPC] Specify a mob!");
             }
             break;
         } case 'rain': {
@@ -1221,14 +1295,14 @@ function procCmd(c) {
             break;
         } case 'panorama': {
             if(p[1] == 'off') {
-                panoramaSpeed = 0;
                 panoramaMode = 0;
                 clientMessage("[SPC] Panorama deactivated!");
                 break;
-            } panoramaMode = 1;
-            panoramaSpeed = parseInt(p[1]);
-            clientMessage("[SPC] Panorama activated at speed " + parseInt(p[1]) + "!");
-            break;
+            } if(p[1] == 'on') {
+                panoramaMode = 1;
+                clientMessage("[SPC] Panorama activated!");
+                break;
+            }
         } default: {
             clientMessage("[SPC] Command does not exist!");
             break;
@@ -1238,9 +1312,9 @@ function procCmd(c) {
 
 function modTick() {
     if(magicCarpet == 1) {
-    mcX = Math.floor(Player.getX());
-    mcY = Math.floor(Player.getY()) - 2;
-    mcZ = Math.floor(Player.getZ());
+        mcX = Math.floor(Player.getX());
+        mcY = Math.floor(Player.getY()) - 2;
+        mcZ = Math.floor(Player.getZ());
         for(j=-3;j<=3;j++) {
             for(i=-3;i<=3;i++) {
                 for(k=-1;k<=1;k++) {
@@ -1270,7 +1344,7 @@ function modTick() {
                                 }
                             }
                         }
-                    } if(Entity.getPitch() >= 75) {
+                    } if(Entity.getPitch(Player.getEntity()) >= 75) {
                         if(j >= -2 && j <= 2) {
                             if(i >= -2 && i <= 2) {
                                 if(Level.getTile(mcX+j,mcY,mcZ+i) == 20) {
@@ -1321,13 +1395,14 @@ function modTick() {
     } if(panoramaMode == 1) {
         panCountdown++;
         if(panCountdown == 1) {
-            nextYaw = parseInt(panoramaSpeed) / 3 + parseInt(Entity.getYaw());
-            Entity.setRot(Player.getEntity(),nextYaw,Entity.getPitch());
+            nextYaw = Entity.getYaw(Player.getEntity());
+            Entity.setRot(Player.getEntity(),nextYaw + 0.33,Entity.getPitch(Player.getEntity()));
             if(nextYaw >= 360) {
-                Entity.setRot(Player.getEntity(),0,Entity.getPitch());
+                Entity.setRot(Player.getEntity(),0,Entity.getPitch(Player.getEntity()));
             } if(nextYaw < 0) {
-                Entity.setRot(Player.getEntity(),359,Entity.getPitch());
-            } panCountdown = 0;
+                Entity.setRot(Player.getEntity(),359,Entity.getPitch(Player.getEntity()));
+            }
+            panCountdown = 0;
         }
     }
 }
