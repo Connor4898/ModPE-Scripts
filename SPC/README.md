@@ -1,4 +1,4 @@
-#Single Player Commands v10.1
+#Single Player Commands v10.2
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
@@ -42,6 +42,9 @@
 | /setitem | `<ID>` | Sets the specified item ID to the current held item in creative | /setitem 264 |
 | /heal | `<amount>` | Sets your health to the specified amount | /heal 20 |
 | /kill | | Kills the player | |
+| /time | | Gets the current time in ticks | |
+| /time | `<set>` `<sunrise/day/sunset/night>`| Sets the time to the specified time. NOTE: Buggy | /time set day |
+| /summon | `<mob>` `<x>` `<y>` `<z>` | Spawns a mob at the specified coordinates | /spawn pig 127 85 246 |
 
 ###Changelog:
 
@@ -140,4 +143,8 @@ Single Player Commands v10.1:
 -Added commands: /heal, /kill
 -Merged with Custom Creative Inventory
 -Used more Object-Orientated functions
+Single Player Commands v10.2:
+-Added commands: /time, /summon
+-Fixed many, many bugs (/mc, /panorama, /heal, /kill)
+-Added duration to /ignite (It is now /ignite <seconds>)
 ```
