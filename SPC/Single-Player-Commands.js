@@ -431,7 +431,7 @@ function procCmd(c) {
             break;
         } case 'heal': {
             if((!p[1])) {
-                setPlayerHealth(20);
+                Player.setHealth(20);
                 clientMessage("[SPC] Fully healed!");
                 break;
             } else {
