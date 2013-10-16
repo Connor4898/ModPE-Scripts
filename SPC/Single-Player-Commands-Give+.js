@@ -1038,7 +1038,7 @@ function procCmd(c) {
 					break;
 			} if(instabreakMode == 1) {
 					instabreakMode = 0;
-					addItemInvntory(285,-1);
+					addItemInventory(285,-1);
 					clientMessage("[SPC] Instabreak has been turned off!");
 				}
 			}
