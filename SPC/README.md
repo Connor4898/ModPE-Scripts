@@ -1,50 +1,50 @@
-#Single Player Commands v10.2
+#Single Player Commands v10.3
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
 ###Commands:
 | Command | Parameters | Description | Example |
 | :---: | :---: | :--- | :---: |
-| /commands | | Shows every available command | |
 | /help | `<command>` | Shows help about a specific command | /help explode |
-| /explode | `<radius>` | Be like a creeper! This command makes you explode | /explode 5 |
-| /give | `<ID>` `<amount>` | Gives you the block/item you enter into the command | /give 57 64 |
-| /home | | Teleports you to your home. NOTE: /sethome must be used before this command | |
-| /sethome | | Sets your current coordinates as your home | |
-| /delhome | | Deletes your saved coordinates made by /sethome | |
-| /ignite | `<seconds>` | Sets the player on fire. WARNING: This may hurt | |
-| /tp | `<x>` `<y>` `<z>` | Teleports you to specified coordinates | /tp 79 68 143 |
-| /coords | | Shows the current coordinates at your feet | |
+| /ascend | | Warps you to a floor/surface above you | |
 | /bomb | `<on/off>` | Activates/Deactivates Bomb Mode | |
 | /bomb | `<detonate>` | Detonates the selected block | |
-| /pdoor | `<on/off>` | Activates/Deactivates Portable Door Mode | |
-| /pdoor | `<open>` | Opens the 'door' at the selected block | |
-| /mc | `<on>` | Creates a 5x5 sheet of glass underneath your feet | |
-| /mc | `<off>` | Makes the Magic Carpet disappear | |
-| /sprint | `<on>` | Activates Sprint Mode. This allows you to walk at a faster speed | |
-| /sprint | `<off>` | Turns off Sprint Mode | |
 | /bounce | `<power>` | Makes you bounce high | /bounce 2 |
+| /coords | | Shows the current coordinates at your feet | |
+| /delhome | | Deletes your saved coordinates made by /sethome | |
+| /descend | | Warps you to a floor/surface beneath you | |
+| /explode | `<radius>` | Be like a creeper! This command makes you explode | /explode 5 |
+| /heal | `<amount>` | Sets your health to the specified amount | /heal 20 |
+| /gamemode | `<survival|creative|0|1>` | Sets the player's gamemode | /gamemode 1 |
+| /give | `<ID>` `<amount>` | Gives you the block/item you enter into the command | /give 57 64 |
 | /hole | | Creates a hole underneath you. WARNING: USE WITH CAUTION | |
-| /spawntouch | `<MobName>` | Spawns the specified mob when a block is tapped | /spawntouch chicken |
-| /spawntouch | `<off>` | Deactivates Spawn Touch | |
-| /rain | `<MobName>` | Makes it rain the specified mob | /rain chicken |
-| /nuke | | Spawns and detonates 49 TNT above you | |
+| /home | | Teleports you to your home. NOTE: /sethome must be used before this command | |
+| /ignite | `<seconds>` | Sets the player on fire. WARNING: This may hurt | |
 | /instabreak | `<on>` | Gives you a gold pickaxe to tap blocks with | |
 | /instabreak | `<off>` | Deactivates InstaBreak | |
-| /warp | `<on>` | Gives you a slimeball, a diamond hoe, a gold hoe, and a few blocks of diamond, gold, iron, and lapis, and activates Warp Panels | |
-| /warp | `<off>` | Deactivates the Warp Panels | |
-| /surface | | Teleports you to the surface | |
-| /refresh | | Gives you all currently active command items | |
-| /ascend | | Warps you to a floor/surface above you | |
-| /decend | | Warps you to a floor/surface beneath you | |
+| /kill | | Kills the player | |
+| /mc | `<on>` | Creates a 5x5 sheet of glass underneath your feet | |
+| /mc | `<off>` | Makes the Magic Carpet disappear | |
+| /nuke | | Spawns and detonates 49 TNT above you | |
 | /panorama | `<on>` | Turns on Panorama mode, which slowly turns you clockwise | |
 | /panorama | `<off>` | Turns off Panorama mode | |
+| /pdoor | `<on/off>` | Activates/Deactivates Portable Door Mode | |
+| /pdoor | `<open>` | Opens the 'door' at the selected block | |
+| /rain | `<MobName>` | Makes it rain the specified mob | /rain chicken |
+| /refresh | | Gives you all currently active command items | |
 | /setitem | `<ID>` | Sets the specified item ID to the current held item in creative | /setitem 264 |
-| /heal | `<amount>` | Sets your health to the specified amount | /heal 20 |
-| /kill | | Kills the player | |
+| /sethome | | Sets your current coordinates as your home | |
+| /spawntouch | `<MobName>` | Spawns the specified mob when a block is tapped | /spawntouch chicken |
+| /spawntouch | `<off>` | Deactivates Spawn Touch | |
+| /sprint | `<on>` | Activates Sprint Mode. This allows you to walk at a faster speed | |
+| /sprint | `<off>` | Turns off Sprint Mode | |
+| /summon | `<mob>` `<x>` `<y>` `<z>` | Spawns a mob at the specified coordinates | /spawn pig 127 85 246 |
+| /surface | | Teleports you to the surface | |
 | /time | | Gets the current time in ticks | |
 | /time | `<set>` `<sunrise/day/sunset/night>`| Sets the time to the specified time. NOTE: Buggy | /time set day |
-| /summon | `<mob>` `<x>` `<y>` `<z>` | Spawns a mob at the specified coordinates | /spawn pig 127 85 246 |
+| /tp | `<x>` `<y>` `<z>` | Teleports you to specified coordinates | /tp 79 68 143 |
+| /warp | `<on>` | Gives you a slimeball, a diamond hoe, a gold hoe, and a few blocks of diamond, gold, iron, and lapis, and activates Warp Panels | |
+| /warp | `<off>` | Deactivates the Warp Panels | |
 
 ###Changelog:
 
@@ -136,15 +136,19 @@ Single Player Commands v9.1:
 	-Added all help messages
 
 Single Player Commands v10:
--Added saving!
--Added clientMessage (again)
--Added help pages
+	-Added saving!
+	-Added clientMessage (again)
+	-Added help pages
 Single Player Commands v10.1:
--Added commands: /heal, /kill
--Merged with Custom Creative Inventory
--Used more Object-Orientated functions
+	-Added commands: /heal, /kill
+	-Merged with Custom Creative Inventory
+	-Used more Object-Orientated functions
 Single Player Commands v10.2:
--Added commands: /time, /summon
--Fixed many, many bugs (/mc, /panorama, /heal, /kill)
--Added duration to /ignite (It is now /ignite <seconds>)
+	-Added commands: /time, /summon
+	-Fixed many, many bugs (/mc, /panorama, /heal, /kill)
+	-Added duration to /ignite (It is now /ignite <seconds>)
+Single Player Commands v10.3:
+	-Added commands: /gamemode
+	-Added all commands to /help
+	-Arranged script commands alphabetically
 ```
