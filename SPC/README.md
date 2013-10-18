@@ -1,4 +1,4 @@
-#Single Player Commands v10.3
+#Single Player Commands v10.4
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
@@ -22,6 +22,7 @@
 | /ignite | `<seconds>` | Sets the player on fire. WARNING: This may hurt | |
 | /instabreak | `<on>` | Gives you a gold pickaxe to tap blocks with | |
 | /instabreak | `<off>` | Deactivates InstaBreak | |
+| /launch | `<mobname/tnt>` | Launches a mob or TNT in the direction you are facing | /launch pig |
 | /kill | | Kills the player | |
 | /mc | `<on>` | Creates a 5x5 sheet of glass underneath your feet | |
 | /mc | `<off>` | Makes the Magic Carpet disappear | |
@@ -151,4 +152,9 @@ Single Player Commands v10.3:
 	-Added commands: /gamemode
 	-Added all commands to /help
 	-Arranged script commands alphabetically
+Single Player Commands v10.4:
+	-Added commands: /launch
+	-Fixed /setitem
+	-Made all Entity.spawnMob to Level.spawnMob
+	-Corrected my failed spelling of WhyToFu (Sorry!)
 ```
