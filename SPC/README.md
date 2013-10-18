@@ -15,7 +15,7 @@
 | /descend | | Warps you to a floor/surface beneath you | |
 | /explode | `<radius>` | Be like a creeper! This command makes you explode | /explode 5 |
 | /heal | `<amount>` | Sets your health to the specified amount | /heal 20 |
-| /gamemode | `<survival|creative|0|1>` | Sets the player's gamemode | /gamemode 1 |
+| /gamemode | `<survival/creative/0/1>` | Sets the player's gamemode | /gamemode 1 |
 | /give | `<ID>` `<amount>` | Gives you the block/item you enter into the command | /give 57 64 |
 | /hole | | Creates a hole underneath you. WARNING: USE WITH CAUTION | |
 | /home | | Teleports you to your home. NOTE: /sethome must be used before this command | |
