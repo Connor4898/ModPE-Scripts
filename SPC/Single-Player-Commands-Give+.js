@@ -10,7 +10,7 @@ Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
 	(at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100;
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0;
 
 function useItem(x,y,z,itemId,blockId) {
 	if(bombMode == 1) {
@@ -36,7 +36,7 @@ function useItem(x,y,z,itemId,blockId) {
 
 	if(spawnTouch == 1) {
 		if(spawnTouchMob != null) {
-			Entity.spawnMob(x,y+1,z,spawnTouchMobID,spawnTouchMob);
+			Level.spawnMob(x,y+1,z,spawnTouchMobID,spawnTouchMob);
 		}
 	}
 
@@ -220,7 +220,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /gamemode <survival|creative|0|1> to change your current gamemode. NOTE: Clears your survival inventory");
 					break;
 				} case 'give': {
-					clientMessage("[SPC] [HELP] Type /give <ID|name> <amount> to add any item to your inventory.\nExample: /give 57 64");
+					clientMessage("[SPC] [HELP] Type /give <ID|ItemName> <amount> to add any item to your inventory.\nExample: /give 57 64");
 					break;
 				} case 'heal': {
 					clientMessage("[SPC] [HELP] Type /heal or /heal <Half-hearts> to set your health to the specified amount.\nExample: /heal 20");
@@ -236,6 +236,9 @@ function procCmd(c) {
 					break;
 				} case 'instabreak': {
 					clientMessage("[SPC] [HELP] Type /instabreak <on|off> to turn InstaBreak on or off.\nExample: /instabreak on");
+					break;
+				} case 'launch': {
+					clientMessage("[SPC] [HELP] Type /launch <mobname|tnt> to launch a mob or tnt in the direction you are facing!");
 					break;
 				} case 'kill': {
 					clientMessage("[SPC] [HELP] Type /kill to kill yourself");
@@ -289,22 +292,22 @@ function procCmd(c) {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
 					break;
 				} case '2': {
-					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /explode <radius>\n /gamemode <survival|creative|0|1>\n /give <ID> <amount>\n /heal <amount>");
+					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /explode <radius>\n /gamemode <survival|creative|0|1>\n /give <ID|ItemName> <amount>\n /heal <amount>");
 					break;
 				} case '3': {
 					clientMessage("Showing help page 3 of 7 (/help <page>)\n /help <page|command>\n /hole\n /home\n /ignite <secs> \n /instabreak <on|off>");
 					break;
 				} case '4': {
-					clientMessage("Showing help page 4 of 7 (/help <page>)\n /kill\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>");
+					clientMessage("Showing help page 4 of 7 (/help <page>)\n /launch <mobname|tnt>\n /kill\n /mc <on|off>\n /nuke\n /panorama <on|off>");
 					break;
 				} case '5': {
-					clientMessage("Showing help page 5 of 7 (/help <page>)\n /rain <mobname>\n /refresh\n /setitem <ID>\n /sethome\n /spawntouch <mobname|off>");
+					clientMessage("Showing help page 5 of 7 (/help <page>)\n /pdoor <on|open|off>\n /rain <mobname>\n /refresh\n /setitem <ID>\n /sethome");
 					break;
 				} case '6': {
-					clientMessage("Showing help page 6 of 7 (/help <page>)\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>");
+					clientMessage("Showing help page 6 of 7 (/help <page>)\n  /spawntouch <mobname|off>\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>");
 					break;
 				} case '7': {
-					clientMessage("Showing help page 7 of 7 (/help <page>)\n /warp <on|off>");
+					clientMessage("Showing help page 7 of 7 (/help <page>)\n /tp <x> <y> <z>\n /warp <on|off>");
 					break;
 				} default: {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
@@ -1049,6 +1052,60 @@ function procCmd(c) {
 			clientMessage("[SPC] You died.");
 			break;
 
+		} case 'launch': {
+			if(p[1] == 'tnt') {
+				if(TNTCannonActive == 0) {
+					cannonCountdown = 0;
+					TNTCannonActive = 1;
+				}
+			} if(p[1] == 'chicken') {
+				cannonMob = 'mob/chicken.png';
+				cannonMobID = 10;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			} if(p[1] == 'cow') {
+				cannonMob = 'mob/cow.png';
+				cannonMobID = 11;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			} if(p[1] == 'pig') {
+				cannonMob = 'mob/pig.png';
+				cannonMobID = 12;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			} if(p[1] == 'sheep') {
+				cannonMob = 'mob/sheep.png';
+				cannonMobID = 13;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			} if(p[1] == 'zombie') {
+				cannonMob = 'mob/zombie.png';
+				cannonMobID = 32;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			} if(p[1] == 'creeper') {
+				cannonMob = 'mob/creeper.png';
+				cannonMobID = 33;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			} if(p[1] == 'skeleton') {
+				cannonMob = 'mob/skeleton.png';
+				cannonMobID = 34;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			} if(p[1] == 'spider') {
+				cannonMob = 'mob/spider.png';
+				cannonMobID = 35;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			} if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
+				cannonMob = 'mob/pigzombie.png';
+				cannonMobID = 36;
+				mobCannonActive = 1;
+				cannonCountdown = 0;
+			}
+			break;
+
 		} case 'mc': {
 			if(p[1] == 'on') {
 				if(magicCarpet == 1) {
@@ -1084,10 +1141,9 @@ function procCmd(c) {
 			break;
 
 		} case 'nuke': {
-			for(nukeX=-21;nukeX<=21;nukeX++) {
+			for(nukeX=-21;nukeX<=21;nukeX = nukeX + 3) {
 				for(nukeZ=-21;nukeZ<=21;nukeZ = nukeZ + 3) {
-					Level.setTile(Player.getX()+nukeX,Player.getY()+5,Player.getZ()+nukeZ,46);
-					Level.explode(Player.getX()+nukeX,Player.getY()+5,Player.getZ()+nukeZ,1);
+					Level.spawnMob(Player.getX()+nukeX,Player.getY()+20,Player.getZ()+nukeZ,65);
 				}
 			}
 			break;
@@ -1144,23 +1200,23 @@ function procCmd(c) {
 			for(rainX=-21;rainX<=21;rainX = rainX + 3) {
 				for(rainZ=-21;rainZ<=21;rainZ = rainZ + 3) {
 					if(p[1] == 'chicken') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+10,Player.getZ()+rainZ,10,'mob/chicken.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+10,Player.getZ()+rainZ,10,'mob/chicken.png');
 					} if(p[1] == 'cow') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+10,Player.getZ()+rainZ,11,'mob/cow.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+10,Player.getZ()+rainZ,11,'mob/cow.png');
 					} if(p[1] == 'pig') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+10,Player.getZ()+rainZ,12,'mob/pig.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+10,Player.getZ()+rainZ,12,'mob/pig.png');
 					} if(p[1] == 'sheep') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+8,Player.getZ()+rainZ,13,'mob/sheep.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+8,Player.getZ()+rainZ,13,'mob/sheep.png');
 					} if(p[1] == 'zombie') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+15,Player.getZ()+rainZ,32,'mob/zombie.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+15,Player.getZ()+rainZ,32,'mob/zombie.png');
 					} if(p[1] == 'creeper') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+17,Player.getZ()+rainZ,33,'mob/creeper.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+17,Player.getZ()+rainZ,33,'mob/creeper.png');
 					} if(p[1] == 'skeleton') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+15,Player.getZ()+rainZ,34,'mob/skeleton.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+15,Player.getZ()+rainZ,34,'mob/skeleton.png');
 					} if(p[1] == 'spider') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+9,Player.getZ()+rainZ,35,'mob/spider.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+9,Player.getZ()+rainZ,35,'mob/spider.png');
 					} if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
-						Entity.spawnMob(Player.getX()+rainX,Player.getY()+15,Player.getZ()+rainZ,36,'mob/pigzombie.png');
+						Level.spawnMob(Player.getX()+rainX,Player.getY()+15,Player.getZ()+rainZ,36,'mob/pigzombie.png');
 					}
 				}
 			}
@@ -1186,10 +1242,10 @@ function procCmd(c) {
 
 		} case 'setitem': {
 			if(p[1] > 0 && p[1] <= 510) {
-				if(Level.getGameMode == 1) {
+				if(Level.getGameMode() == 1) {
 					Entity.setCarriedItem(Player.getEntity(),p[1],1,p[2]);
 					clientMessage("[SPC] Saved current item as " + p[1]);
-				} else {
+				} else if(Level.getGameMode() == 0) {
 					clientMessage("[SPC] You are in survival mode!");
 				}
 			}
@@ -1262,7 +1318,7 @@ function procCmd(c) {
 					break;
 				} if(sprintMode == 0) {
 					sprintMode = 1;
-					clientMessage("[SPC] Sprint Mode activated! Original Sprint Script made by WhyTuFu.");
+					clientMessage("[SPC] Sprint Mode activated! Original Sprint Script made by WhyToFu.");
 				}
 			} if(p[1] == 'off') {
 				if(sprintMode == 0) {
@@ -1277,31 +1333,31 @@ function procCmd(c) {
 
 		} case 'summon': {
 			if(p[1] == 'chicken') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,10,'mob/chicken.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,10,'mob/chicken.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'cow') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,11,'mob/cow.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,11,'mob/cow.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'pig') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,12,'mob/pig.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,12,'mob/pig.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'sheep') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,13,'mob/sheep.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,13,'mob/sheep.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'zombie') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,32,'mob/zombie.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,32,'mob/zombie.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'creeper') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,33,'mob/creeper.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,33,'mob/creeper.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'skeleton') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,34,'mob/skeleton.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,34,'mob/skeleton.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'spider') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,35,'mob/spider.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,35,'mob/spider.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
-				Entity.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,36,'mob/pigzombie.png');
+				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,36,'mob/pigzombie.png');
 				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} else if(!p[1]) {
 				clientMessage("[SPC] Specify a mob!");
@@ -1488,6 +1544,34 @@ function modTick() {
 				Entity.setRot(Player.getEntity(),359,Entity.getPitch(Player.getEntity()));
 			}
 			panCountdown = 0;
+		}
+	}
+
+	if(TNTCannonActive == 1 || mobCannonActive == 1) {
+		cannonCountdown++;
+		if(cannonCountdown == 1) {
+			clientMessage("[SPC] 3");
+		} if(cannonCountdown == 20) {
+			clientMessage("[SPC] 2");
+		} if(cannonCountdown == 40) {
+			clientMessage("[SPC] 1");
+		} if(cannonCountdown == 60) {
+			cannonPlayerYaw = Entity.getYaw(Player.getEntity());
+			cannonPlayerPitch = Entity.getPitch(Player.getEntity());
+			cannonVelY = Math.sin((cannonPlayerPitch - 180) / 180 * Math.PI);
+			cannonVelX = Math.sin(cannonPlayerYaw / 180 * Math.PI) * Math.cos((cannonPlayerPitch - 180) / 180 * Math.PI);
+			cannonVelZ = -1 * Math.cos(cannonPlayerYaw / 180 * Math.PI) * Math.cos((cannonPlayerPitch - 180) / 180 * Math.PI);
+			if(TNTCannonActive == 1) {
+				launchEntity = Level.spawnMob(Player.getX(),Player.getY(),Player.getZ(),65);
+			} else if(mobCannonActive == 1) {
+				launchEntity = Level.spawnMob(Player.getX(),Player.getY(),Player.getZ(),cannonMobID,cannonMob);
+			}
+			setVelX(launchEntity,cannonVelX);
+			setVelY(launchEntity,cannonVelY);
+			setVelZ(launchEntity,cannonVelZ);
+			clientMessage("[SPC] Launched!");
+			TNTCannonActive = 0;
+			mobCannonActive = 0;
 		}
 	}
 }
