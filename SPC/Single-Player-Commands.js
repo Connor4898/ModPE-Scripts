@@ -237,6 +237,9 @@ function procCmd(c) {
 				} case 'instabreak': {
 					clientMessage("[SPC] [HELP] Type /instabreak <on|off> to turn InstaBreak on or off.\nExample: /instabreak on");
 					break;
+				} case 'launch': {
+					clientMessage("[SPC] [HELP] Type /launch <mobname|tnt> to launch a mob or tnt in the direction you are facing!");
+					break;
 				} case 'kill': {
 					clientMessage("[SPC] [HELP] Type /kill to kill yourself");
 					break;
@@ -295,16 +298,16 @@ function procCmd(c) {
 					clientMessage("Showing help page 3 of 7 (/help <page>)\n /help <page|command>\n /hole\n /home\n /ignite <secs> \n /instabreak <on|off>");
 					break;
 				} case '4': {
-					clientMessage("Showing help page 4 of 7 (/help <page>)\n /kill\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>");
+					clientMessage("Showing help page 4 of 7 (/help <page>)\n /launch <mobname|tnt>\n /kill\n /mc <on|off>\n /nuke\n /panorama <on|off>");
 					break;
 				} case '5': {
-					clientMessage("Showing help page 5 of 7 (/help <page>)\n /rain <mobname>\n /refresh\n /setitem <ID>\n /sethome\n /spawntouch <mobname|off>");
+					clientMessage("Showing help page 5 of 7 (/help <page>)\n /pdoor <on|open|off>\n /rain <mobname>\n /refresh\n /setitem <ID>\n /sethome");
 					break;
 				} case '6': {
-					clientMessage("Showing help page 6 of 7 (/help <page>)\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>");
+					clientMessage("Showing help page 6 of 7 (/help <page>)\n  /spawntouch <mobname|off>\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>");
 					break;
 				} case '7': {
-					clientMessage("Showing help page 7 of 7 (/help <page>)\n /warp <on|off>");
+					clientMessage("Showing help page 7 of 7 (/help <page>)\n /tp <x> <y> <z>\n /warp <on|off>");
 					break;
 				} default: {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
