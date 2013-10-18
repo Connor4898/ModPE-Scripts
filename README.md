@@ -34,7 +34,7 @@ Need help with your Scripts? Want to meet people who make ModPE Scripts? Join th
 * __Connor4898!__
 * __CheesyFriedBacon!__
 * __Donalddoesmc!__
-*__QyMineAsap!__
+* __QyMineAsap!__
 * __Lambo_car16!__
 * __Hexdro!__
 * __mcpemodder!__
