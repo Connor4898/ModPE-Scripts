@@ -49,7 +49,7 @@ Need help with your Scripts? Want to meet people who make ModPE Scripts? Join th
 
 ###[WhyToFu's Forum] (http://www.minecraftforum.net/topic/1927514-)
 
-###[Antisober's SurvivalCraft Server] (http://www.minecraftforum.net/topic/1817519-)
+###[Antisober's SurvivalCraft Server] (http://forums.pocketmine.net/index.php?threads/survivalcraft-0-7-6-buildcraft-0-7-6-new-servers-open.45/)
 
 Many thanks,
 
