@@ -1,4 +1,4 @@
-#Single Player Commands v10.4
+#Single Player Commands v10.5
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
@@ -13,6 +13,7 @@
 | /coords | | Shows the current coordinates at your feet | |
 | /delhome | | Deletes your saved coordinates made by /sethome | |
 | /descend | | Warps you to a floor/surface beneath you | |
+| /enderpearl | `<on/off>` | Activates/deactivates enderpearls, if you are holding an egg in creative mode. You can then throw the snowball | /enderpearl on |
 | /explode | `<radius>` | Be like a creeper! This command makes you explode | /explode 5 |
 | /heal | `<amount>` | Sets your health to the specified amount | /heal 20 |
 | /gamemode | `<survival/creative/0/1>` | Sets the player's gamemode | /gamemode 1 |
@@ -157,4 +158,6 @@ Single Player Commands v10.4:
 	-Fixed /setitem
 	-Made all Entity.spawnMob to Level.spawnMob
 	-Corrected my failed spelling of WhyToFu (Sorry!)
+Single Player Commands v10.5:
+	-Added commands: /enderpearl
 ```

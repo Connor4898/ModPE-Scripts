@@ -10,7 +10,7 @@ Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
 	(at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0;
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ;
 
 function useItem(x,y,z,itemId,blockId) {
 	if(bombMode == 1) {
@@ -213,8 +213,11 @@ function procCmd(c) {
 				} case 'descend': {
 					clientMessage("[SPC] [HELP] Type /descend to teleport to the platform below you.\nExample: /descend");
 					break;
+				} case 'enderpearl': {
+					clientMessage("[SPC] [HELP] Type /enderpearl <on|off> while holding an egg in creative mode to activate/deactivate ender pearls.\nExample: /enderpearl on");
+					break;
 				} case 'explode': {
-					clientMessage("[SPC] [HELP] Type explode <radius> to blow up. WARNING: It may hurt/nExample: /explode 5");
+					clientMessage("[SPC] [HELP] Type /explode <radius> to blow up. WARNING: It may hurt/nExample: /explode 5");
 					break;
 				} case 'gamemode': {
 					clientMessage("[SPC] [HELP] Type /gamemode <survival|creative|0|1> to change your current gamemode. NOTE: Clears your survival inventory");
@@ -292,22 +295,22 @@ function procCmd(c) {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
 					break;
 				} case '2': {
-					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /explode <radius>\n /gamemode <survival|creative|0|1>\n /give <ID|ItemName> <amount>\n /heal <amount>");
+					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /enderpearl <on|off>\n /explode <radius>\n /gamemode <survival|creative|0|1>\n /give <ID|ItemName> <amount>");
 					break;
 				} case '3': {
-					clientMessage("Showing help page 3 of 7 (/help <page>)\n /help <page|command>\n /hole\n /home\n /ignite <secs> \n /instabreak <on|off>");
+					clientMessage("Showing help page 3 of 7 (/help <page>)\n /heal <amount>\n /help <page|command>\n /hole\n /home\n /ignite <secs>");
 					break;
 				} case '4': {
-					clientMessage("Showing help page 4 of 7 (/help <page>)\n /launch <mobname|tnt>\n /kill\n /mc <on|off>\n /nuke\n /panorama <on|off>");
+					clientMessage("Showing help page 4 of 7 (/help <page>)\n /instabreak <on|off>\n /launch <mobname|tnt>\n /kill\n /mc <on|off>\n /nuke");
 					break;
 				} case '5': {
-					clientMessage("Showing help page 5 of 7 (/help <page>)\n /pdoor <on|open|off>\n /rain <mobname>\n /refresh\n /setitem <ID>\n /sethome");
+					clientMessage("Showing help page 5 of 7 (/help <page>)\n /panorama <on|off>\n /pdoor <on|open|off>\n /rain <mobname>\n /refresh\n /setitem <ID>");
 					break;
 				} case '6': {
-					clientMessage("Showing help page 6 of 7 (/help <page>)\n  /spawntouch <mobname|off>\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>");
+					clientMessage("Showing help page 6 of 7 (/help <page>)\n /sethome\n /spawntouch <mobname|off>\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface");
 					break;
 				} case '7': {
-					clientMessage("Showing help page 7 of 7 (/help <page>)\n /tp <x> <y> <z>\n /warp <on|off>");
+					clientMessage("Showing help page 7 of 7 (/help <page>)\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>\n /warp <on|off>");
 					break;
 				} default: {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
@@ -389,6 +392,32 @@ function procCmd(c) {
 				}
 			} clientMessage("[SPC] Teleported to the floor beneath you!");
 			break;
+
+		} case 'enderpearl': {
+		if(Level.getGameMode() == 1) {
+			if(p[1] == 'on') {
+				if(Player.getCarriedItem() == 344) {
+					pearlActive = 1;
+					Entity.setCarriedItem(Player.getEntity(),332);
+					clientMessage("[SPC] Ender pearls activated! Throw a snowball");
+				} else {
+					clientMessage("[SPC] Hold an egg, and then type /enderpearl on");
+				}
+			} if(p[1] == 'off') {
+				if(Player.getCarriedItem() == 332) {
+					pearlActive = 0;
+					Entity.setCarriedItem(Player.getEntity(),344);
+					Level.setGameMode(0);
+					Level.setGameMode(1);
+					clientMessage("[SPC] Ender pearls deactivated!");
+				} else {
+					clientMessage("[SPC] Hold a snowball, and then type /enderpearl off");
+				}
+			}
+		} else {
+			clientMessage("[SPC] You need to be in creative mode!\n(Type /gamemode creative)");
+		}
+		break;
 
 		} case 'explode': {
 			Level.explode(Player.getX(), Player.getY(), Player.getZ(), p[1]);
@@ -1445,6 +1474,26 @@ function procCmd(c) {
 	}
 }
 
+function entityAddedHook(entity) {
+	if(snowballThrown == 0 && pearlActive == 1) {
+		if(Entity.getEntityTypeId(entity) == 81) {
+			snowball = entity;
+			countdown = 0;
+			snowballThrown = 1;
+		}
+	}
+}
+
+function entityRemovedHook(entity) {
+	if(Entity.getEntityTypeId(entity) == 81 && pearlActive == 1) {
+		snowball = entity;
+		snowballThrown = 0;
+		if(snowballX >= 0 && snowballX <= 255 && snowballZ >= 0 && snowballZ <= 255) {
+			Entity.setPosition(Player.getEntity(),snowballX+0.5,snowballY+2,snowballZ+0.5);
+		}
+	}
+}
+
 function modTick() {
 	if(magicCarpet == 1) {
 		mcX = Math.floor(Player.getX());
@@ -1572,6 +1621,16 @@ function modTick() {
 			clientMessage("[SPC] Launched!");
 			TNTCannonActive = 0;
 			mobCannonActive = 0;
+		}
+	}
+
+	if(snowballThrown == 1) {
+		pearlCountdown++;
+		if(pearlCountdown == 1) {
+			snowballX = Math.floor(Entity.getX(snowball));
+			snowballY = Math.floor(Entity.getY(snowball));
+			snowballZ = Math.floor(Entity.getZ(snowball));
+			pearlCountdown = 0;
 		}
 	}
 }
