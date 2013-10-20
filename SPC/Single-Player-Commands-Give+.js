@@ -10,7 +10,7 @@ Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
 	(at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ;
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ;
 
 function useItem(x,y,z,itemId,blockId) {
 	if(bombMode == 1) {
@@ -1142,6 +1142,7 @@ function procCmd(c) {
 					break;
 				} if(magicCarpet == 0) {
 					magicCarpet = 1;
+					magicCarpetTick = 0;
 					clientMessage("[SPC] Magic carpet activated!");
 				}
 			} if(p[1] == 'off') {
@@ -1496,50 +1497,53 @@ function entityRemovedHook(entity) {
 
 function modTick() {
 	if(magicCarpet == 1) {
-		mcX = Math.floor(Player.getX());
-		mcY = Math.floor(Player.getY()) - 2;
-		mcZ = Math.floor(Player.getZ());
-		for(j=-3;j<=3;j++) {
-			for(i=-3;i<=3;i++) {
-				for(k=-1;k<=1;k++) {
-					if(j >= -2 && j <= 2) {
-						if(i >= -2 && i <= 2) {
-							if(Level.getTile(mcX+j,mcY,mcZ+i) == 0) {
-								Level.setTile(mcX+j,mcY,mcZ+i,20);
-							}
-						}
-					} if(j == -3 || j == 3) {
-						if(i >= -3 && i <= 3) {
-							if(Level.getTile(mcX+j,mcY,mcZ+i) == 20) {
-								Level.setTile(mcX+j,mcY,mcZ+i,0);
-							}
-						}
-					} if(j >= -3 && j <= 3) {
-						if(i == -3 || i == 3) {
-							if(Level.getTile(mcX+j,mcY,mcZ+i) == 20) {
-								Level.setTile(mcX+j,mcY,mcZ+i,0);
-							}
-						}
-					} if(k == -1 || k == 1) {
-						if(j >= -3 && j <= 3) {
-							if(i >= -3 && i <= 3) {
-								if(Level.getTile(mcX+j,mcY+k,mcZ+i) == 20) {
-									Level.setTile(mcX+j,mcY+k,mcZ+i,0);
-								}
-							}
-						}
-					} if(Entity.getPitch(Player.getEntity()) >= 75) {
+		magicCarpetTick++;
+		if(magicCarpetTick == 2) {
+			mcX = Math.floor(Player.getX());
+			mcY = Math.floor(Player.getY()) - 2;
+			mcZ = Math.floor(Player.getZ());
+			for(j=-3;j<=3;j++) {
+				for(i=-3;i<=3;i++) {
+					for(k=-1;k<=1;k++) {
 						if(j >= -2 && j <= 2) {
 							if(i >= -2 && i <= 2) {
+								if(Level.getTile(mcX+j,mcY,mcZ+i) == 0) {
+									Level.setTile(mcX+j,mcY,mcZ+i,20);
+								}
+							}
+						} if(j == -3 || j == 3) {
+							if(i >= -3 && i <= 3) {
 								if(Level.getTile(mcX+j,mcY,mcZ+i) == 20) {
 									Level.setTile(mcX+j,mcY,mcZ+i,0);
 								}
 							}
-						} if(k == -1) {
+						} if(j >= -3 && j <= 3) {
+							if(i == -3 || i == 3) {
+								if(Level.getTile(mcX+j,mcY,mcZ+i) == 20) {
+									Level.setTile(mcX+j,mcY,mcZ+i,0);
+								}
+							}
+						} if(k == -1 || k == 1) {
+							if(j >= -3 && j <= 3) {
+								if(i >= -3 && i <= 3) {
+									if(Level.getTile(mcX+j,mcY+k,mcZ+i) == 20) {
+										Level.setTile(mcX+j,mcY+k,mcZ+i,0);
+									}
+								}
+							}
+						} if(Entity.getPitch(Player.getEntity()) >= 75) {
 							if(j >= -2 && j <= 2) {
 								if(i >= -2 && i <= 2) {
-									if(Level.getTile(mcX+j,mcY+k,mcZ+i) == 0) {
-										Level.setTile(mcX+j,mcY+k,mcZ+i,20);
+									if(Level.getTile(mcX+j,mcY,mcZ+i) == 20) {
+										Level.setTile(mcX+j,mcY,mcZ+i,0);
+									}
+								}
+							} if(k == -1) {
+								if(j >= -2 && j <= 2) {
+									if(i >= -2 && i <= 2) {
+										if(Level.getTile(mcX+j,mcY+k,mcZ+i) == 0) {
+											Level.setTile(mcX+j,mcY+k,mcZ+i,20);
+										}
 									}
 								}
 							}
@@ -1547,6 +1551,7 @@ function modTick() {
 					}
 				}
 			}
+			magicCarpetTick = 0;
 		}
 	}
 

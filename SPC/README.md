@@ -160,4 +160,5 @@ Single Player Commands v10.4:
 	-Corrected my failed spelling of WhyToFu (Sorry!)
 Single Player Commands v10.5:
 	-Added commands: /enderpearl
+	-Made /mc a little less laggy (hopefully)
 ```
