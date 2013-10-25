@@ -1,4 +1,4 @@
-#Single Player Commands v10.5
+#Single Player Commands v11
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
@@ -14,6 +14,7 @@
 | /delhome | | Deletes your saved coordinates made by /sethome | |
 | /descend | | Warps you to a floor/surface beneath you | |
 | /enderpearl | `<on/off>` | Activates/deactivates enderpearls, if you are holding an egg in creative mode. You can then throw the snowball | /enderpearl on |
+| /eval | `<code>` | Runs the specified script in-game | /eval clientMessage("Hello World"); |
 | /explode | `<radius>` | Be like a creeper! This command makes you explode | /explode 5 |
 | /heal | `<amount>` | Sets your health to the specified amount | /heal 20 |
 | /gamemode | `<survival/creative/0/1>` | Sets the player's gamemode | /gamemode 1 |
@@ -23,7 +24,7 @@
 | /ignite | `<seconds>` | Sets the player on fire. WARNING: This may hurt | |
 | /instabreak | `<on>` | Gives you a gold pickaxe to tap blocks with | |
 | /instabreak | `<off>` | Deactivates InstaBreak | |
-| /launch | `<mobname/tnt>` | Launches a mob or TNT in the direction you are facing | /launch pig |
+| /launch | `<mobname/tnt>` `<rapid>` | Launches a mob or TNT in the direction you are facing | /launch pig |
 | /kill | | Kills the player | |
 | /mc | `<on>` | Creates a 5x5 sheet of glass underneath your feet | |
 | /mc | `<off>` | Makes the Magic Carpet disappear | |
