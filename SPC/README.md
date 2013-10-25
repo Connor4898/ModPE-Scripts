@@ -164,6 +164,6 @@ Single Player Commands v10.5:
 	-Made /mc a little less laggy (hopefully)
 
 Single Player Commands v11:
-	-Added commamds: /eval
+	-Added commands: /eval
 	-Added rapid fire to /launch (Type /launch <MobName> <rapid>)
 ```
