@@ -161,4 +161,8 @@ Single Player Commands v10.4:
 Single Player Commands v10.5:
 	-Added commands: /enderpearl
 	-Made /mc a little less laggy (hopefully)
+
+Single Player Commands v11:
+	-Added commamds: /eval
+	-Added rapid fire to /launch (Type /launch <MobName> <rapid>)
 ```

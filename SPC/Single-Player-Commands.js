@@ -10,7 +10,21 @@ Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
 	(at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnTouchMob = null, spawnTouchMobID, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ;
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnMobID = null, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, cannonRapidMode = 0, cannonRapidCountdown = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ, evalMsg = "";
+var MobIDs = {
+	"chicken": 10,
+	"cow": 11,
+	"pig": 12,
+	"sheep": 13,
+	"zombie": 32,
+	"creeper": 33,
+	"skeleton": 34,
+	"spider": 35,
+	"zombiepigman": 36,
+	"zombie_pigman": 36,
+	"pigzombie": 36,
+	"pigman": 36
+};
 
 function useItem(x,y,z,itemId,blockId) {
 	if(bombMode == 1) {
@@ -35,8 +49,8 @@ function useItem(x,y,z,itemId,blockId) {
 	}
 
 	if(spawnTouch == 1) {
-		if(spawnTouchMob != null) {
-			Level.spawnMob(x,y+1,z,spawnTouchMobID,spawnTouchMob);
+		if(spawnMobID != null) {
+			Level.spawnMob(x+0.5,y+2,z+0.5,spawnMobID);
 		}
 	}
 
@@ -130,7 +144,7 @@ function useItem(x,y,z,itemId,blockId) {
 					}
 				}
 			}
-		} if(itemId == 293 || itemId == 292) {//Diamond or Iron hoe
+		} if(itemId == 293 || itemId == 292) {//Diamond hoe or Iron hoe
 			if(blockId == 57) {
 				ModPE.saveData("warpSetA1",1);
 				ModPE.saveData("warpA1X",parseInt(x));
@@ -183,13 +197,18 @@ function useItem(x,y,z,itemId,blockId) {
 				clientMessage("D2 set!");
 			}
 		}
+	} if(cannonRapidMode == 1 && Level.getGameMode() == 0) {
+		clientMessage("[SPC] Rapid fire deactivated");
+		TNTCannonActive = 0;
+		mobCannonActive = 0;
+		cannonRapidMode = 0;
 	}
 }
 
 function procCmd(c) {
 	var p = c.split(" ");
 	var command = p[0];
-	switch(command) {
+	switch(command.toLowerCase()) {
 		case 'commands': {
 			clientMessage("Type /help");
 			break;
@@ -216,6 +235,9 @@ function procCmd(c) {
 				} case 'enderpearl': {
 					clientMessage("[SPC] [HELP] Type /enderpearl <on|off> while holding an egg in creative mode to activate/deactivate ender pearls.\nExample: /enderpearl on");
 					break;
+				} case 'eval': {
+					clientMessage("[SPC] [HELP] Type /eval <code> to run a script in game!\nExample: /eval clientMessage(\"Hello world!\");");
+					break;
 				} case 'explode': {
 					clientMessage("[SPC] [HELP] Type /explode <radius> to blow up. WARNING: It may hurt/nExample: /explode 5");
 					break;
@@ -241,7 +263,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /instabreak <on|off> to turn InstaBreak on or off.\nExample: /instabreak on");
 					break;
 				} case 'launch': {
-					clientMessage("[SPC] [HELP] Type /launch <mobname|tnt> to launch a mob or tnt in the direction you are facing!");
+					clientMessage("[SPC] [HELP] Type /launch <MobName|tnt> <rapid> to launch a mob or tnt in the direction you are facing!");
 					break;
 				} case 'kill': {
 					clientMessage("[SPC] [HELP] Type /kill to kill yourself");
@@ -259,7 +281,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /pdoor <on|off|open>. Use a stick or Iron hoe to set the position of the door.\nExample: /pdoor on");
 					break;
 				} case 'rain': {
-					clientMessage("[SPC] [HELP] Type /rain <mobname> to make it rain animals!\nExample: /rain chicken");
+					clientMessage("[SPC] [HELP] Type /rain <MobName> to make it rain animals!\nExample: /rain chicken");
 					break;
 				} case 'refresh': {
 					clientMessage("[SPC] [HELP] Type /refresh to regain all items required for currently active commands.\nExample: /refresh");
@@ -270,8 +292,11 @@ function procCmd(c) {
 				} case 'sethome': {
 					clientMessage("[SPC] [HELP] Type /sethome to set coordinates you can easily tp back to, using /home.\n Example: /sethome");
 					break;
+				} case 'spawn': {
+					clientMessage("[SPC] [HELP] Type /spawn <MobName> <Amount> to spawn the specified mob.\nExample: /spawn pig 5");
+					break;
 				} case 'spawntouch': {
-					clientMessage("[SPC] [HELP] Type /spawntouch <mobname|off> to make that mob spawn when you tap a block.\nExample: /spawntouch chicken");
+					clientMessage("[SPC] [HELP] Type /spawntouch <MobName|off> to spawn the specified mob when you tap a block.\nExample: /spawntouch chicken");
 					break;
 				} case 'sprint': {
 					clientMessage("[SPC] [HELP] Type /sprint <on|off> to activate or deactivate Sprint Mode.\nExample: /sprint on\nOriginal Sprint Script made by WhyToFu.");
@@ -295,22 +320,22 @@ function procCmd(c) {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
 					break;
 				} case '2': {
-					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /enderpearl <on|off>\n /explode <radius>\n /gamemode <survival|creative|0|1>\n /give <ID> <amount>");
+					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /enderpearl <on|off>\n /eval <code>\n /explode <radius>\n /gamemode <survival|creative|0|1>");
 					break;
 				} case '3': {
-					clientMessage("Showing help page 3 of 7 (/help <page>)\n /heal <amount>\n /help <page|command>\n /hole\n /home\n /ignite <secs>");
+					clientMessage("Showing help page 3 of 7 (/help <page>)\n /give <ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole\n /home");
 					break;
 				} case '4': {
-					clientMessage("Showing help page 4 of 7 (/help <page>)\n /instabreak <on|off>\n /launch <mobname|tnt>\n /kill\n /mc <on|off>\n /nuke");
+					clientMessage("Showing help page 4 of 7 (/help <page>)\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>\n /kill\n /mc <on|off>");
 					break;
 				} case '5': {
-					clientMessage("Showing help page 5 of 7 (/help <page>)\n /panorama <on|off>\n /pdoor <on|open|off>\n /rain <mobname>\n /refresh\n /setitem <ID>");
+					clientMessage("Showing help page 5 of 7 (/help <page>)\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>\n /rain <MobName>\n /refresh");
 					break;
 				} case '6': {
-					clientMessage("Showing help page 6 of 7 (/help <page>)\n /sethome\n /spawntouch <mobname|off>\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface");
+					clientMessage("Showing help page 6 of 7 (/help <page>)\n /setitem <ID>\n /sethome\n /spawntouch <MobName|off>\n /sprint <on|off>\n /summon <mob> <x> <y> <z>");
 					break;
 				} case '7': {
-					clientMessage("Showing help page 7 of 7 (/help <page>)\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>\n /warp <on|off>");
+					clientMessage("Showing help page 7 of 7 (/help <page>)\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>\n /warp <on|off>");
 					break;
 				} default: {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
@@ -418,6 +443,13 @@ function procCmd(c) {
 			clientMessage("[SPC] You need to be in creative mode!\n(Type /gamemode creative)");
 		}
 		break;
+
+		} case 'eval': {
+			evalMsg = "";
+			for(i = 1; i <= (p.length); i++) {
+				evalMsg += p[i] + " ";
+			} eval(evalMsg);
+			break;
 
 		} case 'explode': {
 			Level.explode(Player.getX(), Player.getY(), Player.getZ(), p[1]);
@@ -579,6 +611,17 @@ function procCmd(c) {
 				cannonMobID = 36;
 				mobCannonActive = 1;
 				cannonCountdown = 0;
+			} if(p[2]) {
+				if(p[2] == 'rapid') {
+					cannonRapidCountdown = 0;
+					cannonRapidMode = 1;
+					clientMessage("[SPC] Rapid fire...");
+				}
+			} if(p[1] == "stop" && cannonRapidMode == 1) {
+				clientMessage("[SPC] Rapid fire deactivated");
+				TNTCannonActive = 0;
+				mobCannonActive = 0;
+				cannonRapidMode = 0;
 			}
 			break;
 
@@ -736,55 +779,41 @@ function procCmd(c) {
 			clientMessage("[SPC] Home set to x: " + Math.floor(ModPE.readData("homeX")) + ", y: " + Math.floor(ModPE.readData("homeY")) + ", z: " + Math.floor(ModPE.readData("homeZ")));
 			break;
 
+		} case 'spawn': {
+			if(p[1]) {
+				spawnMobID = MobIDs[p[1].toLowerCase()];
+				if(typeof(spawnMobID) == "undefined") {
+					clientMessage("[SPC] Usage: /spawn <MobName> <Amount>");
+					break;
+				}
+			} if(!p[1]) {
+				clientMessage("[SPC] Usage: /spawn <MobName> <Amount>");
+				break;
+			} if(p[2]) {
+				for(spawnAmount=0;spawnAmount<=parseInt(p[2]);spawnAmount++) {
+					Level.spawnMob(getPlayerX(),getPlayerY(),getPlayerZ(),spawnMobID);
+				}
+			} if(!p[2]) {
+				clientMessage("[SPC] Usage: /spawn <MobName> <Amount>");
+			}
+			break;
+
 		} case 'spawntouch': {
-			if(p[1] == 'chicken') {
-				spawnTouchMob = 'mob/chicken.png';
-				spawnTouchMobID = 10;
-				spawnTouch = 1;
-				clientMessage("[SPC] Chicken SpawnTouch activated!");
-			} if(p[1] == 'cow') {
-				spawnTouchMob = 'mob/cow.png';
-				spawnTouchMobID = 11;
-				spawnTouch = 1;
-				clientMessage("[SPC] Cow SpawnTouch activated!");
-			} if(p[1] == 'pig') {
-				spawnTouchMob = 'mob/pig.png';
-				spawnTouchMobID = 12;
-				spawnTouch = 1;
-				clientMessage("[SPC] Pig SpawnTouch activated!");
-			} if(p[1] == 'sheep') {
-				spawnTouchMob = 'mob/sheep.png';
-				spawnTouchMobID = 13;
-				spawnTouch = 1;
-				clientMessage("[SPC] Sheep SpawnTouch activated!");
-			} if(p[1] == 'zombie') {
-				spawnTouchMob = 'mob/zombie.png';
-				spawnTouchMobID = 32;
-				spawnTouch = 1;
-				clientMessage("[SPC] Zombie SpawnTouch activated!");
-			} if(p[1] == 'creeper') {
-				spawnTouchMob = 'mob/creeper.png';
-				spawnTouchMobID = 33;
-				spawnTouch = 1;
-				clientMessage("[SPC] Creeper SpawnTouch activated!");
-			} if(p[1] == 'skeleton') {
-				spawnTouchMob = 'mob/skeleton.png';
-				spawnTouchMobID = 34;
-				spawnTouch = 1;
-				clientMessage("[SPC] Skeleton SpawnTouch activated!");
-			} if(p[1] == 'spider') {
-				spawnTouchMob = 'mob/spider.png';
-				spawnTouchMobID = 35;
-				spawnTouch = 1;
-				clientMessage("[SPC] Spider SpawnTouch activated!");
-			} if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
-				spawnTouchMob = 'mob/pigzombie.png';
-				spawnTouchMobID = 36;
-				spawnTouch = 1;
-				clientMessage("[SPC] Zombie Pigman SpawnTouch activated!");
-			} if(p[1] == 'off') {
+			if(p[1] == 'off') {
 				spawnTouch = 0;
-				spawnTouchMob = null;
+				spawnMobID = null;
+				clientMessage("[SPC] SpawnTouch deactivated!");
+				break;
+			} if(p[1]) {
+				spawnMobID = MobIDs[p[1].toLowerCase()];
+				if(typeof(spawnMobID) == "undefined") {
+					clientMessage("[SPC] Usage: /spawntouch <MobName|off>");
+				} else {
+					clientMessage("[SPC] SpawnTouch activated!");
+				}
+				spawnTouch = 1;
+			} if(!p[1]) {
+				clientMessage("[SPC] Usage: /spawntouch <MobName|off>");
 			}
 			break;
 
@@ -1056,23 +1085,38 @@ function modTick() {
 			clientMessage("[SPC] 2");
 		} if(cannonCountdown == 40) {
 			clientMessage("[SPC] 1");
-		} if(cannonCountdown == 60) {
+		} if(cannonCountdown >= 60) {
 			cannonPlayerYaw = Entity.getYaw(Player.getEntity());
 			cannonPlayerPitch = Entity.getPitch(Player.getEntity());
 			cannonVelY = Math.sin((cannonPlayerPitch - 180) / 180 * Math.PI);
 			cannonVelX = Math.sin(cannonPlayerYaw / 180 * Math.PI) * Math.cos((cannonPlayerPitch - 180) / 180 * Math.PI);
 			cannonVelZ = -1 * Math.cos(cannonPlayerYaw / 180 * Math.PI) * Math.cos((cannonPlayerPitch - 180) / 180 * Math.PI);
-			if(TNTCannonActive == 1) {
-				launchEntity = Level.spawnMob(Player.getX(),Player.getY(),Player.getZ(),65);
-			} else if(mobCannonActive == 1) {
-				launchEntity = Level.spawnMob(Player.getX(),Player.getY(),Player.getZ(),cannonMobID,cannonMob);
+			if(cannonRapidMode == 0) {
+				if(TNTCannonActive == 1) {
+					launchEntity = Level.spawnMob(Player.getX(),Player.getY(),Player.getZ(),65);
+				} else if(mobCannonActive == 1) {
+					launchEntity = Level.spawnMob(Player.getX(),Player.getY(),Player.getZ(),cannonMobID,cannonMob);
+				}
+				setVelX(launchEntity,cannonVelX);
+				setVelY(launchEntity,cannonVelY);
+				setVelZ(launchEntity,cannonVelZ);
+				clientMessage("[SPC] Launched!");
+				TNTCannonActive = 0;
+				mobCannonActive = 0;
+			} if(cannonRapidMode == 1) {
+				cannonRapidCountdown++;
+				if(cannonRapidCountdown == 5) {
+					if(TNTCannonActive == 1) {
+						launchEntity = Level.spawnMob(Player.getX(),Player.getY(),Player.getZ(),65);
+					} else if(mobCannonActive == 1) {
+						launchEntity = Level.spawnMob(Player.getX(),Player.getY(),Player.getZ(),cannonMobID,cannonMob);
+					}
+					setVelX(launchEntity,cannonVelX);
+					setVelY(launchEntity,cannonVelY);
+					setVelZ(launchEntity,cannonVelZ);
+					cannonRapidCountdown = 0;
+				}
 			}
-			setVelX(launchEntity,cannonVelX);
-			setVelY(launchEntity,cannonVelY);
-			setVelZ(launchEntity,cannonVelZ);
-			clientMessage("[SPC] Launched!");
-			TNTCannonActive = 0;
-			mobCannonActive = 0;
 		}
 	}
 
