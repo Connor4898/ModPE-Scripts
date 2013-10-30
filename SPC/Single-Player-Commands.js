@@ -1,13 +1,21 @@
-/*
-Single Player Commands
-Made by Connor4898 & CheesyFriedBacon
-Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
-
-	© Copyright 2013 Connor4898 & CheesyFriedBacon
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
+/**
+ *  ________ ________ ________
+ * |        |   __   |        |
+ * |   _____|  |  |  |    ____|________ __    __ __    __ ________ __    __ _______  ________
+ * |        |  |__|  |   |    |   __   |   \/   |   \/   |   __   |   \ |  |   __  \|        |
+ * |_____   |   _____|   |____|  |  |  |        |        |  |__|  |    \|  |  |  \  |   -----:
+ * |        |  |     |        |  |__|  |  |\/|  |  |\/|  |   __   |  |\    |  |__/  :-----   |
+ * |________|__|     |________|________|__|  |__|__|  |__|__|  |__|__| \ __|_______/|________|
+ *
+ * Single Player Commands
+ * Made by Connor4898 & CheesyFriedBacon
+ * Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
+ *
+ * © Copyright 2013 Connor4898 & CheesyFriedBacon
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
 */
 
 var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnMobID = null, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, cannonRapidMode = 0, cannonRapidCountdown = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ, evalMsg = "";
