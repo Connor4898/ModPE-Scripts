@@ -634,7 +634,7 @@ function procCmd(c) {
 				Player.addItemInventory(58,p[2]);
 				clientMessage("[SPC] Spawned " + p[2] + " of " + p[1] + "!");
 			} if(p[1] == 'wheat_block') {
-				Player.addItemInventory(58,p[2]);
+				Player.addItemInventory(59,p[2]);
 				clientMessage("[SPC] Spawned " + p[2] + " of " + p[1] + "!");
 			} if(p[1] == 'farmland') {
 				Player.addItemInventory(60,p[2]);
