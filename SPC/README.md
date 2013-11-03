@@ -1,4 +1,4 @@
-#Single Player Commands v11
+#Single Player Commands v12
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
@@ -14,6 +14,7 @@
 | /delhome | | Deletes your saved coordinates made by /sethome | |
 | /descend | | Warps you to a floor/surface beneath you | |
 | /enderpearl | `<on/off>` | Activates/deactivates enderpearls, if you are holding an egg in creative mode. You can then throw the snowball | /enderpearl on |
+| /entity | `<kill/remove/burn/explode>` `<MobName/all>` | Removes/burns/explodes the specified entities in the world. Based from MrARM's entity manager in his TMI ModPE Script. Thanks MrARM! |
 | /eval | `<code>` | Runs the specified script in-game | /eval clientMessage("Hello World"); |
 | /explode | `<radius>` | Be like a creeper! This command makes you explode | /explode 5 |
 | /heal | `<amount>` | Sets your health to the specified amount | /heal 20 |
@@ -166,4 +167,7 @@ Single Player Commands v10.5:
 Single Player Commands v11:
 	-Added commands: /eval
 	-Added rapid fire to /launch (Type /launch <MobName> <rapid>)
+	
+Single Player Commands v12:
+	-Added commands: /entity
 ```

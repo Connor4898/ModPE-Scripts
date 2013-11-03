@@ -10,6 +10,7 @@
  * Single Player Commands
  * Made by Connor4898 & CheesyFriedBacon
  * Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
+ * The entity command is based from the entity manager in MrARM's TMI. Thanks MrARM!
  *
  * © Copyright 2013 Connor4898 & CheesyFriedBacon
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +19,7 @@
  * (at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnMobID = null, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, cannonRapidMode = 0, cannonRapidCountdown = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ, evalMsg = "";
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnMobID = null, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, cannonRapidMode = 0, cannonRapidCountdown = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ, evalMsg = "", entities = [], entityCount = 0;
 var MobIDs = {
 	"chicken": 10,
 	"cow": 11,
@@ -243,6 +244,8 @@ function procCmd(c) {
 				} case 'enderpearl': {
 					clientMessage("[SPC] [HELP] Type /enderpearl <on|off> while holding an egg in creative mode to activate/deactivate ender pearls.\nExample: /enderpearl on");
 					break;
+				} case 'entity': {
+					clientMessage("[SPC] [HELP] Type /entity <kill|remove|burn|explode> <MobName|all> to remove/burn/explode the specified entities.\nExample: /entity burn all");
 				} case 'eval': {
 					clientMessage("[SPC] [HELP] Type /eval <code> to run a script in game!\nExample: /eval clientMessage(\"Hello world!\");");
 					break;
@@ -328,22 +331,22 @@ function procCmd(c) {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
 					break;
 				} case '2': {
-					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /enderpearl <on|off>\n /eval <code>\n /explode <radius>\n /gamemode <survival|creative|0|1>");
+					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <method> <MobName|all>\n /eval <code>\n /explode <radius>");
 					break;
 				} case '3': {
-					clientMessage("Showing help page 3 of 7 (/help <page>)\n /give <ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole\n /home");
+					clientMessage("Showing help page 3 of 7 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole");
 					break;
 				} case '4': {
-					clientMessage("Showing help page 4 of 7 (/help <page>)\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>\n /kill\n /mc <on|off>");
+					clientMessage("Showing help page 4 of 7 (/help <page>)\n /home\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>\n /kill");
 					break;
 				} case '5': {
-					clientMessage("Showing help page 5 of 7 (/help <page>)\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>\n /rain <MobName>\n /refresh");
+					clientMessage("Showing help page 5 of 7 (/help <page>)\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>\n /rain <MobName>");
 					break;
 				} case '6': {
-					clientMessage("Showing help page 6 of 7 (/help <page>)\n /setitem <ID>\n /sethome\n /spawntouch <MobName|off>\n /sprint <on|off>\n /summon <mob> <x> <y> <z>");
+					clientMessage("Showing help page 6 of 7 (/help <page>)\n /refresh\n /setitem <ID>\n /sethome\n /spawntouch <MobName|off>\n /sprint <on|off>");
 					break;
 				} case '7': {
-					clientMessage("Showing help page 7 of 7 (/help <page>)\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>\n /warp <on|off>");
+					clientMessage("Showing help page 7 of 7 (/help <page>)\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>\n /warp <on|off>");
 					break;
 				} default: {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
@@ -452,9 +455,67 @@ function procCmd(c) {
 		}
 		break;
 
+		} case 'entity': {
+			if(p[1] && p[2]) {
+				var entityMobID = MobIDs[p[2].toLowerCase()];
+				var entityMethod = "";
+				if(typeof(entityMobID) == "undefined" && p[2] != 'all') {
+					break;
+				} if(p[2] == 'all') {
+					for(i=0;i<entities.length;i++) {
+						if(p[1] == 'kill' || p[1] == 'remove') {
+							Entity.remove(entities[i]);
+							entityMethod = "Removed";
+							entityCount++;
+						} if(p[1] == 'burn') {
+							Entity.setFireTicks(entities[i],10);
+							entityMethod = "Cooked";
+							entityCount++;
+						} if(p[1] == 'explode') {
+							if(Entity.getEntityTypeId(entities[i]) != 64) {
+								explode(Entity.getX(entities[i]),Entity.getY(entities[i]),Entity.getZ(entities[i]),3);
+								entityMethod = "Exploded";
+								entityCount++;
+							}
+						}
+					} if(entityMethod == 'Removed') {
+						clientMessage("[SPC] " + entityMethod + " " + entityCount + " entities");
+					} else {
+						clientMessage("[SPC] " + entityMethod + " " + entityCount + " mobs");
+					}
+					entityCount = 0;
+				} else {
+					for(i=0;i<entities.length;i++) {
+						if(Entity.getEntityTypeId(entities[i]) == entityMobID) {
+							entityCount++;
+							if(p[1] == 'kill' || p[1] == 'remove') {
+								Entity.remove(entities[i]);
+								entityMethod = "Removed";
+							} if(p[1] == 'burn') {
+								Entity.setFireTicks(entities[i],10);
+								entityMethod = "Cooked";
+							} if(p[1] == 'explode') {
+								explode(Entity.getX(entities[i]),Entity.getY(entities[i]),Entity.getZ(entities[i]),3);
+								entityMethod = "Exploded";
+							}
+						}
+					}
+					if(p[2] == 'sheep') {
+						clientMessage("[SPC] " + entityMethod + " " + entityCount + " " + p[2]);
+					} else {
+						clientMessage("[SPC] " + entityMethod + " " + entityCount + " " + p[2] + "s");
+					}
+					entityCount = 0;
+					break;
+				}
+			} if(!p[1]) {
+				clientMessage("[SPC] Usage: /entity <kill|burn|explode> <MobName|all>");
+			}
+			break;
+
 		} case 'eval': {
 			evalMsg = "";
-			for(i = 1; i <= (p.length); i++) {
+			for(i=1;i<=(p.length);i++) {
 				evalMsg += p[i] + " ";
 			} eval(evalMsg);
 			break;
@@ -960,6 +1021,7 @@ function procCmd(c) {
 }
 
 function entityAddedHook(entity) {
+	entities.push(entity);
 	if(snowballThrown == 0 && pearlActive == 1) {
 		if(Entity.getEntityTypeId(entity) == 81) {
 			snowball = entity;
@@ -970,6 +1032,7 @@ function entityAddedHook(entity) {
 }
 
 function entityRemovedHook(entity) {
+	entities.splice(entities.indexOf(entity));
 	if(Entity.getEntityTypeId(entity) == 81 && pearlActive == 1) {
 		snowball = entity;
 		snowballThrown = 0;
