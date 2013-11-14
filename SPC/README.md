@@ -1,4 +1,4 @@
-#Single Player Commands v12
+#Single Player Commands v13
 
 ###This is a script that adds commands to Minecraft Pocket Edition
 
@@ -167,7 +167,10 @@ Single Player Commands v10.5:
 Single Player Commands v11:
 	-Added commands: /eval
 	-Added rapid fire to /launch (Type /launch <MobName> <rapid>)
-	
+
 Single Player Commands v12:
 	-Added commands: /entity
+
+Single Player Commands v13:
+	-Added chat colours
 ```

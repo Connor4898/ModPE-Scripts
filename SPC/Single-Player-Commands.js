@@ -42,7 +42,7 @@ function useItem(x,y,z,itemId,blockId) {
 			bombY = y;
 			bombZ = z;
 			bombSet = 1;
-			clientMessage("Set bomb at x: " + bombX + " y:" + bombY + " z:" + bombZ);
+			colourChat("Set bomb at x: " + bombX + " y: " + bombY + " z: " + bombZ);
 		}
 	}
 
@@ -53,7 +53,7 @@ function useItem(x,y,z,itemId,blockId) {
 			ModPE.saveData("pDoorY1",parseInt(y) + 1);
 			ModPE.saveData("pDoorZ",parseInt(z));
 			ModPE.saveData("portableDoorSet",1);
-			clientMessage("Portable Door set to x: " + ModPE.readData("pDoorX") + " y: " + ModPE.readData("pDoorY") + "/" + ModPE.readData("pDoorY1") + " z: " + ModPE.readData("pDoorZ"));
+			colourChat("Portable Door set to x: " + ModPE.readData("pDoorX") + " y: " + ModPE.readData("pDoorY") + "/" + ModPE.readData("pDoorY1") + " z: " + ModPE.readData("pDoorZ"));
 		}
 	}
 
@@ -159,25 +159,25 @@ function useItem(x,y,z,itemId,blockId) {
 				ModPE.saveData("warpA1X",parseInt(x));
 				ModPE.saveData("warpA1Y",parseInt(y));
 				ModPE.saveData("warpA1Z",parseInt(z));
-				clientMessage("A1 set!");
+				colourChat("A1 set!");
 			} if(blockId == 41) {
 				ModPE.saveData("warpSetB1",1);
 				ModPE.saveData("warpB1X",parseInt(x));
 				ModPE.saveData("warpB1Y",parseInt(y));
 				ModPE.saveData("warpB1Z",parseInt(z));
-				clientMessage("B1 set!");
+				colourChat("B1 set!");
 			} if(blockId == 42) {
 				ModPE.saveData("warpSetC1",1);
 				ModPE.saveData("warpC1X",parseInt(x));
 				ModPE.saveData("warpC1Y",parseInt(y));
 				ModPE.saveData("warpC1Z",parseInt(z));
-				clientMessage("C1 set!");
+				colourChat("C1 set!");
 			} if(blockId == 22) {
 				ModPE.saveData("warpSetD1",1);
 				ModPE.saveData("warpD1X",parseInt(x));
 				ModPE.saveData("warpD1Y",parseInt(y));
 				ModPE.saveData("warpD1Z",parseInt(z));
-				clientMessage("D1 set!");
+				colourChat("D1 set!");
 			}
 		} if(itemId == 294 || itemId == 261) {//Gold hoe or Bow
 			if(blockId == 57) {
@@ -185,29 +185,29 @@ function useItem(x,y,z,itemId,blockId) {
 				ModPE.saveData("warpA2X",parseInt(x));
 				ModPE.saveData("warpA2Y",parseInt(y));
 				ModPE.saveData("warpA2Z",parseInt(z));
-				clientMessage("A2 set!");
+				colourChat("A2 set!");
 			} if(blockId == 41) {
 				ModPE.saveData("warpSetB2",1);
 				ModPE.saveData("warpB2X",parseInt(x));
 				ModPE.saveData("warpB2Y",parseInt(y));
 				ModPE.saveData("warpB2Z",parseInt(z));
-				clientMessage("B2 set!");
+				colourChat("B2 set!");
 			} if(blockId == 42) {
 				ModPE.saveData("warpSetC2",1);
 				ModPE.saveData("warpC2X",parseInt(x));
 				ModPE.saveData("warpC2Y",parseInt(y));
 				ModPE.saveData("warpC2Z",parseInt(z));
-				clientMessage("C2 set!");
+				colourChat("C2 set!");
 			} if(blockId == 22) {
 				ModPE.saveData("warpSetD2",1);
 				ModPE.saveData("warpD2X",parseInt(x));
 				ModPE.saveData("warpD2Y",parseInt(y));
 				ModPE.saveData("warpD2Z",parseInt(z));
-				clientMessage("D2 set!");
+				colourChat("D2 set!");
 			}
 		}
 	} if(cannonRapidMode == 1 && Level.getGameMode() == 0) {
-		clientMessage("[SPC] Rapid fire deactivated");
+		colourChat("Rapid fire deactivated");
 		TNTCannonActive = 0;
 		mobCannonActive = 0;
 		cannonRapidMode = 0;
@@ -219,7 +219,7 @@ function procCmd(c) {
 	var command = p[0];
 	switch(command.toLowerCase()) {
 		case 'commands': {
-			clientMessage("Type /help");
+			clientMessage("[SPC] Type /help");
 			break;
 		} case 'help': {
 			switch(p[1]) {
@@ -322,7 +322,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /time or /time set <sunrise|day|sunset|night|value> to get the time, or set the time to the specified time (respectively). NOTE: Does not work properly.\nExample: /time set day");
 					break;
 				} case 'tp': {
-					clientMessage("[SPC] [HELP]Type /tp <x> <y> <z>, where x, y, and z are your desired coordinates.\n Example: /tp 128 70 128)");
+					clientMessage("[SPC] [HELP] Type /tp <x> <y> <z>, where x, y, and z are your desired coordinates.\n Example: /tp 128 70 128)");
 					break;
 				} case 'warp': {
 					clientMessage("[SPC] [HELP] Type /warp <on|off> to turn Warp Panels on or off.\nExample: /warp on");
@@ -361,35 +361,35 @@ function procCmd(c) {
 				if(Level.getTile(Player.getX(),surfaceFloor,Player.getZ()) != 0 && Level.getTile(Player.getX(),surfaceFloor + 1,Player.getZ()) == 0 && Level.getTile(Player.getX(),surfaceFloor + 2,Player.getZ()) == 0) {
 					Entity.setPosition(Player.getEntity(),Player.getX(),surfaceFloor + 3,Player.getZ());
 				}
-			} clientMessage("[SPC] Teleported to the floor above you!");
+			} colourChat("Teleported to the floor above you!");
 			break;
 
 		} case 'bomb': {
 			if(p[1] == 'on') {
 				if(bombMode == 1) {
-					clientMessage("[SPC] Bomb detonation mode is already on!");
+					colourChat("Bomb detonation mode is already on!");
 				} if(bombMode == 0) {
 					bombMode = 1;
 					Player.addItemInventory(280,1);
-					clientMessage("[SPC] Bomb detonation mode has been turned on!");
+					colourChat("Bomb detonation mode has been turned on!");
 				}
 			} if(p[1] == 'off') {
 				if(bombMode == 0) {
-					clientMessage("[SPC] Bomb detonation mode is already off!");
+					colourChat("Bomb detonation mode is already off!");
 				} if(bombMode == 1) {
 					bombMode = 0;
 					Player.addItemInventory(280,-1);
-					clientMessage("[SPC] Bomb detonation mode has been turned off!");
+					colourChat("Bomb detonation mode has been turned off!");
 				}
 			} if(p[1] == 'detonate') {
 				if(bombMode == 0) {
-					clientMessage("[SPC] Bomb detonation mode is off!");
+					colourChat("Bomb detonation mode is off!");
 				} if(bombMode == 1) {
 					if(bombSet == 0) {
-						clientMessage("[SPC] Set a bomb first!");
+						colourChat("Set a bomb first!");
 				} if(bombSet == 1) {
 						Level.explode(bombX, bombY, bombZ, 5);
-						clientMessage("[SPC] Bomb detonated!");
+						colourChat("Bomb detonated!");
 						bombSet = 0;
 					}
 				}
@@ -398,25 +398,25 @@ function procCmd(c) {
 
 		} case 'bounce': {
 			if((!p[1]) || (p[1] < 1)) {
-				clientMessage("[SPC] Usage: /bounce <power>");
+				colourChat("Usage: /bounce <power>");
 			} else if(p[1] >= 1) {
 				Entity.setVelY(Player.getEntity(),parseInt(p[1]));
 			} else {
-				clientMessage("[SPC] The bounce power must be a number!");
+				colourChat("The bounce power must be a number!");
 			}
 			break;
 
 		} case 'coords': {
-			clientMessage("[SPC] Current coordinates are:\nHead: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY()) + " z: " + Math.floor(Player.getZ()) + "\nFeet: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY() - 1) + " z: " + Math.floor(Player.getZ()));
+			colourChat("Current coordinates are:\nHead: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY()) + " z: " + Math.floor(Player.getZ()) + "\nFeet: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY() - 1) + " z: " + Math.floor(Player.getZ()));
 			break;
 
 		} case 'delhome': {
 			if(ModPE.readData("setHomeData") == 1) {
 				ModPE.saveData("setHomeData",0);
-				clientMessage("[SPC] Home successfully deleted!");
+				colourChat("Home successfully deleted!");
 				break;
 			} if(ModPE.readData("setHomeData") == 0) {
-				clientMessage("[SPC] No home is set!");
+				colourChat("No home is set!");
 			}
 			break;
 
@@ -426,7 +426,7 @@ function procCmd(c) {
 				if(Level.getTile(Player.getX(),surfaceFloor,Player.getZ()) != 0 && Level.getTile(Player.getX(),surfaceFloor + 1,Player.getZ()) == 0 && Level.getTile(Player.getX(),surfaceFloor + 2,Player.getZ()) == 0) {
 					Entity.setPosition(Player.getEntity(),Player.getX(),surfaceFloor + 3,Player.getZ());
 				}
-			} clientMessage("[SPC] Teleported to the floor beneath you!");
+			} colourChat("Teleported to the floor beneath you!");
 			break;
 
 		} case 'enderpearl': {
@@ -435,9 +435,9 @@ function procCmd(c) {
 				if(Player.getCarriedItem() == 344) {
 					pearlActive = 1;
 					Entity.setCarriedItem(Player.getEntity(),332);
-					clientMessage("[SPC] Ender pearls activated! Throw a snowball");
+					colourChat("Ender pearls activated! Throw a snowball");
 				} else {
-					clientMessage("[SPC] Hold an egg, and then type /enderpearl on");
+					colourChat("Hold an egg, and then type /enderpearl on");
 				}
 			} if(p[1] == 'off') {
 				if(Player.getCarriedItem() == 332) {
@@ -445,13 +445,13 @@ function procCmd(c) {
 					Entity.setCarriedItem(Player.getEntity(),344);
 					Level.setGameMode(0);
 					Level.setGameMode(1);
-					clientMessage("[SPC] Ender pearls deactivated!");
+					colourChat("Ender pearls deactivated!");
 				} else {
-					clientMessage("[SPC] Hold a snowball, and then type /enderpearl off");
+					colourChat("Hold a snowball, and then type /enderpearl off");
 				}
 			}
 		} else {
-			clientMessage("[SPC] You need to be in creative mode!\n(Type /gamemode creative)");
+			colourChat("You need to be in creative mode!\n(Type /gamemode creative)");
 		}
 		break;
 
@@ -479,9 +479,9 @@ function procCmd(c) {
 							}
 						}
 					} if(entityMethod == 'Removed') {
-						clientMessage("[SPC] " + entityMethod + " " + entityCount + " entities");
+						colourChat("" + entityMethod + " " + entityCount + " entities");
 					} else {
-						clientMessage("[SPC] " + entityMethod + " " + entityCount + " mobs");
+						colourChat("" + entityMethod + " " + entityCount + " mobs");
 					}
 					entityCount = 0;
 				} else {
@@ -501,15 +501,15 @@ function procCmd(c) {
 						}
 					}
 					if(p[2] == 'sheep') {
-						clientMessage("[SPC] " + entityMethod + " " + entityCount + " " + p[2]);
+						colourChat("" + entityMethod + " " + entityCount + " " + p[2]);
 					} else {
-						clientMessage("[SPC] " + entityMethod + " " + entityCount + " " + p[2] + "s");
+						colourChat("" + entityMethod + " " + entityCount + " " + p[2] + "s");
 					}
 					entityCount = 0;
 					break;
 				}
 			} if(!p[1]) {
-				clientMessage("[SPC] Usage: /entity <kill|burn|explode> <MobName|all>");
+				colourChat("Usage: /entity <kill|burn|explode> <MobName|all>");
 			}
 			break;
 
@@ -522,49 +522,49 @@ function procCmd(c) {
 
 		} case 'explode': {
 			Level.explode(Player.getX(), Player.getY(), Player.getZ(), p[1]);
-			clientMessage("[SPC] KAPLOOEY!!!");
+			colourChat("KAPLOOEY!!!");
 			break;
 
 		} case 'gamemode': {
 			if(!p[1]) {
-				clientMessage("[SPC] Please specify a gamemode!");
+				colourChat("Please specify a gamemode!");
 				break;
 			} if(p[1] == Level.getGameMode()) {
 				if(p[1] == '0' || p[1] == 'survival') {
-					clientMessage("[SPC] Gamemode is already set to survival!");
+					colourChat("Gamemode is already set to survival!");
 					break;
 				} if(p[1] == '1' || p[1] == 'creative') {
-					clientMessage("[SPC] Gamemode is already set to creative!");
+					colourChat("Gamemode is already set to creative!");
 					break;
 				}
 			} if(p[1] != Level.getGameMode()) {
 				if(p[1] == '0' || p[1] == 'survival') {
 					Level.setGameMode(0);
-					clientMessage("[SPC] Gamemode set to survival!");
+					colourChat("Gamemode set to survival!");
 					break;
 				} if(p[1] == '1' || p[1] == 'creative') {
 					Level.setGameMode(1);
-					clientMessage("[SPC] Gamemode set to creative!");
+					colourChat("Gamemode set to creative!");
 					break;
 				} else {
-					clientMessage("[SPC] Usage: /gamemode <surival|creative|0|1>");
+					colourChat("Usage: /gamemode <surival|creative|0|1>");
 				}
 			}
 			break;
 
 		} case 'give': {
 			Player.addItemInventory(parseInt(p[1]),parseInt(p[2]));
-			clientMessage("[SPC] Spawned " + parseInt(p[2]) + " of " + parseInt(p[1]) + "!");
+			colourChat("Spawned " + parseInt(p[2]) + " of " + parseInt(p[1]) + "!");
 			break;
 
 		} case 'heal': {
 			if((!p[1])) {
 				Player.setHealth(20);
-				clientMessage("[SPC] Fully healed!");
+				colourChat("Fully healed!");
 				break;
 			} else {
 				Player.setHealth(parseInt(p[1]));
-				clientMessage("[SPC] Set health to " + parseInt(p[1]));
+				colourChat("Set health to " + parseInt(p[1]));
 			}
 			break;
 
@@ -578,55 +578,55 @@ function procCmd(c) {
 					}
 				}
 			}
-			clientMessage("[SPC] Goodbye World");
+			colourChat("Goodbye World");
 			break;
 
 		} case 'home': {
 			if(ModPE.readData("setHomeData") == 0) {
-				clientMessage("[SPC] No home has been set!");
+				colourChat("No home has been set!");
 				break;
 			} if(ModPE.readData("setHomeData") == 1) {
 				Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("homeX")) + 0.5, parseInt(ModPE.readData("homeY")) + 2, parseInt(ModPE.readData("homeZ")) + 0.5);
-				clientMessage("[SPC] Teleported to home!");
+				colourChat("Teleported to home!");
 			}
 			break;
 
 		} case 'ignite': {
 			if(!p[1]) {
 				Entity.setFireTicks(Player.getEntity(),5);
-				clientMessage("[SPC] Cooking player for 5 seconds");
+				colourChat("Cooking player for 5 seconds");
 				break;
 			} else {
 				Entity.setFireTicks(Player.getEntity(),parseInt(p[1]));
-				clientMessage("[SPC] Cooking player for " + parseInt(p[1]) + " seconds");
+				colourChat("Cooking player for " + parseInt(p[1]) + " seconds");
 			}
 			break;
 
 		} case 'instabreak': {
 			if(p[1] == 'on') {
 				if(instabreakMode == 1) {
-					clientMessage("[SPC] Instabreak is already on!");
+					colourChat("Instabreak is already on!");
 					break;
 				} if(instabreakMode == 0) {
 					instabreakMode = 1;
-					clientMessage("[SPC] Instabreak has been turned on!");
+					colourChat("Instabreak has been turned on!");
 					Player.addItemInventory(285,1);
 				}
 			} if(p[1] == 'off') {
 				if(instabreakMode == 0) {
-					clientMessage("[SPC] Instabreak is already on!");
+					colourChat("Instabreak is already on!");
 					break;
 			} if(instabreakMode == 1) {
 					instabreakMode = 0;
 					addItemInventory(285,-1);
-					clientMessage("[SPC] Instabreak has been turned off!");
+					colourChat("Instabreak has been turned off!");
 				}
 			}
 			break;
 
 		} case 'kill': {
 			Player.setHealth(0);
-			clientMessage("[SPC] You died.");
+			colourChat("You died.");
 			break;
 
 		} case 'launch': {
@@ -684,10 +684,10 @@ function procCmd(c) {
 				if(p[2] == 'rapid') {
 					cannonRapidCountdown = 0;
 					cannonRapidMode = 1;
-					clientMessage("[SPC] Rapid fire...");
+					colourChat("Rapid fire...");
 				}
 			} if(p[1] == "stop" && cannonRapidMode == 1) {
-				clientMessage("[SPC] Rapid fire deactivated");
+				colourChat("Rapid fire deactivated");
 				TNTCannonActive = 0;
 				mobCannonActive = 0;
 				cannonRapidMode = 0;
@@ -697,20 +697,20 @@ function procCmd(c) {
 		} case 'mc': {
 			if(p[1] == 'on') {
 				if(magicCarpet == 1) {
-					clientMessage("[SPC] Magic carpet is already active!");
+					colourChat("Magic carpet is already active!");
 					break;
 				} if(magicCarpet == 0) {
 					magicCarpetTick = 0;
 					magicCarpet = 1;
-					clientMessage("[SPC] Magic carpet activated!");
+					colourChat("Magic carpet activated!");
 				}
 			} if(p[1] == 'off') {
 				if(magicCarpet == 0) {
-					clientMessage("[SPC] Magic carpet is already off!");
+					colourChat("Magic carpet is already off!");
 					break;
 				} if(magicCarpet == 1) {
 					magicCarpet = 0;
-					clientMessage("[SPC] Magic carpet disappeared!");
+					colourChat("Magic carpet disappeared!");
 					mcX = Math.floor(Player.getX());
 					mcY = Math.floor(Player.getY())-2;
 					mcZ = Math.floor(Player.getZ());
@@ -740,11 +740,11 @@ function procCmd(c) {
 		} case 'panorama': {
 			if(p[1] == 'off') {
 				panoramaMode = 0;
-				clientMessage("[SPC] Panorama deactivated!");
+				colourChat("Panorama deactivated!");
 				break;
 			} if(p[1] == 'on') {
 				panoramaMode = 1;
-				clientMessage("[SPC] Panorama activated!");
+				colourChat("Panorama activated!");
 				break;
 			}
 			break;
@@ -752,32 +752,32 @@ function procCmd(c) {
 		} case 'pdoor': {
 			if(p[1] == 'on') {
 				if(portableDoorMode == 1) {
-					clientMessage("[SPC] Portable Door mode is already on!");
+					colourChat("Portable Door mode is already on!");
 				} if(portableDoorMode == 0) {
 					portableDoorMode = 1;
 					Player.addItemInventory(280,1);
-					clientMessage("[SPC] Portable Door mode has been turned on!");
+					colourChat("Portable Door mode has been turned on!");
 				}
 			} if(p[1] == 'off') {
 				if(portableDoorMode == 0) {
-					clientMessage("[SPC] Portable Door mode is already off!");
+					colourChat("Portable Door mode is already off!");
 				} if(portableDoorMode == 1) {
 					portableDoorMode = 0;
 					portableDoorSet = 0;
 					Player.addItemInventory(280,-1);
-					clientMessage("[SPC] Portable Door mode has been turned off!");
+					colourChat("Portable Door mode has been turned off!");
 				}
 			} if(p[1] == 'open') {
 				if(portableDoorMode == 0) {
-					clientMessage("[SPC] Portable Door mode is off!");
+					colourChat("Portable Door mode is off!");
 				} if(ModPE.readData("portableDoorSet") == 0) {
-					clientMessage("[SPC] No Portable Door is set!");
+					colourChat("No Portable Door is set!");
 				} if((portableDoorMode == 1) && (ModPE.readData("portableDoorSet") == 1) && (portableDoorActive == 0)) {
 					pDoor = Level.getTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY"),ModPE.readData("pDoorZ"));
 					pDoor1 = Level.getTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"));
 					Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY"),ModPE.readData("pDoorZ"),0);
 					Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"),0);
-					clientMessage("[SPC] Portable Door active for 5 seconds!");
+					colourChat("Portable Door active for 5 seconds!");
 					portableDoorActive = 1;
 					countdown = 100;
 					countdownMode = 1;
@@ -812,7 +812,7 @@ function procCmd(c) {
 			break;
 
 		} case 'refresh': {
-			clientMessage("[SPC] Refreshed all command items in your inventory!");
+			colourChat("Refreshed all command items in your inventory!");
 			if(bombMode == 1) {
 				Player.addItemInventory(280,1);
 			} if(portableDoorMode == 1) {
@@ -833,9 +833,9 @@ function procCmd(c) {
 			if(p[1] > 0 && p[1] <= 510) {
 				if(Level.getGameMode() == 1) {
 					Entity.setCarriedItem(Player.getEntity(),p[1],1,p[2]);
-					clientMessage("[SPC] Saved current item as " + p[1]);
+					colourChat("Saved current item as " + p[1]);
 				} else if(Level.getGameMode() == 0) {
-					clientMessage("[SPC] You are in survival mode!");
+					colourChat("You are in survival mode!");
 				}
 			}
 			break;
@@ -845,25 +845,25 @@ function procCmd(c) {
 			ModPE.saveData("homeY",parseInt(Player.getY()));
 			ModPE.saveData("homeZ",parseInt(Player.getZ()));
 			ModPE.saveData("setHomeData",1);
-			clientMessage("[SPC] Home set to x: " + Math.floor(ModPE.readData("homeX")) + ", y: " + Math.floor(ModPE.readData("homeY")) + ", z: " + Math.floor(ModPE.readData("homeZ")));
+			colourChat("Home set to x: " + Math.floor(ModPE.readData("homeX")) + ", y: " + Math.floor(ModPE.readData("homeY")) + ", z: " + Math.floor(ModPE.readData("homeZ")));
 			break;
 
 		} case 'spawn': {
 			if(p[1]) {
 				spawnMobID = MobIDs[p[1].toLowerCase()];
 				if(typeof(spawnMobID) == "undefined") {
-					clientMessage("[SPC] Usage: /spawn <MobName> <Amount>");
+					colourChat("Usage: /spawn <MobName> <Amount>");
 					break;
 				}
 			} if(!p[1]) {
-				clientMessage("[SPC] Usage: /spawn <MobName> <Amount>");
+				colourChat("Usage: /spawn <MobName> <Amount>");
 				break;
 			} if(p[2]) {
 				for(spawnAmount=0;spawnAmount<=parseInt(p[2]);spawnAmount++) {
 					Level.spawnMob(getPlayerX(),getPlayerY(),getPlayerZ(),spawnMobID);
 				}
 			} if(!p[2]) {
-				clientMessage("[SPC] Usage: /spawn <MobName> <Amount>");
+				colourChat("Usage: /spawn <MobName> <Amount>");
 			}
 			break;
 
@@ -871,37 +871,37 @@ function procCmd(c) {
 			if(p[1] == 'off') {
 				spawnTouch = 0;
 				spawnMobID = null;
-				clientMessage("[SPC] SpawnTouch deactivated!");
+				colourChat("SpawnTouch deactivated!");
 				break;
 			} if(p[1]) {
 				spawnMobID = MobIDs[p[1].toLowerCase()];
 				if(typeof(spawnMobID) == "undefined") {
-					clientMessage("[SPC] Usage: /spawntouch <MobName|off>");
+					colourChat("Usage: /spawntouch <MobName|off>");
 				} else {
-					clientMessage("[SPC] SpawnTouch activated!");
+					colourChat("SpawnTouch activated!");
 				}
 				spawnTouch = 1;
 			} if(!p[1]) {
-				clientMessage("[SPC] Usage: /spawntouch <MobName|off>");
+				colourChat("Usage: /spawntouch <MobName|off>");
 			}
 			break;
 
 		} case 'sprint': {
 			if(p[1] == 'on') {
 				if(sprintMode == 1) {
-					clientMessage("[SPC] Sprint Mode is already active!");
+					colourChat("Sprint Mode is already active!");
 					break;
 				} if(sprintMode == 0) {
 					sprintMode = 1;
-					clientMessage("[SPC] Sprint Mode activated! Original Sprint Script made by WhyToFu.");
+					colourChat("Sprint Mode activated! Original Sprint Script made by WhyToFu.");
 				}
 			} if(p[1] == 'off') {
 				if(sprintMode == 0) {
-					clientMessage("[SPC] Sprint Mode is already off!");
+					colourChat("Sprint Mode is already off!");
 					break;
 				} if(sprintMode == 1) {
 					sprintMode = 0;
-					clientMessage("[SPC] Sprint Mode deactivated!");
+					colourChat("Sprint Mode deactivated!");
 				}
 			}
 			break;
@@ -909,33 +909,33 @@ function procCmd(c) {
 		} case 'summon': {
 			if(p[1] == 'chicken') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,10,'mob/chicken.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'cow') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,11,'mob/cow.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'pig') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,12,'mob/pig.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'sheep') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,13,'mob/sheep.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'zombie') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,32,'mob/zombie.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'creeper') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,33,'mob/creeper.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'skeleton') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,34,'mob/skeleton.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'spider') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,35,'mob/spider.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} if(p[1] == 'zombiepigman' || p[1] == 'zombie_pigman' || p[1] == 'pigzombie' || p[1] == 'pigman') {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,36,'mob/pigzombie.png');
-				clientMessage("[SPC] Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
+				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} else if(!p[1]) {
-				clientMessage("[SPC] Specify a mob!");
+				colourChat("Specify a mob!");
 			}
 			break;
 
@@ -945,49 +945,49 @@ function procCmd(c) {
 				if(Level.getTile(Player.getX(),surfaceFloor,Player.getZ()) != 0 && Level.getTile(Player.getX(),surfaceFloor + 1,Player.getZ()) == 0 && Level.getTile(Player.getX(),surfaceFloor + 2,Player.getZ()) == 0) {
 					Entity.setPosition(Player.getEntity(),Player.getX(),surfaceFloor + 3,Player.getZ());
 				}
-			} clientMessage("[SPC] Teleported to the surface!");
+			} colourChat("Teleported to the surface!");
 			break;
 
 		} case 'time': {
 			if(p[1] == 'set') {
 				if(p[2] == 'day' || p[2] == 'daytime') {
 					Level.setTime(0);
-					clientMessage("[SPC] Time set to day!");
+					colourChat("Time set to day!");
 					break;
 				} if(p[2] == 'sunset') {
 					Level.setTime(7200);
-					clientMessage("[SPC] Time set to sunset!");
+					colourChat("Time set to sunset!");
 					break;
 				} if(p[2] == 'night') {
 					Level.setTime(8280);
-					clientMessage("[SPC] Time set to night!");
+					colourChat("Time set to night!");
 					break;
 				} if(p[2] == 'sunrise') {
 					Level.setTime(13320);
-					clientMessage("[SPC] Time set to sunrise!");
+					colourChat("Time set to sunrise!");
 					break;
 				} if(!p[2]) {
-					clientMessage("[SPC] Specify a time!");
+					colourChat("Specify a time!");
 					break;
 				} else {
 					Level.setTime(parseInt(p[2]));
-					clientMessage("[SPC] Time set to " + parseInt(p[2]));
+					colourChat("Time set to " + parseInt(p[2]));
 					break; 
 				}
 			} if(!p[1]) {
-				clientMessage("[SPC] The current time is " + Level.getTime());
+				colourChat("The current time is " + Level.getTime());
 			}
 			break;
 
 		} case 'tp': {
 			Entity.setPosition(Player.getEntity(), parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
-			clientMessage("[SPC] Teleported to x: " + parseInt(p[1]) + ", y: " + parseInt(p[2]) + ", z: " + parseInt(p[3]));
+			colourChat("Teleported to x: " + parseInt(p[1]) + ", y: " + parseInt(p[2]) + ", z: " + parseInt(p[3]));
 			break;
 
 		} case 'warp': {
 			if(p[1] == 'on') {
 				if(warpMode == 1) {
-					clientMessage("[SPC] Warp Mode is already on!");
+					colourChat("Warp Mode is already on!");
 					break;
 				} if(warpMode == 0) {
 					warpMode = 1;
@@ -998,25 +998,33 @@ function procCmd(c) {
 					Player.addItemInventory(41,2);
 					Player.addItemInventory(42,2);
 					Player.addItemInventory(22,2);
-					clientMessage("[SPC] Warp Panels activated!");
+					colourChat("Warp Panels activated!");
 				}
 			} if(p[1] == 'off') {
 				if(warpMode == 0) {
-					clientMessage("[SPC] Warp mode is already off!");
+					colourChat("Warp mode is already off!");
 					break;
 				} if(warpMode == 1) {
 					warpMode = 0;
 					Player.addItemInventory(341,-1);
 					Player.addItemInventory(293,-1);
 					Player.addItemInventory(294,-1);
-					clientMessage("[SPC] Warp Panels deactivated!");
+					colourChat("Warp Panels deactivated!");
 				}
 			}
 			break;
 		} default: {
-			clientMessage("[SPC] Command does not exist!");
+			colourChat("Command does not exist!");
 			break;
 		}
+	}
+}
+
+function colourChat(msg) {
+	try {
+		clientMessage(ChatColor.BLUE + "[SPC] " + ChatColor.WHITE + msg);
+	} catch(err) {
+		clientMessage("[SPC] " + msg);
 	}
 }
 
@@ -1127,7 +1135,7 @@ function modTick() {
 			} if(countdown == 0) {
 				Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY"),ModPE.readData("pDoorZ"),pDoor);
 				Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"),pDoor1);
-				clientMessage("[SPC] Portable Door closed!");
+				colourChat("Portable Door closed!");
 				portableDoorActive = 0;
 				countdownMode = 100;
 			}
@@ -1151,11 +1159,11 @@ function modTick() {
 	if(TNTCannonActive == 1 || mobCannonActive == 1) {
 		cannonCountdown++;
 		if(cannonCountdown == 1) {
-			clientMessage("[SPC] 3");
+			colourChat("3");
 		} if(cannonCountdown == 20) {
-			clientMessage("[SPC] 2");
+			colourChat("2");
 		} if(cannonCountdown == 40) {
-			clientMessage("[SPC] 1");
+			colourChat("1");
 		} if(cannonCountdown >= 60) {
 			cannonPlayerYaw = Entity.getYaw(Player.getEntity());
 			cannonPlayerPitch = Entity.getPitch(Player.getEntity());
@@ -1171,7 +1179,7 @@ function modTick() {
 				setVelX(launchEntity,cannonVelX);
 				setVelY(launchEntity,cannonVelY);
 				setVelZ(launchEntity,cannonVelZ);
-				clientMessage("[SPC] Launched!");
+				colourChat("Launched!");
 				TNTCannonActive = 0;
 				mobCannonActive = 0;
 			} if(cannonRapidMode == 1) {
