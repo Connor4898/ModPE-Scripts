@@ -407,7 +407,7 @@ function procCmd(c) {
 			break;
 
 		} case 'coords': {
-			colourChat("Current coordinates are:\nHead: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY()) + " z: " + Math.floor(Player.getZ()) + "\nFeet: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY() - 1) + " z: " + Math.floor(Player.getZ()));
+			clientMessage("[SPC] Current coordinates are:\nHead: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY()) + " z: " + Math.floor(Player.getZ()) + "\nFeet: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY() - 1) + " z: " + Math.floor(Player.getZ()));
 			break;
 
 		} case 'delhome': {
@@ -451,7 +451,7 @@ function procCmd(c) {
 				}
 			}
 		} else {
-			colourChat("You need to be in creative mode!\n(Type /gamemode creative)");
+			clientMessage("[SPC] You need to be in creative mode!\n(Type /gamemode creative)");
 		}
 		break;
 

@@ -7,7 +7,7 @@
  * |        |  |     |        |  |__|  |  |\/|  |  |\/|  |   __   |  |\    |  |__/  :-----   |
  * |________|__|     |________|________|__|  |__|__|  |__|__|  |__|__| \ __|_______/|________|
  *
- * Single Player Commands
+ * Single Player Commands Give+
  * Made by Connor4898 & CheesyFriedBacon
  * Sprint script made by WhyToFu, modified by Connor4898 (Used with permission)
  * The entity command is based from the entity manager in MrARM's TMI. Thanks MrARM!
@@ -256,7 +256,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /gamemode <survival|creative|0|1> to change your current gamemode. NOTE: Clears your survival inventory");
 					break;
 				} case 'give': {
-					clientMessage("[SPC] [HELP] Type /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64");
+					clientMessage("[SPC] [HELP] Type /give <Name|ID> <amount> to add any item to your inventory.\nExample: /give 57 64");
 					break;
 				} case 'heal': {
 					clientMessage("[SPC] [HELP] Type /heal or /heal <Half-hearts> to set your health to the specified amount.\nExample: /heal 20");
@@ -334,7 +334,7 @@ function procCmd(c) {
 					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <method> <MobName|all>\n /eval <code>\n /explode <radius>");
 					break;
 				} case '3': {
-					clientMessage("Showing help page 3 of 7 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole");
+					clientMessage("Showing help page 3 of 7 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <Name|ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole");
 					break;
 				} case '4': {
 					clientMessage("Showing help page 4 of 7 (/help <page>)\n /home\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>\n /kill");
@@ -407,7 +407,7 @@ function procCmd(c) {
 			break;
 
 		} case 'coords': {
-			colourChat("Current coordinates are:\nHead: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY()) + " z: " + Math.floor(Player.getZ()) + "\nFeet: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY() - 1) + " z: " + Math.floor(Player.getZ()));
+			clientMessage("[SPC] Current coordinates are:\nHead: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY()) + " z: " + Math.floor(Player.getZ()) + "\nFeet: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY() - 1) + " z: " + Math.floor(Player.getZ()));
 			break;
 
 		} case 'delhome': {
@@ -451,7 +451,7 @@ function procCmd(c) {
 				}
 			}
 		} else {
-			colourChat("You need to be in creative mode!\n(Type /gamemode creative)");
+			clientMessage("[SPC] You need to be in creative mode!\n(Type /gamemode creative)");
 		}
 		break;
 
