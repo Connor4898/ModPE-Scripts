@@ -19,8 +19,8 @@
  * (at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnMobID = null, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, cannonRapidMode = 0, cannonRapidCountdown = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ, evalMsg = "", entities = [], entityCount = 0;
-var MobIDs = {
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnMobID = null, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, cannonRapidMode = 0, cannonRapidCountdown = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ, evalMsg = "", entities = [], entityCount = 0, resetMode = 0;
+var mobIDs = {
 	"chicken": 10,
 	"cow": 11,
 	"pig": 12,
@@ -259,7 +259,10 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64");
 					break;
 				} case 'heal': {
-					clientMessage("[SPC] [HELP] Type /heal or /heal <Half-hearts> to set your health to the specified amount.\nExample: /heal 20");
+					clientMessage("[SPC] [HELP] Type /heal or /heal <half-hearts> to heal yourself by the specified amount.\nExample: /heal 10");
+					break;
+				} case 'health': {
+					clientMessage("[SPC] [HELP] Type /health <get|set> to get/set your health.\nExample: /health set 10");
 					break;
 				} case 'hole': {
 					clientMessage("[SPC] [HELP] Type /hole to commit suicide. WARNING: USE WITH CAUTION!\n Example: /hole");
@@ -298,7 +301,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /refresh to regain all items required for currently active commands.\nExample: /refresh");
 					break;
 				} case 'setitem': {
-					clientMessage("[SPC] [HELP] Type /setitem <ID> to set the specified item ID to your current held item.\nExample: /setitem 264");
+					clientMessage("[SPC] [HELP] Type /setitem <ID> <damage> to set the specified item ID to your current held item.\nExample: /setitem 264");
 					break;
 				} case 'sethome': {
 					clientMessage("[SPC] [HELP] Type /sethome to set coordinates you can easily tp back to, using /home.\n Example: /sethome");
@@ -328,25 +331,28 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /warp <on|off> to turn Warp Panels on or off.\nExample: /warp on");
 					break;
 				} case '1': {
-					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
+					clientMessage("Showing help page 1 of 8 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
 					break;
 				} case '2': {
-					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <method> <MobName|all>\n /eval <code>\n /explode <radius>");
+					clientMessage("Showing help page 2 of 8 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <method> <MobName|all>\n /eval <code>\n /explode <radius>");
 					break;
 				} case '3': {
-					clientMessage("Showing help page 3 of 7 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole");
+					clientMessage("Showing help page 3 of 8 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <ID> <amount>\n /heal <amount>\n /health <get|set>\n /help <page|command>");
 					break;
 				} case '4': {
-					clientMessage("Showing help page 4 of 7 (/help <page>)\n /home\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>\n /kill");
+					clientMessage("Showing help page 4 of 8 (/help <page>)\n /hole\n /home\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>");
 					break;
 				} case '5': {
-					clientMessage("Showing help page 5 of 7 (/help <page>)\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>\n /rain <MobName>");
+					clientMessage("Showing help page 5 of 8 (/help <page>)\n /kill\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>");
 					break;
 				} case '6': {
-					clientMessage("Showing help page 6 of 7 (/help <page>)\n /refresh\n /setitem <ID>\n /sethome\n /spawntouch <MobName|off>\n /sprint <on|off>");
+					clientMessage("Showing help page 6 of 8 (/help <page>)\n /rain <MobName>\n /refresh\n /setitem <ID> <damage>\n /sethome\n /spawntouch <MobName|off>");
 					break;
 				} case '7': {
-					clientMessage("Showing help page 7 of 7 (/help <page>)\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>\n /warp <on|off>");
+					clientMessage("Showing help page 7 of 8 (/help <page>)\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>");
+					break;
+				} case '8': {
+					clientMessage("Showing help page 8 of 8 (/help <page>)\n /warp <on|off>");
 					break;
 				} default: {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
@@ -368,43 +374,57 @@ function procCmd(c) {
 			if(p[1] == 'on') {
 				if(bombMode == 1) {
 					colourChat("Bomb detonation mode is already on!");
+					break;
 				} if(bombMode == 0) {
 					bombMode = 1;
 					Player.addItemInventory(280,1);
 					colourChat("Bomb detonation mode has been turned on!");
+					break;
 				}
 			} if(p[1] == 'off') {
 				if(bombMode == 0) {
 					colourChat("Bomb detonation mode is already off!");
+					break;
 				} if(bombMode == 1) {
 					bombMode = 0;
 					Player.addItemInventory(280,-1);
 					colourChat("Bomb detonation mode has been turned off!");
+					break;
 				}
 			} if(p[1] == 'detonate') {
 				if(bombMode == 0) {
 					colourChat("Bomb detonation mode is off!");
+					break;
 				} if(bombMode == 1) {
 					if(bombSet == 0) {
 						colourChat("Set a bomb first!");
-				} if(bombSet == 1) {
+						break;
+					} if(bombSet == 1) {
 						Level.explode(bombX, bombY, bombZ, 5);
 						colourChat("Bomb detonated!");
 						bombSet = 0;
+						break;
 					}
 				}
-			}
-			break;
+			} else {
+				colourChat("Usage: /bomb <on|off|detonate>")
+			} break;
 
 		} case 'bounce': {
-			if((!p[1]) || (p[1] < 1)) {
+			if(!p[1]) {
 				colourChat("Usage: /bounce <power>");
-			} else if(p[1] >= 1) {
-				Entity.setVelY(Player.getEntity(),parseInt(p[1]));
+				break;
+			} if(parseInt(p[1])) {
+				if(p[1] <= 0) {
+					colourChat("The bounce power must be higher than 0!");
+					break;
+				} if(p[1] > 0) {
+					Entity.setVelY(Player.getEntity(),parseInt(p[1]) / 3);
+					break;
+				}
 			} else {
 				colourChat("The bounce power must be a number!");
-			}
-			break;
+			} break;
 
 		} case 'coords': {
 			clientMessage("[SPC] Current coordinates are:\nHead: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY()) + " z: " + Math.floor(Player.getZ()) + "\nFeet: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY() - 1) + " z: " + Math.floor(Player.getZ()));
@@ -452,12 +472,11 @@ function procCmd(c) {
 			}
 		} else {
 			clientMessage("[SPC] You need to be in creative mode!\n(Type /gamemode creative)");
-		}
-		break;
+		} break;
 
 		} case 'entity': {
 			if(p[1] && p[2]) {
-				var entityMobID = MobIDs[p[2].toLowerCase()];
+				var entityMobID = mobIDs[p[2].toLowerCase()];
 				var entityMethod = "";
 				if(typeof(entityMobID) == "undefined" && p[2] != 'all') {
 					break;
@@ -479,9 +498,9 @@ function procCmd(c) {
 							}
 						}
 					} if(entityMethod == 'Removed') {
-						colourChat("" + entityMethod + " " + entityCount + " entities");
+						colourChat(entityMethod + " " + entityCount + " entities");
 					} else {
-						colourChat("" + entityMethod + " " + entityCount + " mobs");
+						colourChat(entityMethod + " " + entityCount + " mobs");
 					}
 					entityCount = 0;
 				} else {
@@ -499,19 +518,17 @@ function procCmd(c) {
 								entityMethod = "Exploded";
 							}
 						}
-					}
-					if(p[2] == 'sheep') {
-						colourChat("" + entityMethod + " " + entityCount + " " + p[2]);
+					} if(p[2] == 'sheep') {
+						colourChat(entityMethod + " " + entityCount + " " + p[2]);
 					} else {
-						colourChat("" + entityMethod + " " + entityCount + " " + p[2] + "s");
+						colourChat(entityMethod + " " + entityCount + " " + p[2] + "s");
 					}
 					entityCount = 0;
 					break;
 				}
 			} if(!p[1]) {
 				colourChat("Usage: /entity <kill|burn|explode> <MobName|all>");
-			}
-			break;
+			} break;
 
 		} case 'eval': {
 			evalMsg = "";
@@ -521,9 +538,12 @@ function procCmd(c) {
 			break;
 
 		} case 'explode': {
-			Level.explode(Player.getX(), Player.getY(), Player.getZ(), p[1]);
-			colourChat("KAPLOOEY!!!");
-			break;
+			if(parseInt(p[1])) {
+				Level.explode(Player.getX(), Player.getY(), Player.getZ(), p[1]);
+				colourChat("KAPLOOEY!!!");
+			} else {
+				colourChat("The explode radius must be a number!");
+			} break;
 
 		} case 'gamemode': {
 			if(!p[1]) {
@@ -547,26 +567,41 @@ function procCmd(c) {
 					colourChat("Gamemode set to creative!");
 					break;
 				} else {
-					colourChat("Usage: /gamemode <surival|creative|0|1>");
+					colourChat("Usage: /gamemode <survival|creative|0|1>");
 				}
-			}
-			break;
+			} break;
 
 		} case 'give': {
-			Player.addItemInventory(parseInt(p[1]),parseInt(p[2]));
-			colourChat("Spawned " + parseInt(p[2]) + " of " + parseInt(p[1]) + "!");
-			break;
+			if(parseInt(p[1]) && parseInt(p[2])) {
+				Player.addItemInventory(parseInt(p[1]),parseInt(p[2]));
+				colourChat("Spawned " + parseInt(p[2]) + " of " + parseInt(p[1]));
+			} else {
+				colourChat("Parameters must be numbers!");
+			} break;
 
 		} case 'heal': {
-			if((!p[1])) {
+			if(!p[1]) {
 				Player.setHealth(20);
 				colourChat("Fully healed!");
 				break;
+			} if(parseInt(p[1])) {
+				Player.setHealth(Entity.getHealth(Player.getEntity()) + parseInt(p[1]));
+				colourChat(parseInt(p[1]) + " half-hearts have been added to your health!");
+			} break;
+
+		} case 'health': {
+			if(p[1] == 'get') {
+				colourChat("You have " + Entity.getHealth(Player.getEntity()) + " half-hearts.");
+			} if(p[1] == 'set') {
+				if(parseInt(p[2])) {
+					Entity.setHealth(Player.getEntity(),parseInt(p[2]));
+					colourChat("Health set to " + parseInt(p[2]));
+				} else {
+					colourChat("Usage: /health set <half-hearts>");
+				}
 			} else {
-				Player.setHealth(parseInt(p[1]));
-				colourChat("Set health to " + parseInt(p[1]));
-			}
-			break;
+				colourChat("Usage: /health <set|get>");
+			} break;
 
 		} case 'hole': {
 			holeX = Math.floor(Player.getX());
@@ -577,8 +612,7 @@ function procCmd(c) {
 						Level.setTile(holeX+b,a,holeZ+c,0);
 					}
 				}
-			}
-			colourChat("Goodbye World");
+			} colourChat("Goodbye World");
 			break;
 
 		} case 'home': {
@@ -588,19 +622,19 @@ function procCmd(c) {
 			} if(ModPE.readData("setHomeData") == 1) {
 				Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("homeX")) + 0.5, parseInt(ModPE.readData("homeY")) + 2, parseInt(ModPE.readData("homeZ")) + 0.5);
 				colourChat("Teleported to home!");
-			}
-			break;
+			} break;
 
 		} case 'ignite': {
 			if(!p[1]) {
 				Entity.setFireTicks(Player.getEntity(),5);
 				colourChat("Cooking player for 5 seconds");
 				break;
-			} else {
+			} if(parseInt(p[1])) {
 				Entity.setFireTicks(Player.getEntity(),parseInt(p[1]));
 				colourChat("Cooking player for " + parseInt(p[1]) + " seconds");
-			}
-			break;
+			} else {
+				colourChat("Usage: /ignite <seconds>");
+			} break;
 
 		} case 'instabreak': {
 			if(p[1] == 'on') {
@@ -616,13 +650,14 @@ function procCmd(c) {
 				if(instabreakMode == 0) {
 					colourChat("Instabreak is already on!");
 					break;
-			} if(instabreakMode == 1) {
+				} if(instabreakMode == 1) {
 					instabreakMode = 0;
 					addItemInventory(285,-1);
 					colourChat("Instabreak has been turned off!");
 				}
-			}
-			break;
+			} else {
+				colourChat("Usage: /instabreak <on|off>");
+			} break;
 
 		} case 'kill': {
 			Player.setHealth(0);
@@ -691,10 +726,10 @@ function procCmd(c) {
 				TNTCannonActive = 0;
 				mobCannonActive = 0;
 				cannonRapidMode = 0;
-			}
-			break;
+			} break;
 
-		} case 'mc': {
+		} case 'mc': 
+		case 'magiccarpet': {
 			if(p[1] == 'on') {
 				if(magicCarpet == 1) {
 					colourChat("Magic carpet is already active!");
@@ -703,6 +738,7 @@ function procCmd(c) {
 					magicCarpetTick = 0;
 					magicCarpet = 1;
 					colourChat("Magic carpet activated!");
+					break;
 				}
 			} if(p[1] == 'off') {
 				if(magicCarpet == 0) {
@@ -726,15 +762,16 @@ function procCmd(c) {
 						}
 					}
 				}
-			}
-			break;
+			} else {
+				colourChat("Usage: /mc <on|off>");
+			} break;
 
 		} case 'nuke': {
 			for(nukeX=-21;nukeX<=21;nukeX = nukeX + 3) {
 				for(nukeZ=-21;nukeZ<=21;nukeZ = nukeZ + 3) {
 					Level.spawnMob(Player.getX()+nukeX,Player.getY()+20,Player.getZ()+nukeZ,65);
 				}
-			}
+			} colourChat("Nuke launched.");
 			break;
 
 		} case 'panorama': {
@@ -746,26 +783,27 @@ function procCmd(c) {
 				panoramaMode = 1;
 				colourChat("Panorama activated!");
 				break;
-			}
-			break;
+			} else {
+				colourChat("Usage: /panorama <on|off>");
+			} break;
 
 		} case 'pdoor': {
 			if(p[1] == 'on') {
 				if(portableDoorMode == 1) {
-					colourChat("Portable Door mode is already on!");
+					colourChat("Portable Door is already active!");
 				} if(portableDoorMode == 0) {
 					portableDoorMode = 1;
 					Player.addItemInventory(280,1);
-					colourChat("Portable Door mode has been turned on!");
+					colourChat("Portable Door has been activated!");
 				}
 			} if(p[1] == 'off') {
 				if(portableDoorMode == 0) {
-					colourChat("Portable Door mode is already off!");
+					colourChat("Portable Door is already off!");
 				} if(portableDoorMode == 1) {
 					portableDoorMode = 0;
 					portableDoorSet = 0;
 					Player.addItemInventory(280,-1);
-					colourChat("Portable Door mode has been turned off!");
+					colourChat("Portable Door has been deactivated!");
 				}
 			} if(p[1] == 'open') {
 				if(portableDoorMode == 0) {
@@ -777,13 +815,12 @@ function procCmd(c) {
 					pDoor1 = Level.getTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"));
 					Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY"),ModPE.readData("pDoorZ"),0);
 					Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"),0);
-					colourChat("Portable Door active for 5 seconds!");
+					colourChat("Portable Door open for 5 seconds!");
 					portableDoorActive = 1;
 					countdown = 100;
 					countdownMode = 1;
 				}
-			}
-			break;
+			} break;
 
 		} case 'rain': {
 			for(rainX=-21;rainX<=21;rainX = rainX + 3) {
@@ -808,8 +845,7 @@ function procCmd(c) {
 						Level.spawnMob(Player.getX()+rainX,Player.getY()+15,Player.getZ()+rainZ,36,'mob/pigzombie.png');
 					}
 				}
-			}
-			break;
+			} break;
 
 		} case 'refresh': {
 			colourChat("Refreshed all command items in your inventory!");
@@ -817,28 +853,35 @@ function procCmd(c) {
 				Player.addItemInventory(280,1);
 			} if(portableDoorMode == 1) {
 				Player.addItemInventory(280,1);
-			} if(spawnTouch == 1) {
-				Player.addItemInventory(295,1);
-				Player.addItemInventory(296,1);
 			} if(instabreakMode == 1) {
 				Player.addItemInventory(285,1);
 			} if(warpMode == 1) {
 				Player.addItemInventory(341,1);
 				Player.addItemInventory(293,1);
 				Player.addItemInventory(294,1);
-			}
-			break;
+			} break;
 
 		} case 'setitem': {
-			if(p[1] > 0 && p[1] <= 510) {
-				if(Level.getGameMode() == 1) {
-					Entity.setCarriedItem(Player.getEntity(),p[1],1,p[2]);
-					colourChat("Saved current item as " + p[1]);
-				} else if(Level.getGameMode() == 0) {
-					colourChat("You are in survival mode!");
+			if(parseInt(p[1])) {
+				if(p[1] > 0 && p[1] <= 510) {
+					if(Level.getGameMode() == 1) {
+						Entity.setCarriedItem(Player.getEntity(),parseInt(p[1]),1,p[2]);
+						colourChat("Saved current item as " + p[1]);
+					} if(Level.getGameMode() == 0) {
+						colourChat("You are in survival mode!");
+					}
 				}
-			}
-			break;
+			} else {
+				if(p[1] == 'resetinv') {
+					if(Level.getGameMode() == 1) {
+						Level.setGameMode(0);
+						Level.setGameMode(1);
+						colourChat("Creative inventory reset to default!");
+					}
+				} else {
+					colourChat("Usage: /setitem <ID> <damage>");
+				}
+			} break;
 
 		} case 'sethome': {
 			ModPE.saveData("homeX",parseInt(Player.getX()));
@@ -850,7 +893,7 @@ function procCmd(c) {
 
 		} case 'spawn': {
 			if(p[1]) {
-				spawnMobID = MobIDs[p[1].toLowerCase()];
+				spawnMobID = mobIDs[p[1].toLowerCase()];
 				if(typeof(spawnMobID) == "undefined") {
 					colourChat("Usage: /spawn <MobName> <Amount>");
 					break;
@@ -858,14 +901,13 @@ function procCmd(c) {
 			} if(!p[1]) {
 				colourChat("Usage: /spawn <MobName> <Amount>");
 				break;
-			} if(p[2]) {
+			} if(parseInt(p[2])) {
 				for(spawnAmount=0;spawnAmount<=parseInt(p[2]);spawnAmount++) {
 					Level.spawnMob(getPlayerX(),getPlayerY(),getPlayerZ(),spawnMobID);
 				}
-			} if(!p[2]) {
+			} if(!p[2] || !parseInt(p[2])) {
 				colourChat("Usage: /spawn <MobName> <Amount>");
-			}
-			break;
+			} break;
 
 		} case 'spawntouch': {
 			if(p[1] == 'off') {
@@ -874,17 +916,15 @@ function procCmd(c) {
 				colourChat("SpawnTouch deactivated!");
 				break;
 			} if(p[1]) {
-				spawnMobID = MobIDs[p[1].toLowerCase()];
+				spawnMobID = mobIDs[p[1].toLowerCase()];
 				if(typeof(spawnMobID) == "undefined") {
 					colourChat("Usage: /spawntouch <MobName|off>");
 				} else {
 					colourChat("SpawnTouch activated!");
-				}
-				spawnTouch = 1;
+				} spawnTouch = 1;
 			} if(!p[1]) {
 				colourChat("Usage: /spawntouch <MobName|off>");
-			}
-			break;
+			} break;
 
 		} case 'sprint': {
 			if(p[1] == 'on') {
@@ -894,6 +934,7 @@ function procCmd(c) {
 				} if(sprintMode == 0) {
 					sprintMode = 1;
 					colourChat("Sprint Mode activated! Original Sprint Script made by WhyToFu.");
+					break;
 				}
 			} if(p[1] == 'off') {
 				if(sprintMode == 0) {
@@ -903,8 +944,9 @@ function procCmd(c) {
 					sprintMode = 0;
 					colourChat("Sprint Mode deactivated!");
 				}
-			}
-			break;
+			} else {
+				colourChat("Usage: /sprint <on|off>");
+			} break;
 
 		} case 'summon': {
 			if(p[1] == 'chicken') {
@@ -935,9 +977,8 @@ function procCmd(c) {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,36,'mob/pigzombie.png');
 				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} else if(!p[1]) {
-				colourChat("Specify a mob!");
-			}
-			break;
+				colourChat("Please specify a mob!");
+			} break;
 
 		} case 'surface': {
 			for(i=1;i<=128;i++) {
@@ -969,20 +1010,32 @@ function procCmd(c) {
 				} if(!p[2]) {
 					colourChat("Specify a time!");
 					break;
-				} else {
+				} if(parseInt(p[2])) {
 					Level.setTime(parseInt(p[2]));
 					colourChat("Time set to " + parseInt(p[2]));
-					break; 
+					break;
+				} else {
+					colourChat("Usage: /time set <day|night>");
 				}
 			} if(!p[1]) {
 				colourChat("The current time is " + Level.getTime());
-			}
-			break;
+			} break;
 
-		} case 'tp': {
-			Entity.setPosition(Player.getEntity(), parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
-			colourChat("Teleported to x: " + parseInt(p[1]) + ", y: " + parseInt(p[2]) + ", z: " + parseInt(p[3]));
-			break;
+		} case 'tp':
+		case 'teleport': {
+			if(parseInt(p[1]) && parseInt(p[2]) && parseInt(p[3])) {
+				if(magicCarpet == 1) {
+					colourChat("Magic carpet deactivating...");
+					magicCarpet = 0;
+				} if(sprintMode == 1) {
+					colourChat("Sprint deactivating,,,");
+					sprintMode = 0;
+				} Entity.setPosition(Player.getEntity(), parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
+				colourChat("Teleported to x: " + parseInt(p[1]) + ", y: " + parseInt(p[2]) + ", z: " + parseInt(p[3]));
+				break;
+			} else {
+				colourChat("Usage: /tp <x> <y> <z>");
+			} break;
 
 		} case 'warp': {
 			if(p[1] == 'on') {
@@ -1011,8 +1064,7 @@ function procCmd(c) {
 					Player.addItemInventory(294,-1);
 					colourChat("Warp Panels deactivated!");
 				}
-			}
-			break;
+			} break;
 		} default: {
 			colourChat("Command does not exist!");
 			break;
@@ -1048,6 +1100,31 @@ function entityRemovedHook(entity) {
 			Entity.setPosition(Player.getEntity(),snowballX+0.5,snowballY+2,snowballZ+0.5);
 		}
 	}
+}
+
+function reload() {
+	colourChat("Player died, resetting SPC...");
+	if(Level.getGameMode() == 1) {
+		Level.setGameMode(0);
+		Level.setGameMode(1);
+		colourChat("Resetting creative inventory...");
+	} if(magicCarpet == 1) {
+		magicCarpet = 0;
+		magicCarpetTick = 0;
+		colourChat("Deactivating Magic Carpet...");
+	} if(sprintMode == 1) {
+		sprintMode = 0;
+		sprintTick = 0;
+		colourChat("Deactivating Sprint Mode...");
+	} if(panoramaMode == 1) {
+		panoramaMode = 0;
+		panCountdown = 0;
+		colourChat("Deactivating Panorama Mode...");
+	} if(TNTCannonActive == 1 || mobCannonActive == 1) {
+		TNTCannonActive = 0;
+		MobCannonActive = 0;
+		colourChat("Deactivating TNT/Mob Cannon...");
+	} colourChat("Reset complete!");
 }
 
 function modTick() {
@@ -1102,6 +1179,8 @@ function modTick() {
 									}
 								}
 							}
+						} if(Entity.getPitch(Player.getEntity()) <= -60) {
+							setVelY(Player.getEntity(),0.3);
 						}
 					}
 				}
@@ -1207,5 +1286,12 @@ function modTick() {
 			snowballZ = Math.floor(Entity.getZ(snowball));
 			pearlCountdown = 0;
 		}
+	} if(Entity.getHealth(Player.getEntity()) <= 0) {
+		if(resetMode == 0) {
+			reload();
+			resetMode = 1;
+		}
+	} if(Entity.getHealth(Player.getEntity()) > 0) {
+		resetMode = 0;
 	}
 }
