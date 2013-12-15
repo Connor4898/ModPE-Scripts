@@ -19,8 +19,8 @@
  * (at your option) any later version.
 */
 
-var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnMobID = null, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, msg, msgTick = 100, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, cannonRapidMode = 0, cannonRapidCountdown = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ, evalMsg = "", entities = [], entityCount = 0;
-var MobIDs = {
+var setHomeData = 0, bombMode = 0, bombSet = 0, portableDoorMode = 0, portableDoorActive = 0, pDoor, pDoor1, magicCarpet = 0, magicCarpetTick = 0, sprintMode = 0, Xpos = 0, Zpos = 0, sprintTick = 1, Xdiff = 0, Zdiff = 0, countdownMode = 0, countdown = 0, spawnTouch = 0, spawnMobID = null, instabreakMode = 0, instabreakBlock, warpMode = 0, nextYaw = 0, panoramaMode = 0, panoramaSpeed = 0, panCountdown = 0, TNTCannonActive = 0, mobCannonActive = 0, cannonCountdown = 0, cannonMob, cannonMobID = 0, cannonPlayerPitch = 0, cannonPlayerYaw = 0, cannonVelX = 0, cannonVelY = 0, cannonVelZ = 0, cannonRapidMode = 0, cannonRapidCountdown = 0, pearlActive = 0, snowballThrown = 0, snowball, pearlCountdown = 0, snowballX, snowballY, snowballZ, evalMsg = "", entities = [], entityCount = 0, resetMode = 0;
+var mobIDs = {
 	"chicken": 10,
 	"cow": 11,
 	"pig": 12,
@@ -34,6 +34,279 @@ var MobIDs = {
 	"pigzombie": 36,
 	"pigman": 36
 };
+var nameIDs = {
+	"AIR": 0,
+	"STONE": 1,
+	"GRASS": 2,
+	"DIRT": 3,
+	"COBBLESTONE": 4,
+	"COBBLE": 4,
+	"PLANK": 5,
+	"PLANKS": 5,
+	"WOODEN_PLANK": 5,
+	"WOODEN_PLANKS": 5,
+	"SAPLING": 6,
+	"SAPLINGS": 6,
+	"BEDROCK": 7,
+	"WATER": 8,
+	"STILL_WATER": 9,
+	"LAVA": 10,
+	"STILL_LAVA": 11,
+	"SAND": 12,
+	"GRAVEL": 13,
+	"GOLD_ORE": 14,
+	"IRON_ORE": 15,
+	"COAL_ORE": 16,
+	"WOOD": 17,
+	"TRUNK": 17,
+	"LEAVES": 18,
+	"LEAVE": 18,
+	"SPONGE": 19,
+	"GLASS": 20,
+	"LAPIS_ORE": 21,
+	"LAPIS_BLOCK": 22,
+	"SANDSTONE": 24,
+	"BED_BLOCK": 26,
+	"COBWEB": 30,
+	"TALL_GRASS": 31,
+	"BUSH": 32,
+	"DEAD_BUSH": 32,
+	"WOOL": 35,
+	"DANDELION": 37,
+	"ROSE": 38,
+	"CYAN_FLOWER": 38,
+	"BROWN_MUSHROOM": 39,
+	"RED_MUSHROOM": 40,
+	"GOLD_BLOCK": 41,
+	"IRON_BLOCK": 42,
+	"DOUBLE_SLAB": 43,
+	"DOUBLE_SLABS": 43,
+	"SLAB": 44,
+	"SLABS": 44,
+	"BRICKS": 45,
+	"BRICKS_BLOCK": 45,
+	"TNT": 46,
+	"BOOKSHELF": 47,
+	"MOSS_STONE": 48,
+	"MOSSY_STONE": 48,
+	"OBSIDIAN": 49,
+	"TORCH": 50,
+	"FIRE": 51,
+	"WOOD_STAIRS": 53,
+	"WOODEN_STAIRS": 53,
+	"OAK_WOOD_STAIRS": 53,
+	"OAK_WOODEN_STAIRS": 53,
+	"CHEST": 54,
+	"DIAMOND_ORE": 56,
+	"DIAMOND_BLOCK": 57,
+	"CRAFTING_TABLE": 58,
+	"WORKBENCH": 58,
+	"WHEAT_BLOCK": 59,
+	"FARMLAND": 60,
+	"FURNACE": 61,
+	"BURNING_FURNACE": 62,
+	"LIT_FURNACE": 62,
+	"SIGN_POST": 63,
+	"DOOR_BLOCK": 64,
+	"WOODEN_DOOR_BLOCK": 64,
+	"WOOD_DOOR_BLOCK": 64,
+	"LADDER": 65,
+	"COBBLE_STAIRS": 67,
+	"COBBLESTONE_STAIRS": 67,
+	"WALL_SIGN": 68,
+	"IRON_DOOR_BLOCK": 71,
+	"REDSTONE_ORE": 73,
+	"GLOWING_REDSTONE_ORE": 74,
+	"LIT_REDSTONE_ORE": 74,
+	"SNOW": 78,
+	"SNOW_LAYER": 78,
+	"ICE": 79,
+	"SNOW_BLOCK": 80,
+	"CACTUS": 81,
+	"CLAY_BLOCK": 82,
+	"REEDS": 83,
+	"SUGARCANE_BLOCK": 83,
+	"FENCE": 85,
+	"PUMPKIN": 86,
+	"NETHERRACK": 87,
+	"SOUL_SAND": 88,
+	"GLOWSTONE": 89,
+	"GLOWSTONE_BLOCK": 89,
+	"LIT_PUMPKIN": 91,
+	"JACK_O_LANTERN": 91,
+	"CAKE_BLOCK": 92,
+	"TRAPDOOR": 96,
+	"STONE_BRICKS": 98,
+	"STONE_BRICK": 98,
+	"IRON_BAR": 101,
+	"IRON_BARS": 101,
+	"GLASS_PANE": 102,
+	"GLASS_PANEL": 102,
+	"MELON_BLOCK": 103,
+	"PUMPKIN_STEM": 104,
+	"MELON_STEM": 105,
+	"FENCE_GATE": 107,
+	"BRICK_STAIRS": 108,
+	"STONE_BRICK_STAIRS": 109,
+	"NETHER_BRICKS": 112,
+	"NETHER_BRICK_BLOCK": 112,
+	"NETHER_BRICKS_STAIRS": 114,
+	"SANDSTONE_STAIRS": 128,
+	"SPRUCE_WOOD_STAIRS": 134,
+	"SPRUCE_WOODEN_STAIRS": 134,
+	"BIRCH_WOOD_STAIRS": 135,
+	"BIRCH_WOODEN_STAIRS": 135,
+	"JUNGLE_WOOD_STAIRS": 136,
+	"JUNGLE_WOODEN_STAIRS": 136,
+	"COBBLE_WALL": 139,
+	"STONE_WALL": 139,
+	"COBBLESTONE_WALL": 139,
+	"CARROT_BLOCK": 141,
+	"POTATO_BLOCK": 141,
+	"QUARTZ_BLOCK": 155,
+	"QUARTZ_STAIRS": 156,
+	"DOUBLE_WOOD_SLAB": 157,
+	"DOUBLE_WOODEN_SLAB": 157,
+	"DOUBLE_WOOD_SLABS": 157,
+	"DOUBLE_WOODEN_SLABS": 157,
+	"WOOD_SLAB": 158,
+	"WOODEN_SLAB": 158,
+	"WOOD_SLABS": 158,
+	"WOODEN_SLABS": 158,
+	"HAY_BALE": 170,
+	"CARPET": 171,
+	"COAL_BLOCK": 173,
+	"BEETROOT_BLOCK": 244,
+	"STONECUTTER": 245,
+	"GLOWING_OBSIDIAN": 246,
+	"NETHER_REACTOR": 247,
+	"IRON_SHOVEL": 256,
+	"IRON_PICKAXE": 257,
+	"IRON_AXE": 258,
+	"FLINT_STEEL": 259,
+	"FLINT_AND_STEEL": 259,
+	"APPLE": 260,
+	"BOW": 261,
+	"ARROW": 262,
+	"COAL": 263,
+	"DIAMOND": 264,
+	"IRON_INGOT": 265,
+	"GOLD_INGOT": 266,
+	"IRON_SWORD": 267,
+	"WOODEN_SWORD": 268,
+	"WOODEN_SHOVEL": 269,
+	"WOODEN_PICKAXE": 270,
+	"WOODEN_AXE": 271,
+	"STONE_SWORD": 272,
+	"STONE_SHOVEL": 273,
+	"STONE_PICKAXE": 274,
+	"STONE_AXE": 275,
+	"DIAMOND_SWORD": 276,
+	"DIAMOND_SHOVEL": 277,
+	"DIAMOND_PICKAXE": 278,
+	"DIAMOND_AXE": 279,
+	"STICK": 280,
+	"STICKS": 280,
+	"BOWL": 281,
+	"MUSHROOM_STEW": 282,
+	"GOLD_SWORD": 283,
+	"GOLD_SHOVEL": 284,
+	"GOLD_PICKAXE": 285,
+	"GOLD_AXE": 286,
+	"GOLDEN_SWORD": 283,
+	"GOLDEN_SHOVEL": 284,
+	"GOLDEN_PICKAXE": 285,
+	"GOLDEN_AXE": 286,
+	"STRING": 287,
+	"FEATHER": 288,
+	"GUNPOWDER": 289,
+	"WOODEN_HOE": 290,
+	"STONE_HOE": 291,
+	"IRON_HOE": 292,
+	"DIAMOND_HOE": 293,
+	"GOLD_HOE": 294,
+	"GOLDEN_HOE": 294,
+	"SEEDS": 295,
+	"WHEAT_SEEDS": 295,
+	"WHEAT": 296,
+	"BREAD": 297,
+	"LEATHER_CAP": 298,
+	"LEATHER_TUNIC": 299,
+	"LEATHER_PANTS": 300,
+	"LEATHER_BOOTS": 301,
+	"CHAIN_HELMET": 302,
+	"CHAIN_CHESTPLATE": 303,
+	"CHAIN_LEGGINGS": 304,
+	"CHAIN_BOOTS": 305,
+	"IRON_HELMET": 306,
+	"IRON_CHESTPLATE": 307,
+	"IRON_LEGGINGS": 308,
+	"IRON_BOOTS": 309,
+	"DIAMOND_HELMET": 310,
+	"DIAMOND_CHESTPLATE": 311,
+	"DIAMOND_LEGGINGS": 312,
+	"DIAMOND_BOOTS": 313,
+	"GOLD_HELMET": 314,
+	"GOLD_CHESTPLATE": 315,
+	"GOLD_LEGGINGS": 316,
+	"GOLD_BOOTS": 317,
+	"FLINT": 318,
+	"RAW_PORKCHOP": 319,
+	"COOKED_PORKCHOP": 320,
+	"PAINTING": 321,
+	"GOLDEN_APPLE": 322,
+	"SIGN": 323,
+	"WOODEN_DOOR": 324,
+	"BUCKET": 325,
+	"MINECART": 329,
+	"IRON_DOOR": 330,
+	"REDSTONE": 331,
+	"REDSTONE_DUST": 331,
+	"SNOWBALL": 332,
+	"LEATHER": 334,
+	"BRICK": 336,
+	"CLAY": 337,
+	"SUGARCANE": 338,
+	"SUGAR_CANE": 338,
+	"SUGAR_CANES": 338,
+	"PAPER": 339,
+	"SLIMEBALL": 341,
+	"EGG": 344,
+	"COMPASS": 345,
+	"CLOCK": 347,
+	"GLOWSTONE_DUST": 348,
+	"DYE": 351,
+	"BONE": 352,
+	"SUGAR": 353,
+	"CAKE": 354,
+	"BED": 355,
+	"SHEARS": 359,
+	"MELON": 360,
+	"MELON_SLICE": 360,
+	"PUMPKIN_SEEDS": 361,
+	"MELON_SEEDS": 362,
+	"RAW_BEEF": 363,
+	"STEAK": 364,
+	"COOKED_BEEF": 364,
+	"RAW_CHICKEN": 365,
+	"COOKED_CHICKEN": 366,
+	"SPAWN_EGG": 383,
+	"CARROT": 391,
+	"CARROTS": 391,
+	"POTATO": 392,
+	"POTATOES": 392,
+	"BAKED_POTATO": 393,
+	"BAKED_POTATOES": 393,
+	"PUMPKIN_PIE": 400,
+	"NETHER_BRICK": 405,
+	"QUARTZ": 406,
+	"NETHER_QUARTZ": 406,
+	"CAMERA": 456,
+	"BEETROOT": 457,
+	"BEETROOT_SEEDS": 458,
+	"BEETROOT_SEED": 458,
+	"BEETROOT_SOUP": 459
+}
 
 function useItem(x,y,z,itemId,blockId) {
 	if(bombMode == 1) {
@@ -256,10 +529,13 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /gamemode <survival|creative|0|1> to change your current gamemode. NOTE: Clears your survival inventory");
 					break;
 				} case 'give': {
-					clientMessage("[SPC] [HELP] Type /give <Name|ID> <amount> to add any item to your inventory.\nExample: /give 57 64");
+					clientMessage("[SPC] [HELP] Type /give <Name|ID> <amount> to add any item to your inventory.\nExample: /give diamond 64");
 					break;
 				} case 'heal': {
-					clientMessage("[SPC] [HELP] Type /heal or /heal <Half-hearts> to set your health to the specified amount.\nExample: /heal 20");
+					clientMessage("[SPC] [HELP] Type /heal or /heal <half-hearts> to heal yourself by the specified amount.\nExample: /heal 10");
+					break;
+				} case 'health': {
+					clientMessage("[SPC] [HELP] Type /health <get|set> to get/set your health.\nExample: /health set 10");
 					break;
 				} case 'hole': {
 					clientMessage("[SPC] [HELP] Type /hole to commit suicide. WARNING: USE WITH CAUTION!\n Example: /hole");
@@ -298,7 +574,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /refresh to regain all items required for currently active commands.\nExample: /refresh");
 					break;
 				} case 'setitem': {
-					clientMessage("[SPC] [HELP] Type /setitem <ID> to set the specified item ID to your current held item.\nExample: /setitem 264");
+					clientMessage("[SPC] [HELP] Type /setitem <ID> <damage> to set the specified item ID to your current held item.\nExample: /setitem 264");
 					break;
 				} case 'sethome': {
 					clientMessage("[SPC] [HELP] Type /sethome to set coordinates you can easily tp back to, using /home.\n Example: /sethome");
@@ -328,25 +604,28 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /warp <on|off> to turn Warp Panels on or off.\nExample: /warp on");
 					break;
 				} case '1': {
-					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
+					clientMessage("Showing help page 1 of 8 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
 					break;
 				} case '2': {
-					clientMessage("Showing help page 2 of 7 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <method> <MobName|all>\n /eval <code>\n /explode <radius>");
+					clientMessage("Showing help page 2 of 8 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <method> <MobName|all>\n /eval <code>\n /explode <radius>");
 					break;
 				} case '3': {
-					clientMessage("Showing help page 3 of 7 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <Name|ID> <amount>\n /heal <amount>\n /help <page|command>\n /hole");
+					clientMessage("Showing help page 3 of 8 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <Name|ID> <amount>\n /heal <amount>\n /health <get|set>\n /help <page|command>");
 					break;
 				} case '4': {
-					clientMessage("Showing help page 4 of 7 (/help <page>)\n /home\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>\n /kill");
+					clientMessage("Showing help page 4 of 8 (/help <page>)\n /hole\n /home\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>");
 					break;
 				} case '5': {
-					clientMessage("Showing help page 5 of 7 (/help <page>)\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>\n /rain <MobName>");
+					clientMessage("Showing help page 5 of 8 (/help <page>)\n /kill\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>");
 					break;
 				} case '6': {
-					clientMessage("Showing help page 6 of 7 (/help <page>)\n /refresh\n /setitem <ID>\n /sethome\n /spawntouch <MobName|off>\n /sprint <on|off>");
+					clientMessage("Showing help page 6 of 8 (/help <page>)\n /rain <MobName>\n /refresh\n /setitem <ID> <damage>\n /sethome\n /spawntouch <MobName|off>");
 					break;
 				} case '7': {
-					clientMessage("Showing help page 7 of 7 (/help <page>)\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>\n /warp <on|off>");
+					clientMessage("Showing help page 7 of 8 (/help <page>)\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>");
+					break;
+				} case '8': {
+					clientMessage("Showing help page 8 of 8 (/help <page>)\n /warp <on|off>");
 					break;
 				} default: {
 					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
@@ -368,43 +647,57 @@ function procCmd(c) {
 			if(p[1] == 'on') {
 				if(bombMode == 1) {
 					colourChat("Bomb detonation mode is already on!");
+					break;
 				} if(bombMode == 0) {
 					bombMode = 1;
 					Player.addItemInventory(280,1);
 					colourChat("Bomb detonation mode has been turned on!");
+					break;
 				}
 			} if(p[1] == 'off') {
 				if(bombMode == 0) {
 					colourChat("Bomb detonation mode is already off!");
+					break;
 				} if(bombMode == 1) {
 					bombMode = 0;
 					Player.addItemInventory(280,-1);
 					colourChat("Bomb detonation mode has been turned off!");
+					break;
 				}
 			} if(p[1] == 'detonate') {
 				if(bombMode == 0) {
 					colourChat("Bomb detonation mode is off!");
+					break;
 				} if(bombMode == 1) {
 					if(bombSet == 0) {
 						colourChat("Set a bomb first!");
-				} if(bombSet == 1) {
+						break;
+					} if(bombSet == 1) {
 						Level.explode(bombX, bombY, bombZ, 5);
 						colourChat("Bomb detonated!");
 						bombSet = 0;
+						break;
 					}
 				}
-			}
-			break;
+			} else {
+				colourChat("Usage: /bomb <on|off|detonate>")
+			} break;
 
 		} case 'bounce': {
-			if((!p[1]) || (p[1] < 1)) {
+			if(!p[1]) {
 				colourChat("Usage: /bounce <power>");
-			} else if(p[1] >= 1) {
-				Entity.setVelY(Player.getEntity(),parseInt(p[1]));
+				break;
+			} if(parseInt(p[1])) {
+				if(p[1] <= 0) {
+					colourChat("The bounce power must be higher than 0!");
+					break;
+				} if(p[1] > 0) {
+					Entity.setVelY(Player.getEntity(),parseInt(p[1]) / 3);
+					break;
+				}
 			} else {
 				colourChat("The bounce power must be a number!");
-			}
-			break;
+			} break;
 
 		} case 'coords': {
 			clientMessage("[SPC] Current coordinates are:\nHead: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY()) + " z: " + Math.floor(Player.getZ()) + "\nFeet: x: " + Math.floor(Player.getX()) + " y: " + Math.floor(Player.getY() - 1) + " z: " + Math.floor(Player.getZ()));
@@ -452,12 +745,11 @@ function procCmd(c) {
 			}
 		} else {
 			clientMessage("[SPC] You need to be in creative mode!\n(Type /gamemode creative)");
-		}
-		break;
+		} break;
 
 		} case 'entity': {
 			if(p[1] && p[2]) {
-				var entityMobID = MobIDs[p[2].toLowerCase()];
+				var entityMobID = mobIDs[p[2].toLowerCase()];
 				var entityMethod = "";
 				if(typeof(entityMobID) == "undefined" && p[2] != 'all') {
 					break;
@@ -479,9 +771,9 @@ function procCmd(c) {
 							}
 						}
 					} if(entityMethod == 'Removed') {
-						colourChat("" + entityMethod + " " + entityCount + " entities");
+						colourChat(entityMethod + " " + entityCount + " entities");
 					} else {
-						colourChat("" + entityMethod + " " + entityCount + " mobs");
+						colourChat(entityMethod + " " + entityCount + " mobs");
 					}
 					entityCount = 0;
 				} else {
@@ -499,19 +791,17 @@ function procCmd(c) {
 								entityMethod = "Exploded";
 							}
 						}
-					}
-					if(p[2] == 'sheep') {
-						colourChat("" + entityMethod + " " + entityCount + " " + p[2]);
+					} if(p[2] == 'sheep') {
+						colourChat(entityMethod + " " + entityCount + " " + p[2]);
 					} else {
-						colourChat("" + entityMethod + " " + entityCount + " " + p[2] + "s");
+						colourChat(entityMethod + " " + entityCount + " " + p[2] + "s");
 					}
 					entityCount = 0;
 					break;
 				}
 			} if(!p[1]) {
 				colourChat("Usage: /entity <kill|burn|explode> <MobName|all>");
-			}
-			break;
+			} break;
 
 		} case 'eval': {
 			evalMsg = "";
@@ -521,9 +811,12 @@ function procCmd(c) {
 			break;
 
 		} case 'explode': {
-			Level.explode(Player.getX(), Player.getY(), Player.getZ(), p[1]);
-			colourChat("KAPLOOEY!!!");
-			break;
+			if(parseInt(p[1])) {
+				Level.explode(Player.getX(), Player.getY(), Player.getZ(), p[1]);
+				colourChat("KAPLOOEY!!!");
+			} else {
+				colourChat("The explode radius must be a number!");
+			} break;
 
 		} case 'gamemode': {
 			if(!p[1]) {
@@ -547,579 +840,50 @@ function procCmd(c) {
 					colourChat("Gamemode set to creative!");
 					break;
 				} else {
-					colourChat("Usage: /gamemode <surival|creative|0|1>");
+					colourChat("Usage: /gamemode <survival|creative|0|1>");
 				}
-			}
-			break;
+			} break;
 
 		} case 'give': {
-			if(p[1] == 'stone') {
-				Player.addItemInventory(1,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'grass') {
-				Player.addItemInventory(2,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'dirt') {
-				Player.addItemInventory(3,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'cobblestone' || p[1] == 'cobble') {
-				Player.addItemInventory(4,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'plank' || p[1] == 'planks' || p[1] == 'wooden_plank' || p[1] == 'wooden_planks') {
-				Player.addItemInventory(5,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'sapling' || p[1] == 'saplings') {
-				Player.addItemInventory(6,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bedrock') {
-				Player.addItemInventory(7,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'water') {
-				Player.addItemInventory(8,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'still_water') {
-				Player.addItemInventory(9,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'lava') {
-				Player.addItemInventory(10,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'still_lava') {
-				Player.addItemInventory(11,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'sand') {
-				Player.addItemInventory(12,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gravel') {
-				Player.addItemInventory(13,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_ore') {
-				Player.addItemInventory(14,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_ore') {
-				Player.addItemInventory(15,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'coal_ore') {
-				Player.addItemInventory(16,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wood' || p[1] == 'trunk') {
-				Player.addItemInventory(17,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'leave' || p[1] == 'leaves') {
-				Player.addItemInventory(18,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'glass') {
-				Player.addItemInventory(20,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'lapis_ore') {
-				Player.addItemInventory(21,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'lapis_block') {
-				Player.addItemInventory(22,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'sandstone') {
-				Player.addItemInventory(24,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bed_block') {
-				Player.addItemInventory(26,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'cobweb') {
-				Player.addItemInventory(30,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'tall_grass') {
-				Player.addItemInventory(31,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bush' || p[1] == 'dead_bush') {
-				Player.addItemInventory(32,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wool') {
-				Player.addItemInventory(35,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'dandelion') {
-				Player.addItemInventory(37,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'rose' || p[1] == 'cyan_flower') {
-				Player.addItemInventory(38,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'brown_mushroom') {
-				Player.addItemInventory(39,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'red_mushroom') {
-				Player.addItemInventory(40,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_block') {
-				Player.addItemInventory(41,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_block') {
-				Player.addItemInventory(42,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'double_slab' || p[1] == 'double_slabs') {
-				Player.addItemInventory(43,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'slab' || p[1] == 'slabs') {
-				Player.addItemInventory(44,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bricks' || p[1] == 'bricks_block') {
-				Player.addItemInventory(45,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'tnt') {
-				Player.addItemInventory(46,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bookshelf') {
-				Player.addItemInventory(47,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'moss_stone' || p[1] == 'mossy_stone') {
-				Player.addItemInventory(48,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'obsidian') {
-				Player.addItemInventory(49,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'torch') {
-				Player.addItemInventory(50,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'fire') {
-				Player.addItemInventory(51,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wood_stairs' || p[1] == 'wooden_stairs') {
-				Player.addItemInventory(53,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'chest') {
-				Player.addItemInventory(54,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_ore') {
-				Player.addItemInventory(56,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_block') {
-				Player.addItemInventory(57,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'crafting_table' || p[1] == 'workbench') {
-				Player.addItemInventory(58,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wheat_block') {
-				Player.addItemInventory(59,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'farmland') {
-				Player.addItemInventory(60,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'furnace') {
-				Player.addItemInventory(61,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'burning_furnace' || p[1] == 'lit_furnace') {
-				Player.addItemInventory(62,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'sign_post') {
-				Player.addItemInventory(63,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'door_block' || p[1] == 'wood_door_block' || p[1] == 'wooden_door_block') {
-				Player.addItemInventory(64,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'ladder') {
-				Player.addItemInventory(65,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'cobble_stairs' || p[1] == 'cobblestone_stairs') {
-				Player.addItemInventory(67,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wall_sign') {
-				Player.addItemInventory(68,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_door_block') {
-				Player.addItemInventory(71,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'redstone_ore') {
-				Player.addItemInventory(73,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'glowing_redstone_ore' || p[1] == 'lit_redstone_ore') {
-				Player.addItemInventory(74,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'snow' || p[1] == 'snow_layer') {
-				Player.addItemInventory(78,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'ice') {
-				Player.addItemInventory(79,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'snow_block') {
-				Player.addItemInventory(80,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'cactus') {
-				Player.addItemInventory(81,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'clay_block') {
-				Player.addItemInventory(82,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'reeds' || p[1] == 'sugarcane_block') {
-				Player.addItemInventory(83,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'fence') {
-				Player.addItemInventory(85,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'netherrack') {
-				Player.addItemInventory(87,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'glowstone' || p[1] == 'glowstone_block') {
-				Player.addItemInventory(89,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'cake_block') {
-				Player.addItemInventory(92,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'invisible_bedrock') {
-				Player.addItemInventory(95,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'trapdoor') {
-				Player.addItemInventory(96,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'stone_brick' || p[1] == 'stone_bricks') {
-				Player.addItemInventory(98,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'glass_pane' || p[1] == 'glass_panel') {
-				Player.addItemInventory(102,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'melon_block') {
-				Player.addItemInventory(103,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'melon_stem') {
-				Player.addItemInventory(105,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'fence_gate') {
-				Player.addItemInventory(107,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'brick_stairs' || p[1] == 'stone_brick_stairs') {
-				Player.addItemInventory(109,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'nether_bricks' || p[1] == 'nether_brick_block' || p[1] == 'nether_bricks_block') {
-				Player.addItemInventory(112,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'nether_brick_stairs' || p[1] == 'nether_bricks_stairs') {
-				Player.addItemInventory(114,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'sandstone_stairs') {
-				Player.addItemInventory(128,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'quartz_block') {
-				Player.addItemInventory(155,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'quartz_stairs') {
-				Player.addItemInventory(156,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'stonecutter') {
-				Player.addItemInventory(245,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'glowing_obsidian') {
-				Player.addItemInventory(246,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'nether_reactor') {
-				Player.addItemInventory(247,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'update_block') {
-				Player.addItemInventory(248,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == '.name') {
-				Player.addItemInventory(255,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_shovel') {
-				Player.addItemInventory(256,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_pickaxe') {
-				Player.addItemInventory(257,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_axe') {
-				Player.addItemInventory(258,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'flint_steel' || p[1] == 'flint_and_steel') {
-				Player.addItemInventory(259,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'apple') {
-				Player.addItemInventory(260,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bow') {
-				Player.addItemInventory(261,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'arrow') {
-				Player.addItemInventory(262,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'coal') {
-				Player.addItemInventory(263,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond') {
-				Player.addItemInventory(264,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_ingot') {
-				Player.addItemInventory(265,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_ingot') {
-				Player.addItemInventory(266,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_sword') {
-				Player.addItemInventory(267,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wooden_sword' || p[1] == 'wood_sword') {
-				Player.addItemInventory(268,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wooden_shovel' || p[1] == 'wood_shovel') {
-				Player.addItemInventory(269,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wooden_axe' || p[1] == 'wood_axe') {
-				Player.addItemInventory(271,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'stone_sword') {
-				Player.addItemInventory(272,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'stone_shovel') {
-				Player.addItemInventory(273,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'stone_pickaxe') {
-				Player.addItemInventory(274,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'stone_axe') {
-				Player.addItemInventory(275,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_sword') {
-				Player.addItemInventory(276,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_shovel') {
-				Player.addItemInventory(277,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_pickaxe') {
-				Player.addItemInventory(278,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_axe') {
-				Player.addItemInventory(279,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'stick') {
-				Player.addItemInventory(280,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bowl') {
-				Player.addItemInventory(281,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'mushroom_stew') {
-				Player.addItemInventory(282,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_sword' || p[1] == 'golden_sword') {
-				Player.addItemInventory(283,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_shovel' || p[1] == 'golden_shovel') {
-				Player.addItemInventory(284,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_pickaxe' || p[1] == 'golden_pickaxe') {
-				Player.addItemInventory(285,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_axe' || p[1] == 'golden_axe') {
-				Player.addItemInventory(286,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'string') {
-				Player.addItemInventory(287,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'feather') {
-				Player.addItemInventory(288,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gunpowder') {
-				Player.addItemInventory(289,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wood_hoe' || p[1] == 'wooden_hoe') {
-				Player.addItemInventory(290,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'stone_hoe') {
-				Player.addItemInventory(291,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_hoe') {
-				Player.addItemInventory(292,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_hoe' || p[1] == 'golden_hoe') {
-				Player.addItemInventory(294,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'seeds' || p[1] == 'wheat_seeds') {
-				Player.addItemInventory(295,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wheat') {
-				Player.addItemInventory(296,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bread') {
-				Player.addItemInventory(297,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'leather_cap' || p[1] == 'leather_hat' || p[1] == 'leather_helmet') {
-				Player.addItemInventory(298,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'leather_tunic' || p[1] == 'leather_chestplate') {
-				Player.addItemInventory(299,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'leather_pants' || p[1] == 'leather_leggings') {
-				Player.addItemInventory(300,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'leather_boots' || p[1] == 'leather_shoes') {
-				Player.addItemInventory(301,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'chain_helmet' || p[1] == 'chain_hat') {
-				Player.addItemInventory(302,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'chain_chestplate') {
-				Player.addItemInventory(303,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'chain_pants' || p[1] == 'chain_leggings') {
-				Player.addItemInventory(304,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'chain_boots' || p[1] == 'chain_shoes') {
-				Player.addItemInventory(305,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_helmet' || p[1] == 'iron_hat') {
-				Player.addItemInventory(306,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_chestplate') {
-				Player.addItemInventory(307,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_pants' || p[1] == 'iron_leggings') {
-				Player.addItemInventory(308,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_boots' || p[1] == 'iron_shoes') {
-				Player.addItemInventory(309,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_helmet' || p[1] == 'diamond_hat') {
-				Player.addItemInventory(310,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_chestplate') {
-				Player.addItemInventory(311,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_pants' || p[1] == 'diamond_leggings') {
-				Player.addItemInventory(312,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'diamond_boots' || p[1] == 'diamond_shoes') {
-				Player.addItemInventory(313,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_helmet' || p[1] == 'golden_helmet' || p[1] == 'gold_hat' || p[1] == 'gplden_hat') {
-				Player.addItemInventory(314,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_chestplate' || p[1] == 'golden_chestplate') {
-				Player.addItemInventory(315,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_pants' || p[1] == 'golden_pants' || p[1] == 'gold_leggings' || p[1] == 'golden_leggings') {
-				Player.addItemInventory(316,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'gold_boots' || p[1] == 'golden_boots' || p[1] == 'gold_shoes' || p[1] == 'golden_shoes') {
-				Player.addItemInventory(317,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'flint') {
-				Player.addItemInventory(318,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'raw_porkchop') {
-				Player.addItemInventory(319,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'cooked_porkchop') {
-				Player.addItemInventory(320,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'painting') {
-				Player.addItemInventory(321,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'sign') {
-				Player.addItemInventory(323,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'wood_door' || p[1] == 'wooden_door') {
-				Player.addItemInventory(324,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bucket') {
-				Player.addItemInventory(325,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'iron_door') {
-				Player.addItemInventory(330,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'snowball') {
-				Player.addItemInventory(332,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'leather') {
-				Player.addItemInventory(334,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'brick') {
-				Player.addItemInventory(336,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'clay') {
-				Player.addItemInventory(337,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'sugarcane' || p[1] == 'sugar_cane' || p[1] == 'sugar_canes') {
-				Player.addItemInventory(338,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'paper') {
-				Player.addItemInventory(339,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'slimeball') {
-				Player.addItemInventory(341,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'egg') {
-				Player.addItemInventory(344,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'compass') {
-				Player.addItemInventory(345,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'clock') {
-				Player.addItemInventory(347,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'glowstone_dust') {
-				Player.addItemInventory(348,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'dye') {
-				Player.addItemInventory(351,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bone') {
-				Player.addItemInventory(352,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'sugar') {
-				Player.addItemInventory(353,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'cake') {
-				Player.addItemInventory(354,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'bed') {
-				Player.addItemInventory(355,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'shears') {
-				Player.addItemInventory(359,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'melon' || p[1] == 'melon_slice') {
-				Player.addItemInventory(360,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'melon_seeds') {
-				Player.addItemInventory(362,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'raw_beef') {
-				Player.addItemInventory(363,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'steak' || p[1] == 'cooked_beef') {
-				Player.addItemInventory(364,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'raw_chicken') {
-				Player.addItemInventory(365,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'cooked_chicken') {
-				Player.addItemInventory(366,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'spawn_egg') {
-				Player.addItemInventory(383,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'nether_brick') {
-				Player.addItemInventory(405,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'quartz' || p[1] == 'nether_quartz') {
-				Player.addItemInventory(406,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] == 'camera') {
-				Player.addItemInventory(456,p[2]);
-				colourChat("Spawned " + p[2] + " of " + p[1] + "!");
-			} if(p[1] >= 1) {
-				if(p[1] == 1 || p[1] == 2 || p[1] == 3 || p[1] == 4 || p[1] == 5 || p[1] == 6 || p[1] == 7 || p[1] == 8 || p[1] == 9 || p[1] == 10 || p[1] == 11 || p[1] == 12 || p[1] == 13 || p[1] == 14 || p[1] == 15 || p[1] == 16 || p[1] == 17 || p[1] == 18 || p[1] == 20 || p[1] == 21 || p[1] == 22 || p[1] == 24 || p[1] == 26 || p[1] == 30 || p[1] == 31 || p[1] == 32 || p[1] == 35 || p[1] == 37 || p[1] == 38 || p[1] == 39 || p[1] == 40 || p[1] == 41 || p[1] == 42 || p[1] == 43 || p[1] == 44 || p[1] == 45 || p[1] == 46 || p[1] == 47 || p[1] == 48 || p[1] == 49 || p[1] == 50 || p[1] == 51 || p[1] == 53 || p[1] == 54 || p[1] == 56 || p[1] == 57 || p[1] == 58 || p[1] == 59 || p[1] == 60 || p[1] == 61 || p[1] == 62 || p[1] == 63 || p[1] == 64 || p[1] == 65 || p[1] == 67 || p[1] == 68 || p[1] == 71 || p[1] == 73 || p[1] == 74 || p[1] == 78 || p[1] == 79 || p[1] == 80 || p[1] == 81 || p[1] == 82 || p[1] == 83 || p[1] == 85 || p[1] == 87 || p[1] == 88 || p[1] == 89 || p[1] == 92 || p[1] == 95 || p[1] == 96 || p[1] == 98 || p[1] == 102 || p[1] == 103 || p[1] == 105 || p[1] == 107 || p[1] == 108 || p[1] == 109 || p[1] == 112 || p[1] == 114 || p[1] == 128 || p[1] == 155 || p[1] == 156 || p[1] == 245 || p[1] == 246 || p[1] == 247 || p[1] == 248 || p[1] == 255 || p[1] == 256 || p[1] == 257 || p[1] == 258 || p[1] == 259 || p[1] == 260 || p[1] == 261 || p[1] == 262 || p[1] == 263 || p[1] == 264 || p[1] == 265 || p[1] == 266 || p[1] == 267 || p[1] == 268 || p[1] == 269 || p[1] == 270 || p[1] == 271 || p[1] == 272 || p[1] == 273 || p[1] == 274 || p[1] == 275 || p[1] == 276 || p[1] == 277 || p[1] == 278 || p[1] == 279 || p[1] == 280 || p[1] == 281 || p[1] == 282 || p[1] == 283 || p[1] == 284 || p[1] == 285 || p[1] == 286 || p[1] == 287 || p[1] == 288 || p[1] == 289 || p[1] == 290 || p[1] == 291 || p[1] == 292 || p[1] == 293 || p[1] == 294 || p[1] == 295 || p[1] == 296 || p[1] == 297 || p[1] == 298 || p[1] == 299 || p[1] == 300 || p[1] == 301 || p[1] == 302 || p[1] == 303 || p[1] == 304 || p[1] == 305 || p[1] == 306 || p[1] == 307 || p[1] == 308 || p[1] == 309 || p[1] == 310 || p[1] == 311 || p[1] == 312 || p[1] == 313 || p[1] == 314 || p[1] == 315 || p[1] == 316 || p[1] == 317 || p[1] == 318 || p[1] == 319 || p[1] == 320 || p[1] == 321 || p[1] == 322 || p[1] == 323 || p[1] == 324 || p[1] == 325 || p[1] == 330 || p[1] == 332 || p[1] == 334 || p[1] == 336 || p[1] == 337 || p[1] == 338 || p[1] == 339 || p[1] == 341 || p[1] == 344 || p[1] == 345 || p[1] == 347 || p[1] == 348 || p[1] == 349 || p[1] == 351 || p[1] == 352 || p[1] == 353 || p[1] == 354 || p[1] == 355 || p[1] == 359 || p[1] == 360 || p[1] == 362 || p[1] == 363 || p[1] == 364 || p[1] == 365 || p[1] == 366 || p[1] == 383 || p[1] == 405 || p[1] == 406 || p[1] == 456) {
-					Player.addItemInventory(parseInt(p[1]),parseInt(p[2]));
-					colourChat("Spawned " + parseInt(p[2]) + " of " + parseInt(p[1]) + "!");
-					break;
+			if(p[1] && p[2]) {
+				if(!parseInt(p[1])) {
+					var giveItemID = nameIDs[p[1].toUpperCase()];
+					if(typeof(giveItemID) == "undefined") {
+						colourChat("Item/Block ID does not exist!");
+						break;
+					} else {
+						Player.addItemInventory(giveItemID,parseInt(p[2]));
+						colourChat("Spawned " + parseInt(p[2]) + " of " + p[1].toLowerCase() + "(ID:" + giveItemID + ")");
+					}
 				} else {
-					colourChat("Item/Block ID does not exist!");
+					Player.addItemInventory(parseInt(p[1]),parseInt(p[2]));
+					colourChat("Spawned " + parseInt(p[2]) + " of " + parseInt(p[1]));
 				}
-			}
-			break;
+			} break;
 
 		} case 'heal': {
-			if((!p[1])) {
+			if(!p[1]) {
 				Player.setHealth(20);
 				colourChat("Fully healed!");
 				break;
+			} if(parseInt(p[1])) {
+				Player.setHealth(Entity.getHealth(Player.getEntity()) + parseInt(p[1]));
+				colourChat(parseInt(p[1]) + " half-hearts have been added to your health!");
+			} break;
+
+		} case 'health': {
+			if(p[1] == 'get') {
+				colourChat("You have " + Entity.getHealth(Player.getEntity()) + " half-hearts.");
+			} if(p[1] == 'set') {
+				if(parseInt(p[2])) {
+					Entity.setHealth(Player.getEntity(),parseInt(p[2]));
+					colourChat("Health set to " + parseInt(p[2]));
+				} else {
+					colourChat("Usage: /health set <half-hearts>");
+				}
 			} else {
-				Player.setHealth(parseInt(p[1]));
-				colourChat("Set health to " + parseInt(p[1]));
-			}
-			break;
+				colourChat("Usage: /health <set|get>");
+			} break;
 
 		} case 'hole': {
 			holeX = Math.floor(Player.getX());
@@ -1130,8 +894,7 @@ function procCmd(c) {
 						Level.setTile(holeX+b,a,holeZ+c,0);
 					}
 				}
-			}
-			colourChat("Goodbye World");
+			} colourChat("Goodbye World");
 			break;
 
 		} case 'home': {
@@ -1141,19 +904,19 @@ function procCmd(c) {
 			} if(ModPE.readData("setHomeData") == 1) {
 				Entity.setPosition(Player.getEntity(), parseInt(ModPE.readData("homeX")) + 0.5, parseInt(ModPE.readData("homeY")) + 2, parseInt(ModPE.readData("homeZ")) + 0.5);
 				colourChat("Teleported to home!");
-			}
-			break;
+			} break;
 
 		} case 'ignite': {
 			if(!p[1]) {
 				Entity.setFireTicks(Player.getEntity(),5);
 				colourChat("Cooking player for 5 seconds");
 				break;
-			} else {
+			} if(parseInt(p[1])) {
 				Entity.setFireTicks(Player.getEntity(),parseInt(p[1]));
 				colourChat("Cooking player for " + parseInt(p[1]) + " seconds");
-			}
-			break;
+			} else {
+				colourChat("Usage: /ignite <seconds>");
+			} break;
 
 		} case 'instabreak': {
 			if(p[1] == 'on') {
@@ -1169,13 +932,14 @@ function procCmd(c) {
 				if(instabreakMode == 0) {
 					colourChat("Instabreak is already on!");
 					break;
-			} if(instabreakMode == 1) {
+				} if(instabreakMode == 1) {
 					instabreakMode = 0;
 					addItemInventory(285,-1);
 					colourChat("Instabreak has been turned off!");
 				}
-			}
-			break;
+			} else {
+				colourChat("Usage: /instabreak <on|off>");
+			} break;
 
 		} case 'kill': {
 			Player.setHealth(0);
@@ -1244,10 +1008,10 @@ function procCmd(c) {
 				TNTCannonActive = 0;
 				mobCannonActive = 0;
 				cannonRapidMode = 0;
-			}
-			break;
+			} break;
 
-		} case 'mc': {
+		} case 'mc': 
+		case 'magiccarpet': {
 			if(p[1] == 'on') {
 				if(magicCarpet == 1) {
 					colourChat("Magic carpet is already active!");
@@ -1256,6 +1020,7 @@ function procCmd(c) {
 					magicCarpetTick = 0;
 					magicCarpet = 1;
 					colourChat("Magic carpet activated!");
+					break;
 				}
 			} if(p[1] == 'off') {
 				if(magicCarpet == 0) {
@@ -1279,15 +1044,16 @@ function procCmd(c) {
 						}
 					}
 				}
-			}
-			break;
+			} else {
+				colourChat("Usage: /mc <on|off>");
+			} break;
 
 		} case 'nuke': {
 			for(nukeX=-21;nukeX<=21;nukeX = nukeX + 3) {
 				for(nukeZ=-21;nukeZ<=21;nukeZ = nukeZ + 3) {
 					Level.spawnMob(Player.getX()+nukeX,Player.getY()+20,Player.getZ()+nukeZ,65);
 				}
-			}
+			} colourChat("Nuke launched.");
 			break;
 
 		} case 'panorama': {
@@ -1299,26 +1065,27 @@ function procCmd(c) {
 				panoramaMode = 1;
 				colourChat("Panorama activated!");
 				break;
-			}
-			break;
+			} else {
+				colourChat("Usage: /panorama <on|off>");
+			} break;
 
 		} case 'pdoor': {
 			if(p[1] == 'on') {
 				if(portableDoorMode == 1) {
-					colourChat("Portable Door mode is already on!");
+					colourChat("Portable Door is already active!");
 				} if(portableDoorMode == 0) {
 					portableDoorMode = 1;
 					Player.addItemInventory(280,1);
-					colourChat("Portable Door mode has been turned on!");
+					colourChat("Portable Door has been activated!");
 				}
 			} if(p[1] == 'off') {
 				if(portableDoorMode == 0) {
-					colourChat("Portable Door mode is already off!");
+					colourChat("Portable Door is already off!");
 				} if(portableDoorMode == 1) {
 					portableDoorMode = 0;
 					portableDoorSet = 0;
 					Player.addItemInventory(280,-1);
-					colourChat("Portable Door mode has been turned off!");
+					colourChat("Portable Door has been deactivated!");
 				}
 			} if(p[1] == 'open') {
 				if(portableDoorMode == 0) {
@@ -1330,13 +1097,12 @@ function procCmd(c) {
 					pDoor1 = Level.getTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"));
 					Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY"),ModPE.readData("pDoorZ"),0);
 					Level.setTile(ModPE.readData("pDoorX"),ModPE.readData("pDoorY1"),ModPE.readData("pDoorZ"),0);
-					colourChat("Portable Door active for 5 seconds!");
+					colourChat("Portable Door open for 5 seconds!");
 					portableDoorActive = 1;
 					countdown = 100;
 					countdownMode = 1;
 				}
-			}
-			break;
+			} break;
 
 		} case 'rain': {
 			for(rainX=-21;rainX<=21;rainX = rainX + 3) {
@@ -1361,8 +1127,7 @@ function procCmd(c) {
 						Level.spawnMob(Player.getX()+rainX,Player.getY()+15,Player.getZ()+rainZ,36,'mob/pigzombie.png');
 					}
 				}
-			}
-			break;
+			} break;
 
 		} case 'refresh': {
 			colourChat("Refreshed all command items in your inventory!");
@@ -1370,28 +1135,35 @@ function procCmd(c) {
 				Player.addItemInventory(280,1);
 			} if(portableDoorMode == 1) {
 				Player.addItemInventory(280,1);
-			} if(spawnTouch == 1) {
-				Player.addItemInventory(295,1);
-				Player.addItemInventory(296,1);
 			} if(instabreakMode == 1) {
 				Player.addItemInventory(285,1);
 			} if(warpMode == 1) {
 				Player.addItemInventory(341,1);
 				Player.addItemInventory(293,1);
 				Player.addItemInventory(294,1);
-			}
-			break;
+			} break;
 
 		} case 'setitem': {
-			if(p[1] > 0 && p[1] <= 510) {
-				if(Level.getGameMode() == 1) {
-					Entity.setCarriedItem(Player.getEntity(),p[1],1,p[2]);
-					colourChat("Saved current item as " + p[1]);
-				} else if(Level.getGameMode() == 0) {
-					colourChat("You are in survival mode!");
+			if(parseInt(p[1])) {
+				if(p[1] > 0 && p[1] <= 510) {
+					if(Level.getGameMode() == 1) {
+						Entity.setCarriedItem(Player.getEntity(),parseInt(p[1]),1,p[2]);
+						colourChat("Saved current item as " + p[1]);
+					} if(Level.getGameMode() == 0) {
+						colourChat("You are in survival mode!");
+					}
 				}
-			}
-			break;
+			} else {
+				if(p[1] == 'resetinv') {
+					if(Level.getGameMode() == 1) {
+						Level.setGameMode(0);
+						Level.setGameMode(1);
+						colourChat("Creative inventory reset to default!");
+					}
+				} else {
+					colourChat("Usage: /setitem <ID> <damage>");
+				}
+			} break;
 
 		} case 'sethome': {
 			ModPE.saveData("homeX",parseInt(Player.getX()));
@@ -1403,7 +1175,7 @@ function procCmd(c) {
 
 		} case 'spawn': {
 			if(p[1]) {
-				spawnMobID = MobIDs[p[1].toLowerCase()];
+				spawnMobID = mobIDs[p[1].toLowerCase()];
 				if(typeof(spawnMobID) == "undefined") {
 					colourChat("Usage: /spawn <MobName> <Amount>");
 					break;
@@ -1411,14 +1183,13 @@ function procCmd(c) {
 			} if(!p[1]) {
 				colourChat("Usage: /spawn <MobName> <Amount>");
 				break;
-			} if(p[2]) {
+			} if(parseInt(p[2])) {
 				for(spawnAmount=0;spawnAmount<=parseInt(p[2]);spawnAmount++) {
 					Level.spawnMob(getPlayerX(),getPlayerY(),getPlayerZ(),spawnMobID);
 				}
-			} if(!p[2]) {
+			} if(!p[2] || !parseInt(p[2])) {
 				colourChat("Usage: /spawn <MobName> <Amount>");
-			}
-			break;
+			} break;
 
 		} case 'spawntouch': {
 			if(p[1] == 'off') {
@@ -1427,17 +1198,15 @@ function procCmd(c) {
 				colourChat("SpawnTouch deactivated!");
 				break;
 			} if(p[1]) {
-				spawnMobID = MobIDs[p[1].toLowerCase()];
+				spawnMobID = mobIDs[p[1].toLowerCase()];
 				if(typeof(spawnMobID) == "undefined") {
 					colourChat("Usage: /spawntouch <MobName|off>");
 				} else {
 					colourChat("SpawnTouch activated!");
-				}
-				spawnTouch = 1;
+				} spawnTouch = 1;
 			} if(!p[1]) {
 				colourChat("Usage: /spawntouch <MobName|off>");
-			}
-			break;
+			} break;
 
 		} case 'sprint': {
 			if(p[1] == 'on') {
@@ -1447,6 +1216,7 @@ function procCmd(c) {
 				} if(sprintMode == 0) {
 					sprintMode = 1;
 					colourChat("Sprint Mode activated! Original Sprint Script made by WhyToFu.");
+					break;
 				}
 			} if(p[1] == 'off') {
 				if(sprintMode == 0) {
@@ -1456,8 +1226,9 @@ function procCmd(c) {
 					sprintMode = 0;
 					colourChat("Sprint Mode deactivated!");
 				}
-			}
-			break;
+			} else {
+				colourChat("Usage: /sprint <on|off>");
+			} break;
 
 		} case 'summon': {
 			if(p[1] == 'chicken') {
@@ -1488,9 +1259,8 @@ function procCmd(c) {
 				Level.spawnMob(Math.floor(p[2])+0.5,Math.floor(p[3])+1,Math.floor(p[4])+0.5,36,'mob/pigzombie.png');
 				colourChat("Spawned a " + p[1] + " at " + Math.floor(p[2]) + " " + Math.floor(p[3]) + " " + Math.floor(p[4]));
 			} else if(!p[1]) {
-				colourChat("Specify a mob!");
-			}
-			break;
+				colourChat("Please specify a mob!");
+			} break;
 
 		} case 'surface': {
 			for(i=1;i<=128;i++) {
@@ -1522,20 +1292,32 @@ function procCmd(c) {
 				} if(!p[2]) {
 					colourChat("Specify a time!");
 					break;
-				} else {
+				} if(parseInt(p[2])) {
 					Level.setTime(parseInt(p[2]));
 					colourChat("Time set to " + parseInt(p[2]));
-					break; 
+					break;
+				} else {
+					colourChat("Usage: /time set <day|night>");
 				}
 			} if(!p[1]) {
 				colourChat("The current time is " + Level.getTime());
-			}
-			break;
+			} break;
 
-		} case 'tp': {
-			Entity.setPosition(Player.getEntity(), parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
-			colourChat("Teleported to x: " + parseInt(p[1]) + ", y: " + parseInt(p[2]) + ", z: " + parseInt(p[3]));
-			break;
+		} case 'tp':
+		case 'teleport': {
+			if(parseInt(p[1]) && parseInt(p[2]) && parseInt(p[3])) {
+				if(magicCarpet == 1) {
+					colourChat("Magic carpet deactivating...");
+					magicCarpet = 0;
+				} if(sprintMode == 1) {
+					colourChat("Sprint deactivating,,,");
+					sprintMode = 0;
+				} Entity.setPosition(Player.getEntity(), parseInt(p[1]), parseInt(p[2]), parseInt(p[3]));
+				colourChat("Teleported to x: " + parseInt(p[1]) + ", y: " + parseInt(p[2]) + ", z: " + parseInt(p[3]));
+				break;
+			} else {
+				colourChat("Usage: /tp <x> <y> <z>");
+			} break;
 
 		} case 'warp': {
 			if(p[1] == 'on') {
@@ -1564,8 +1346,7 @@ function procCmd(c) {
 					Player.addItemInventory(294,-1);
 					colourChat("Warp Panels deactivated!");
 				}
-			}
-			break;
+			} break;
 		} default: {
 			colourChat("Command does not exist!");
 			break;
@@ -1601,6 +1382,31 @@ function entityRemovedHook(entity) {
 			Entity.setPosition(Player.getEntity(),snowballX+0.5,snowballY+2,snowballZ+0.5);
 		}
 	}
+}
+
+function reload() {
+	colourChat("Player died, resetting SPC...");
+	if(Level.getGameMode() == 1) {
+		Level.setGameMode(0);
+		Level.setGameMode(1);
+		colourChat("Resetting creative inventory...");
+	} if(magicCarpet == 1) {
+		magicCarpet = 0;
+		magicCarpetTick = 0;
+		colourChat("Deactivating Magic Carpet...");
+	} if(sprintMode == 1) {
+		sprintMode = 0;
+		sprintTick = 0;
+		colourChat("Deactivating Sprint Mode...");
+	} if(panoramaMode == 1) {
+		panoramaMode = 0;
+		panCountdown = 0;
+		colourChat("Deactivating Panorama Mode...");
+	} if(TNTCannonActive == 1 || mobCannonActive == 1) {
+		TNTCannonActive = 0;
+		MobCannonActive = 0;
+		colourChat("Deactivating TNT/Mob Cannon...");
+	} colourChat("Reset complete!");
 }
 
 function modTick() {
@@ -1655,6 +1461,8 @@ function modTick() {
 									}
 								}
 							}
+						} if(Entity.getPitch(Player.getEntity()) <= -60) {
+							setVelY(Player.getEntity(),0.3);
 						}
 					}
 				}
@@ -1760,5 +1568,12 @@ function modTick() {
 			snowballZ = Math.floor(Entity.getZ(snowball));
 			pearlCountdown = 0;
 		}
+	} if(Entity.getHealth(Player.getEntity()) <= 0) {
+		if(resetMode == 0) {
+			reload();
+			resetMode = 1;
+		}
+	} if(Entity.getHealth(Player.getEntity()) > 0) {
+		resetMode = 0;
 	}
 }
