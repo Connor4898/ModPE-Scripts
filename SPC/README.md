@@ -5,28 +5,28 @@
 ###Commands:
 | Command | Parameters | Description | Example |
 | :---: | :---: | :--- | :---: |
-| /help | `<command>` | Shows help about a specific command | /help explode |
+| /help | `<COMMAND>` | Shows help about a specific command | /help explode |
 | /ascend | | Warps you to a floor/surface above you | |
 | /bomb | `<on/off>` | Activates/Deactivates Bomb Mode | |
 | /bomb | `<detonate>` | Detonates the selected block | |
-| /bounce | `<power>` | Makes you bounce high | /bounce 2 |
+| /bounce | `<POWER>` | Makes you bounce high | /bounce 2 |
 | /coords | | Shows the current coordinates at your feet | |
 | /delhome | | Deletes your saved coordinates made by /sethome | |
 | /descend | | Warps you to a floor/surface beneath you | |
 | /enderpearl | `<on/off>` | Activates/deactivates enderpearls, if you are holding an egg in creative mode. You can then throw the snowball | /enderpearl on |
-| /entity | `<kill/remove/burn/explode>` `<MobName/all>` | Removes/burns/explodes the specified entities in the world. Based from MrARM's entity manager in his TMI ModPE Script. Thanks MrARM! |
-| /eval | `<code>` | Runs the specified script in-game | /eval clientMessage("Hello World"); |
-| /explode | `<radius>` | Be like a creeper! This command makes you explode | /explode 5 |
+| /entity | `<kill/remove/burn/explode>` `<MOBNAME/all>` | Removes/burns/explodes the specified entities in the world. Based from MrARM's entity manager in his TMI ModPE Script. Thanks MrARM! |
+| /eval | `<CODE>` | Runs the specified script in-game | /eval clientMessage("Hello World"); |
+| /explode | `<RADIUS>` | Be like a creeper! This command makes you explode | /explode 5 |
 | /gamemode | `<survival/creative/0/1>` | Sets the player's gamemode | /gamemode 1 |
-| /give | `<ID>` `<amount>` | Gives you the block/item you enter into the command | /give 57 64 |
-| /heal | `<amount>` | Increases your health by the specified amount | /heal 10 |
+| /give | `<ID>` `<AMOUNT>` | Gives you the block/item you enter into the command | /give 57 64 |
+| /heal | `<AMOUNT>` | Increases your health by the specified amount | /heal 10 |
 | /health | `<get/set>` | Gets or sets your health | /health set 10 |
 | /hole | | Creates a hole underneath you. WARNING: USE WITH CAUTION | |
 | /home | | Teleports you to your home. NOTE: /sethome must be used before this command | |
-| /ignite | `<seconds>` | Sets the player on fire. WARNING: This may hurt | |
+| /ignite | `<SECONDS>` | Sets the player on fire. WARNING: This may hurt | |
 | /instabreak | `<on>` | Gives you a gold pickaxe to tap blocks with | |
 | /instabreak | `<off>` | Deactivates InstaBreak | |
-| /launch | `<mobname/tnt>` `<rapid>` | Launches a mob or TNT in the direction you are facing | /launch pig |
+| /launch | `<MOBNAME/tnt>` `<rapid>` | Launches a mob or TNT in the direction you are facing | /launch pig |
 | /kill | | Kills the player | |
 | /mc | `<on>` | Creates a 5x5 sheet of glass underneath your feet | |
 | /mc | `<off>` | Makes the Magic Carpet disappear | |
@@ -35,22 +35,23 @@
 | /panorama | `<off>` | Turns off Panorama mode | |
 | /pdoor | `<on/off>` | Activates/Deactivates Portable Door Mode | |
 | /pdoor | `<open>` | Opens the 'door' at the selected block | |
-| /rain | `<MobName>` | Makes it rain the specified mob | /rain chicken |
+| /rain | `<MOBNAME>` | Makes it rain the specified mob | /rain chicken |
 | /refresh | | Gives you all currently active command items | |
 | /setitem | `<ID>` | Sets the specified item ID to the current held item in creative | /setitem 264 |
 | /sethome | | Sets your current coordinates as your home | |
-| /spawntouch | `<MobName>` | Spawns the specified mob when a block is tapped | /spawntouch chicken |
+| /spawntouch | `<MOBNAME>` | Spawns the specified mob when a block is tapped | /spawntouch chicken |
 | /spawntouch | `<off>` | Deactivates Spawn Touch | |
 | /sprint | `<on>` | Activates Sprint Mode. This allows you to walk at a faster speed | |
 | /sprint | `<off>` | Turns off Sprint Mode | |
-| /summon | `<mob>` `<x>` `<y>` `<z>` | Spawns a mob at the specified coordinates | /spawn pig 127 85 246 |
+| /summon | `<MOBNAME>` `<X>` `<Y>` `<Z>` | Spawns a mob at the specified coordinates | /spawn pig 127 85 246 |
 | /surface | | Teleports you to the surface | |
 | /time | | Gets the current time in ticks | |
 | /time | `<set>` `<sunrise/day/sunset/night>`| Sets the time to the specified time. NOTE: Buggy | /time set day |
-| /tp | `<x>` `<y>` `<z>` | Teleports you to specified coordinates | /tp 79 68 143 |
+| /tp | `<X>` `<Y>` `<Z>` | Teleports you to specified coordinates | /tp 79 68 143 |
 | /warp | `<on>` | Gives you a slimeball, a diamond hoe, a gold hoe, and a few blocks of diamond, gold, iron, and lapis, and activates Warp Panels | |
 | /warp | `<off>` | Deactivates the Warp Panels | |
 
+#####lowercase = exact word to type, CAPS = different words can be entered
 ###Changelog:
 
 ```
