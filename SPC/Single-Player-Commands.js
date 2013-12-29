@@ -256,7 +256,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /gamemode <survival|creative|0|1> to change your current gamemode. NOTE: Clears your survival inventory");
 					break;
 				} case 'give': {
-					clientMessage("[SPC] [HELP] Type /give <NAME|ID> <AMOUNT> to add any item to your inventory.\nExample: /give diamond 64");
+					clientMessage("[SPC] [HELP] Type /give <ID> <AMOUNT> to add any item to your inventory.\nExample: /give diamond 64");
 					break;
 				} case 'heal': {
 					clientMessage("[SPC] [HELP] Type /heal or /heal <HALF-HEARTS> to heal yourself by the specified amount.\nExample: /heal 10");
@@ -337,7 +337,7 @@ function procCmd(c) {
 					clientMessage("Showing help page 2 of 8 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <METHOD> <MOBNAME|all>\n /eval <CODE>\n /explode <RADIUS>");
 					break;
 				} case '3': {
-					clientMessage("Showing help page 3 of 8 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <NAME|ID> <AMOUNT>\n /heal <HALF-HEARTS>\n /health <get|set>\n /help <PAGE|COMMAND>");
+					clientMessage("Showing help page 3 of 8 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <ID> <AMOUNT>\n /heal <HALF-HEARTS>\n /health <get|set>\n /help <PAGE|COMMAND>");
 					break;
 				} case '4': {
 					clientMessage("Showing help page 4 of 8 (/help <page>)\n /hole\n /home\n /ignite <SEECONDS> \n /instabreak <on|off>\n /launch <MOBNAME|tnt>");
