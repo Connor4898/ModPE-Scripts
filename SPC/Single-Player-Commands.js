@@ -230,7 +230,7 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /bomb <on|off|detonate>. Use a Stick or Iron sword as the bomb setter, when Bomb Mode is on. WARNING: May be explosive!\n Example: /bomb on");
 					break;
 				} case 'bounce': {
-					clientMessage("[SPC] [HELP] Type /bounce <power> to get launched into the air\nExample: /bounce 2");
+					clientMessage("[SPC] [HELP] Type /bounce <POWER> to get launched into the air\nExample: /bounce 2");
 					break;
 				} case 'coords': {
 					clientMessage("[SPC] [HELP] Type /coords to get the current coordinates at your feet.\nExample: /coords");
@@ -245,21 +245,21 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /enderpearl <on|off> while holding an egg in creative mode to activate/deactivate ender pearls.\nExample: /enderpearl on");
 					break;
 				} case 'entity': {
-					clientMessage("[SPC] [HELP] Type /entity <kill|remove|burn|explode> <MobName|all> to remove/burn/explode the specified entities.\nExample: /entity burn all");
+					clientMessage("[SPC] [HELP] Type /entity <kill|remove|burn|explode> <MOBNAME|all> to remove/burn/explode the specified entities.\nExample: /entity burn all");
 				} case 'eval': {
-					clientMessage("[SPC] [HELP] Type /eval <code> to run a script in game!\nExample: /eval clientMessage(\"Hello world!\");");
+					clientMessage("[SPC] [HELP] Type /eval <CODE> to run a script in game!\nExample: /eval clientMessage(\"Hello world!\");");
 					break;
 				} case 'explode': {
-					clientMessage("[SPC] [HELP] Type /explode <radius> to blow up. WARNING: It may hurt/nExample: /explode 5");
+					clientMessage("[SPC] [HELP] Type /explode <RADIUS> to blow up. WARNING: It may hurt/nExample: /explode 5");
 					break;
 				} case 'gamemode': {
 					clientMessage("[SPC] [HELP] Type /gamemode <survival|creative|0|1> to change your current gamemode. NOTE: Clears your survival inventory");
 					break;
 				} case 'give': {
-					clientMessage("[SPC] [HELP] Type /give <ID> <amount> to add any item to your inventory.\nExample: /give 57 64");
+					clientMessage("[SPC] [HELP] Type /give <NAME|ID> <AMOUNT> to add any item to your inventory.\nExample: /give diamond 64");
 					break;
 				} case 'heal': {
-					clientMessage("[SPC] [HELP] Type /heal or /heal <half-hearts> to heal yourself by the specified amount.\nExample: /heal 10");
+					clientMessage("[SPC] [HELP] Type /heal or /heal <HALF-HEARTS> to heal yourself by the specified amount.\nExample: /heal 10");
 					break;
 				} case 'health': {
 					clientMessage("[SPC] [HELP] Type /health <get|set> to get/set your health.\nExample: /health set 10");
@@ -268,16 +268,16 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /hole to commit suicide. WARNING: USE WITH CAUTION!\n Example: /hole");
 					break;
 				} case 'home': {
-					clientMessage("[SPC] [HELP] Type /home to tp to your home (Use /sethome first)\nExample: /home");
+					clientMessage("[SPC] [HELP] Type /home to teleport to your home (Use /sethome first)\nExample: /home");
 					break;
 				} case 'ignite': {
-					clientMessage("[SPC] [HELP] Type /ignite or /ignite <seconds> to set you on fire. WARNING: High chance of being burnt.\nExample: /ignite 3");
+					clientMessage("[SPC] [HELP] Type /ignite or /ignite <SECONDS> to set yourself on fire. WARNING: High chance of being burnt.\nExample: /ignite 3");
 					break;
 				} case 'instabreak': {
 					clientMessage("[SPC] [HELP] Type /instabreak <on|off> to turn InstaBreak on or off.\nExample: /instabreak on");
 					break;
 				} case 'launch': {
-					clientMessage("[SPC] [HELP] Type /launch <MobName|tnt> <rapid> to launch a mob or tnt in the direction you are facing!");
+					clientMessage("[SPC] [HELP] Type /launch <MOBNAME|tnt> <rapid> to launch a mob or tnt in the direction you are facing!");
 					break;
 				} case 'kill': {
 					clientMessage("[SPC] [HELP] Type /kill to kill yourself");
@@ -295,28 +295,28 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /pdoor <on|off|open>. Use a stick or Iron hoe to set the position of the door.\nExample: /pdoor on");
 					break;
 				} case 'rain': {
-					clientMessage("[SPC] [HELP] Type /rain <MobName> to make it rain animals!\nExample: /rain chicken");
+					clientMessage("[SPC] [HELP] Type /rain <MOBNAME> to make it rain animals!\nExample: /rain chicken");
 					break;
 				} case 'refresh': {
 					clientMessage("[SPC] [HELP] Type /refresh to regain all items required for currently active commands.\nExample: /refresh");
 					break;
 				} case 'setitem': {
-					clientMessage("[SPC] [HELP] Type /setitem <ID> <damage> to set the specified item ID to your current held item.\nExample: /setitem 264");
+					clientMessage("[SPC] [HELP] Type /setitem <ID> <DAMAGE> to set the specified item ID to your current held item.\nExample: /setitem 264");
 					break;
 				} case 'sethome': {
 					clientMessage("[SPC] [HELP] Type /sethome to set coordinates you can easily tp back to, using /home.\n Example: /sethome");
 					break;
 				} case 'spawn': {
-					clientMessage("[SPC] [HELP] Type /spawn <MobName> <Amount> to spawn the specified mob.\nExample: /spawn pig 5");
+					clientMessage("[SPC] [HELP] Type /spawn <MOBNAME> <AMOUNT> to spawn the specified mob.\nExample: /spawn pig 5");
 					break;
 				} case 'spawntouch': {
-					clientMessage("[SPC] [HELP] Type /spawntouch <MobName|off> to spawn the specified mob when you tap a block.\nExample: /spawntouch chicken");
+					clientMessage("[SPC] [HELP] Type /spawntouch <MONAME|off> to spawn the specified mob when you tap a block.\nExample: /spawntouch chicken");
 					break;
 				} case 'sprint': {
 					clientMessage("[SPC] [HELP] Type /sprint <on|off> to activate or deactivate Sprint Mode.\nExample: /sprint on\nOriginal Sprint Script made by WhyToFu.");
 					break;
 				} case 'summon': {
-					clientMessage("[SPC] [HELP] Type /summon <mob> <x> <y> <z> to spawn a mob at the specified coordinates.\nExample: /summon pig 147 84 123");
+					clientMessage("[SPC] [HELP] Type /summon <MOBNAME> <X> <Y> <Z> to spawn a mob at the specified coordinates.\nExample: /summon pig 147 84 123");
 					break;
 				} case 'surface': {
 					clientMessage("[SPC] [HELP] Type /surface to teleport to the surface above you.\nExample: /surface");
@@ -325,37 +325,37 @@ function procCmd(c) {
 					clientMessage("[SPC] [HELP] Type /time or /time set <sunrise|day|sunset|night|value> to get the time, or set the time to the specified time (respectively). NOTE: Does not work properly.\nExample: /time set day");
 					break;
 				} case 'tp': {
-					clientMessage("[SPC] [HELP] Type /tp <x> <y> <z>, where x, y, and z are your desired coordinates.\n Example: /tp 128 70 128)");
+					clientMessage("[SPC] [HELP] Type /tp <X> <Y> <Z>, where x, y, and z are your desired coordinates.\n Example: /tp 128 70 128)");
 					break;
 				} case 'warp': {
 					clientMessage("[SPC] [HELP] Type /warp <on|off> to turn Warp Panels on or off.\nExample: /warp on");
 					break;
 				} case '1': {
-					clientMessage("Showing help page 1 of 8 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
+					clientMessage("Showing help page 1 of 8 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <POWER>\n /coords\n /delhome");
 					break;
 				} case '2': {
-					clientMessage("Showing help page 2 of 8 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <method> <MobName|all>\n /eval <code>\n /explode <radius>");
+					clientMessage("Showing help page 2 of 8 (/help <page>)\n /descend\n /enderpearl <on|off>\n /entity <METHOD> <MOBNAME|all>\n /eval <CODE>\n /explode <RADIUS>");
 					break;
 				} case '3': {
-					clientMessage("Showing help page 3 of 8 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <ID> <amount>\n /heal <amount>\n /health <get|set>\n /help <page|command>");
+					clientMessage("Showing help page 3 of 8 (/help <page>)\n /gamemode <survival|creative|0|1>\n /give <NAME|ID> <AMOUNT>\n /heal <HALF-HEARTS>\n /health <get|set>\n /help <PAGE|COMMAND>");
 					break;
 				} case '4': {
-					clientMessage("Showing help page 4 of 8 (/help <page>)\n /hole\n /home\n /ignite <secs> \n /instabreak <on|off>\n /launch <MobName|tnt>");
+					clientMessage("Showing help page 4 of 8 (/help <page>)\n /hole\n /home\n /ignite <SEECONDS> \n /instabreak <on|off>\n /launch <MOBNAME|tnt>");
 					break;
 				} case '5': {
 					clientMessage("Showing help page 5 of 8 (/help <page>)\n /kill\n /mc <on|off>\n /nuke\n /panorama <on|off>\n /pdoor <on|open|off>");
 					break;
 				} case '6': {
-					clientMessage("Showing help page 6 of 8 (/help <page>)\n /rain <MobName>\n /refresh\n /setitem <ID> <damage>\n /sethome\n /spawntouch <MobName|off>");
+					clientMessage("Showing help page 6 of 8 (/help <page>)\n /rain <MOBNAME>\n /refresh\n /setitem <ID> <DAMAGE>\n /sethome\n /spawntouch <MOBNAME|off>");
 					break;
 				} case '7': {
-					clientMessage("Showing help page 7 of 8 (/help <page>)\n /sprint <on|off>\n /summon <mob> <x> <y> <z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <x> <y> <z>");
+					clientMessage("Showing help page 7 of 8 (/help <page>)\n /sprint <on|off>\n /summon <MOBNAME> <X> <Y> <Z>\n /surface\n /time <set> <sunrise|day|sunset|night>\n /tp <X> <Y> <Z>");
 					break;
 				} case '8': {
 					clientMessage("Showing help page 8 of 8 (/help <page>)\n /warp <on|off>");
 					break;
 				} default: {
-					clientMessage("Showing help page 1 of 7 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <power>\n /coords\n /delhome");
+					clientMessage("Showing help page 1 of 8 (/help <page>)\n /ascend\n /bomb <on|detonate|off>\n /bounce <POWER>\n /coords\n /delhome");
 					break;
 				}
 			}
