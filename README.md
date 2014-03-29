@@ -20,8 +20,6 @@ Please don't copy or claim these scripts as your own. You can release your own v
 
 -Message me via [Minecraft Forums] (http://www.minecraftforum.net/user/2053871-connor4898/)
 
--Find me on [Antisober's SurvivalCraft server] (http://www.minecraftforum.net/topic/1817519-)
-
 -Find me on IRC
 
 ##IRC:
@@ -29,26 +27,20 @@ Please don't copy or claim these scripts as your own. You can release your own v
 
 Need help with your Scripts? Want to meet people who make ModPE Scripts? Join this channel!
 
-#### [Internet IRC] (http://webchat.freenode.net/)
+#### [Internet IRC] (http://webchat.freenode.net/?channels=ModPEScripts)
 
 * __Connor4898!__
 * __CheesyFriedBacon!__
-* __Donalddoesmc!__
 * __MrARM!__
-* __QyMineAsap!__
 * __Lambo_car16!__
 * __Hexdro!__
 * __mcpemodder!__
-* __arjay_07!__
-* __kacperski1!__
 
-###[Connor48984's Forum Topic] (http://www.minecraftforum.net/topic/1931167-)
+###[Connor4898's Forum Topic] (http://www.minecraftforum.net/topic/1931167-)
 
 ###[ModPE Functions Wiki] (https://github.com/Connor4898/ModPE-Scripts/wiki/ModPE-Scripts-Functions-List)
 
 ###[WhyToFu's Forum] (http://www.minecraftforum.net/topic/1927514-)
-
-###[Antisober's SurvivalCraft Server] (http://forums.pocketmine.net/index.php?threads/survivalcraft-0-7-6-buildcraft-0-7-6-new-servers-open.45/)
 
 Many thanks,
 
