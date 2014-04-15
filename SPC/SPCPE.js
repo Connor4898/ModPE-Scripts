@@ -1,3 +1,22 @@
+/**
+ *  ________ ________ ________ ________ ________
+ * |        |   __   |        |   __   |   __   |
+ * |   _____|  |  |  |    ____|  |  |  |  |  |  |
+ * |        |  |__|  |   |    |  |__|  |  |__|  |
+ * |_____   |   _____|   |____|   _____|   _____|
+ * |        |  |     |        |  |     |  |_____
+ * |________|__|     |________|__|     |________|
+ *
+ * Single Player Commands Pocket Edition
+ * Made by Connor4898
+ *
+ * © Copyright 2014 Connor4898
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+*/
+
 //Is the script active?
 var active = false;
 //A variable to store the mcpe activity
@@ -23,7 +42,7 @@ function procCmd(cmd) {
 				var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
 				if(giveFile.isFile()) {
 					if(!hasGiveFile) {
-						colourChat("/give config found and loaded!");
+						colourMsg("/give config found and loaded!");
 					}
 					hasGiveFile = true;
 					var fis = new java.io.BufferedReader(new java.io.FileReader(giveFile));
@@ -55,6 +74,71 @@ function procCmd(cmd) {
 
 function main(p) {
 	switch(p[0]) {
+		case "help":
+		case "?":
+		case "commands":
+			switch(p[1]) {
+				case "asc":
+				case "ascend":
+					showHelp("ascend", "Ascends the player to the platform above", "", "");
+					break;
+				case "bounce":
+					showHelp("bounce", "Launches the player into the air", "<POWER>", "2");
+					break;
+				case "desc":
+				case "descend":
+					showHelp("descend", "Descends the player to the platform below", "", "");
+					break;
+				case "explode":
+					showHelp("explode", "Sets off an explosion at your location", "[RADIUS]", "5");
+					break;
+				case "gm":
+				case "gamemode":
+					showHelp("gamemode", "Changes your gamemode", "[survival|creative]", "creative");
+					break;
+				case "give":
+					showHelp("give", "Gives the player the specified item", "<ID|ITEMNAME> <QUANTITY>", "diamond 32");
+					break;
+				case "heal":
+					showHelp("heal", "Heals the player by the specified points", "[QUANTITY]", "20");
+					break;
+				case "health":
+					showHelp("health", "Sets the health of the player to pre-defiined figures", "<min|max|infinite|get>", "max");
+					break;
+				case "hole":
+					showHelp("hole", "Creates a hole underneath you", "", "");
+					break;
+				case "ignite":
+					showHelp("ignite", "Sets the player on fire", "[SECONDS]", "5");
+					break;
+				case "kill":
+					showHelp("kill", "Kills the player", "", "");
+					break;
+				case "spcpe":
+					showHelp("spcpe", "Provides generic information about SPCPE", "", "");
+					break;
+				case "time":
+					showHelp("time", "Sets the in-game time", "<day|night|sunrise|sunset|midday|midnight>", "sunrise");
+					break;
+				case "tp":
+					showHelp("tp", "Teleports the player to the specified coordinates", "<X> <Y> <Z>", "43, 64, 78");
+					break;
+				default:
+					if(isset(p[1])) {
+						if(parseInt(p[1])) {
+							showHelpPage(p[1]);
+						}
+						else {
+							errorMsg("Specified command name " + p[1] + " does not exist!");
+						}
+					}
+					else {
+						showHelpPage(1);
+					}
+					break;
+			}
+			break;
+
 		case "asc":
 		case "ascend":
 			var x = Player.getX();
@@ -102,16 +186,18 @@ function main(p) {
 
 		case 'explode':
 			if(!isset(p[1])) {
-				errorMsg("Not enough parameters!");
+				Level.explode(Player.getX(), Player.getY(), Player.getZ(), 5);
 			}
 			else if(!parseInt(p[1])) {
 				errorMsg("The radius must be a number!");
 			}
 			else if(parseInt(p[1])) {
 				Level.explode(Player.getX(), Player.getY(), Player.getZ(), p[1]);
-			} else {
+			}
+			else {
 				errorMsg("Error in explode command.");
-			} break;
+			}
+			break;
 
 		case "gm":
 		case "gamemode":
@@ -166,14 +252,15 @@ function main(p) {
 				errorMsg("Not enough parameters!");
 			}
 			else if(!parseInt(p[2])) {
-				errorMsg("The amount must be a number!");
+				errorMsg("The quantity must be a number!");
 			}
 			else if(parseInt(p[1])) {
 				var id = p[1].split(':');
 				if(isset(id[1])) {
 					Player.addItemInventory(id[0], p[2], id[1]);
 					colourMsg("Added §b" + p[2] + " §fof §b" + names[ids.indexOf(id[0])] + "§f (§b" + id[0] + "§f)");
-				} else {
+				}
+				else {
 					Player.addItemInventory(p[1], p[2]);
 					colourMsg("Added §b" + p[2] + " §fof §b" + names[ids.indexOf(p[1])] + "§f (§b" + p[1] + "§f)");
 				}
@@ -204,7 +291,7 @@ function main(p) {
 				Player.setHealth(20);
 			}
 			else if(!parseInt(p[1])) {
-				errorMsg("The amount must be a number!");
+				errorMsg("The quantity must be a number!");
 			}
 			else if(parseInt(p[1])) {
 				colourMsg("Healed you by §b" + p[1] + " §fhalf-hearts.");
@@ -349,7 +436,7 @@ function modTick() {
 					hasGiveFile = true;
 				}
 				if(!giveFile.isFile()) {
-					colourMsg("/give config not found!");
+					errorMsg("/give config not found!");
 					hasGiveFile = false;
 				}
 			}
@@ -376,15 +463,64 @@ function isset(v) {
 	}
 }
 
+function showHelp(command, description, usage, example) {
+	colourMsg("Help for the §b" + command + " §fcommand.");
+	colourMsg("§aDescription: §f" + description + ".");
+	colourMsg("§aUsage: §f/" + command + " " + usage);
+	colourMsg("§aExample: §f/" + command + " " + example);
+}
+
+var helpPages = new Array(
+	new Array(
+		"/ascend",
+		"/bounce <POWER>",
+		"/descend",
+		"/explode [RADIUS]",
+		"/gamemode [survival|creative]"),
+	new Array(
+		"/give <ID|ITEMNAME> <QUANTITY>",
+		"/heal [QUANTITY]",
+		"/health <min|max|infinite|get>",
+		"/hole",
+		"/ignite"),
+	new Array(
+		"/kill",
+		"/spcpe",
+		"/time <day|night|sunrise|sunset|midday|midnight>",
+		"/tp <X> <Y> <Z>")
+);
+
+function showHelpPage(page) {
+	if(page % 1 === 0) {
+		if(page < 1) {
+			errorMsg("The page number must be above 0!");
+		}
+		else if(page > helpPages.length) {
+			errorMsg("The page number must be below " + (helpPages.length + 1) + "!");
+		}
+		else {
+			colourMsg("Showing help page " + page + "/" + helpPages.length)
+			for(i = 0; i <= 4; i++) {
+				if(isset(helpPages[page - 1][i])) {
+					colourMsg(helpPages[page - 1][i]);
+				}
+			}
+		}
+	}
+	else {
+		errorMsg("The page number must be a whole number!")
+	}
+}
+
 function showCredits() {
 	var info = new android.app.AlertDialog.Builder(ctx);
 	info.setTitle("Information");
 	info.setMessage("Version " + version + "\nCreated by Connor4898\nAssisted by CheesyFriedBacon\nAssisted by MrARM\n\n+Thanks for using my ModPE Script!");
 	info.setNegativeButton("Ok", new android.content.DialogInterface.OnClickListener() {
 		onClick: function(par1){
-		dialog.dismiss();
-	}
-});
-var dialog = info.create();
-dialog.show();
+			dialog.dismiss();
+		}
+	});
+	var dialog = info.create();
+	dialog.show();
 }
