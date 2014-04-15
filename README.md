@@ -20,6 +20,8 @@ Please don't copy or claim these scripts as your own. You can release your own v
 
 -Message me via [Minecraft Forums] (http://www.minecraftforum.net/user/2053871-connor4898/)
 
+-Follow me on [Twitter] (http://twitter.com/Connor4898/)
+
 -Find me on IRC
 
 ##IRC:
