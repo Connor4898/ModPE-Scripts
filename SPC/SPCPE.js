@@ -28,6 +28,14 @@ var version = "BETA";
 //Arrays to store the /give names and IDs
 var names = [];
 var ids = [];
+//A bunch of other variables
+var panoActive = false;
+var showingCoords = false;
+var coordsActive = false;
+var window = null;
+var textview = null;
+var mcActive = false;
+var mcTick = 0;
 
 function procCmd(cmd) {
 	names = [];
@@ -41,9 +49,6 @@ function procCmd(cmd) {
 			if(params[0] === "give") {
 				var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
 				if(giveFile.isFile()) {
-					if(!hasGiveFile) {
-						colourMsg("/give config found and loaded!");
-					}
 					hasGiveFile = true;
 					var fis = new java.io.BufferedReader(new java.io.FileReader(giveFile));
 					var s = null;
@@ -85,6 +90,10 @@ function main(p) {
 				case "bounce":
 					showHelp("bounce", "Launches the player into the air", "<POWER>", "2");
 					break;
+				case "coords":
+				case "coordinates":
+					showHelp("coords", "Shows the player's current coordinates", "", "");
+					break;
 				case "desc":
 				case "descend":
 					showHelp("descend", "Descends the player to the platform below", "", "");
@@ -113,6 +122,14 @@ function main(p) {
 					break;
 				case "kill":
 					showHelp("kill", "Kills the player", "", "");
+					break;
+				case "mc":
+				case "magiccarpet":
+					showHelp("magiccarpet", "Creates a carpet of glass under you", "", "");
+					break;
+				case "pano":
+				case "panorama":
+					showHelp("panorama", "Makes viewing a panorama easier", "", "");
 					break;
 				case "spcpe":
 					showHelp("spcpe", "Provides generic information about SPCPE", "", "");
@@ -166,6 +183,18 @@ function main(p) {
 			}
 			else {
 				errorMsg("Error in bounce command.");
+			}
+			break;
+
+		case "coords":
+		case "coordinates":
+			if(showingCoords) {
+				dismissCoords();
+				colourMsg("Showing coordinates is §binactive§f!");
+			}
+			else {
+				colourMsg("Showing coordinates is §bactive§f!");
+				showingCoords = true;
 			}
 			break;
 
@@ -360,6 +389,21 @@ function main(p) {
 			Player.setHealth(0);
 			break;
 
+		case "mc":
+		case "magiccarpet":
+			mcActive = !mcActive;
+			colourMsg("Magic carpet is now §b" + (mcActive ? "active" : "inactive") + "§f.");
+			if(!mcActive) {
+				removeCarpet();
+			}
+			break;
+
+		case "pano":
+		case "panorama":
+			panoActive = !panoActive;
+			colourMsg("Panorama is now §b" + (panoActive ? "active" : "inactive") + "§f!");
+			break;
+
 		case "spcpe":
 			showCredits();
 			break;
@@ -409,6 +453,11 @@ function main(p) {
 				errorMsg("The coordinates must be numbers!");
 			}
 			else if(parseInt(p[1]) && parseInt(p[2]) && parseInt(p[3])) {
+				if(mcActive) {
+					removeCarpet();
+					colourMsg("Removing the magic carpet...");
+					mcActive = false;
+				}
 				var x = Math.floor(p[1]);
 				var y = Math.floor(p[2]);
 				var z = Math.floor(p[3]);
@@ -433,6 +482,9 @@ function modTick() {
 				}
 				var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
 				if(giveFile.isFile()) {
+					if(!hasGiveFile) {
+						colourMsg("/give config found and loaded!");
+					}
 					hasGiveFile = true;
 				}
 				if(!giveFile.isFile()) {
@@ -443,6 +495,39 @@ function modTick() {
 			catch(e) { }
 		}}));
 		active = true;
+	}
+	if(mcActive) {
+		buildCarpet();
+	}
+	if(panoActive) {
+		var nextYaw = Entity.getYaw(Player.getEntity());
+		Entity.setRot(Player.getEntity(), nextYaw + 0.33, Entity.getPitch(Player.getEntity()));
+	}
+	if(showingCoords) {
+		ctx.runOnUiThread(new java.lang.Runnable({ run: function() {
+			try {
+				if(coordsActive) {
+					textview.setText("x: " + Math.floor(Player.getX()) + "\ny: " + Math.floor(Player.getY()) + "\nz: " + Math.floor(Player.getZ()));
+				}
+				else {
+					window = new android.widget.PopupWindow();
+					var layout = new android.widget.RelativeLayout(ctx);
+					textview = new android.widget.TextView(ctx);
+					//textview.setText("Test");
+					textview.setTextSize(25);
+					layout.addView(textview);
+					window.setContentView(layout);
+					window.setWidth(dip2px(ctx, 100));
+					window.setHeight(dip2px(ctx, 100));
+					window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+					window.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.LEFT | android.view.Gravity.TOP, dip2px(ctx, 5), dip2px(ctx, 40));
+					coordsActive = true;
+				}
+			}
+			catch(err){
+				print("Failed to show button." + err);
+			}
+		} }));
 	}
 }
 
@@ -523,4 +608,102 @@ function showCredits() {
 	});
 	var dialog = info.create();
 	dialog.show();
+}
+
+
+function dismissCoords() {
+	ctx.runOnUiThread(new java.lang.Runnable({ run: function() {
+		window.dismiss();
+	}}));
+	showingCoords = false;
+	coordsActive = false;
+}
+
+function buildCarpet() {
+	mcTick++;
+	if(mcTick === 2) {
+		x = Math.floor(Player.getX());
+		y = Math.floor(Player.getY()) - 2;
+		z = Math.floor(Player.getZ());
+		for(i = -3; i <= 3; i++) {
+			for(j = -3; j <=3; j++) {
+				for(k = -1; k <= 1; k++) {
+					if(i >= -2 && i <= 2) {
+						if(j >= -2 && j <= 2) {
+							if(Level.getTile(x + i, y, z + j) === 0) {
+								Level.setTile(x + i, y, z + j, 20);
+							}
+						}
+					} if(i === -3 || i === 3) {
+						if(j >= -3 && j <= 3) {
+							if(Level.getTile(x + i, y, z + j) === 20) {
+								Level.setTile(x + i, y, z + j, 0);
+							}
+						}
+					} if(i >= -3 && i <= 3) {
+						if(j === -3 || j === 3) {
+							if(Level.getTile(x + i, y, z + j) === 20) {
+								Level.setTile(x + i, y, z + j, 0);
+							}
+						}
+					} if(k === -1 || k === 1) {
+						if(i >= -3 && i <= 3) {
+							if(j >= -3 && j <= 3) {
+								if(Level.getTile(x + i, y + k, z + j) === 20) {
+									Level.setTile(x + i, y + k, z + j, 0);
+								}
+							}
+						}
+					} if(Entity.getPitch(Player.getEntity()) >= 75) {
+						if(i >= -2 && i <= 2) {
+							if(j >= -2 && j <= 2) {
+								if(Level.getTile(x + i, y, z + j) === 20) {
+									Level.setTile(x + i, y, z + j, 0);
+								}
+							}
+						} if(k === -1) {
+							if(i >= -2 && i <= 2) {
+								if(j >= -2 && j <= 2) {
+									if(Level.getTile(x + i, y + k, z + j) === 0) {
+										Level.setTile(x + i, y + k, z + j, 20);
+									}
+								}
+							}
+						}
+					} if(Entity.getPitch(Player.getEntity()) <= -60) {
+						setVelY(Player.getEntity(), 0.3);
+					}
+				}
+			}
+		}
+		mcTick = 0;
+	}
+}
+
+function removeCarpet() {
+	mcTick = 0;
+	x = Math.floor(Player.getX());
+	y = Math.floor(Player.getY())-2;
+	z = Math.floor(Player.getZ());
+	for(i = -3 ;i <= 3; i++) {
+		for(j = -3; j <= 3; j++) {
+			if(i >= -2 && i <= 2) {
+				if(j >= -2 && j <= 2) {
+					if(Level.getTile(x + i, y, z + j) === 20) {
+						Level.setTile(x + i, y, z + j, 0);
+					}
+				}
+			}
+		}
+	}
+}
+
+function leaveGame() {
+	if(showingCoords) {
+		dismissCoords();
+	}
+}
+
+function dip2px(ctx, dips){
+	return Math.ceil(dips * ctx.getResources().getDisplayMetrics().density);
 }
