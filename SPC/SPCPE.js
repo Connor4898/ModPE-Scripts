@@ -468,6 +468,9 @@ function main(p) {
 				errorMsg("Error in tp command.");
 			}
 			break;
+		default:
+			errorMsg("Command " + p[0] + " does not exist!");
+			break;
 	}
 }
 
@@ -513,8 +516,8 @@ function modTick() {
 					window = new android.widget.PopupWindow();
 					var layout = new android.widget.RelativeLayout(ctx);
 					textview = new android.widget.TextView(ctx);
-					//textview.setText("Test");
 					textview.setTextSize(25);
+					textview.setTextColor(android.graphics.Color.GRAY);
 					layout.addView(textview);
 					window.setContentView(layout);
 					window.setWidth(dip2px(ctx, 100));
