@@ -17,6 +17,7 @@
 | /heal | Heals the player by the specified points | /heal `[POINTS]` | /heal 20 |
 | /health | Sets the health of the player to pre-defined figures | /health `<min/max/infinite/get>` | /health max |
 | /ignite | Sets the player on fire | /ignite `[SECONDS]` | /ignite 5 |
+| /jump | Teleports the player to the block being looked at| /jump | /jump |
 | /kill | Kills the player | /kill | /kill |
 | /magiccarpet | Created a carpet of glass under the player | /magiccarpet | /magiccarpet |
 | /panorama | Makes viewing a panorama easier | /panorama | /panorama |
