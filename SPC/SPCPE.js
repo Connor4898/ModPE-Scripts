@@ -36,6 +36,8 @@ var window = null;
 var textview = null;
 var mcActive = false;
 var mcTick = 0;
+var bindCommand = [];
+var bindBtn = null;
 
 function procCmd(cmd) {
 	names = [];
@@ -44,37 +46,39 @@ function procCmd(cmd) {
 	var evalParams = cmd.split(" ");
 	var params = cmd.toLowerCase().split(" ");
 	var moarData;
-	ctx.runOnUiThread(new java.lang.Runnable({ run: function() {
-		try {
-			if(params[0] === "give") {
-				var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
-				if(giveFile.isFile()) {
-					hasGiveFile = true;
-					var fis = new java.io.BufferedReader(new java.io.FileReader(giveFile));
-					var s = null;
-					while((s = fis.readLine()) !== null) {
-						moarData = s.split("=");
-						names.push(""+moarData[0]);
-						ids.push(""+moarData[1]);
+	ctx.runOnUiThread(new java.lang.Runnable({
+		run: function() {
+			try {
+				if(params[0] === "give") {
+					var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
+					if(giveFile.isFile()) {
+						hasGiveFile = true;
+						var fis = new java.io.BufferedReader(new java.io.FileReader(giveFile));
+						var s = null;
+						while((s = fis.readLine()) !== null) {
+							moarData = s.split("=");
+							names.push(""+moarData[0]);
+							ids.push(""+moarData[1]);
+						}
+					}
+					else {
+						hasGiveFile = false;
 					}
 				}
-				else {
-					hasGiveFile = false;
+			}
+			catch (e) { }
+			if(evalParams[0].toLowerCase() === "eval") {
+				evalMsg = "";
+				for(i = 1; i <= (evalParams.length); i++) {
+					evalMsg += evalParams[i] + " ";
 				}
+				eval(evalMsg);
+			}
+			else {
+				main(params);
 			}
 		}
-		catch (e) { }
-		if(evalParams[0].toLowerCase() === "eval") {
-			evalMsg = "";
-			for(i = 1; i <= (evalParams.length); i++) {
-				evalMsg += evalParams[i] + " ";
-			}
-			eval(evalMsg);
-		}
-		else {
-			main(params);
-		}
-	}}));
+	}));
 }
 
 function main(p) {
@@ -86,6 +90,9 @@ function main(p) {
 				case "asc":
 				case "ascend":
 					showHelp("ascend", "Ascends the player to the platform above", "", "");
+					break;
+				case "bind":
+					showHelp("bind", "Binds a command to a GUI button", "<COMMAND> [PARAMETERS]", "jump");
 					break;
 				case "bounce":
 					showHelp("bounce", "Launches the player into the air", "<POWER>", "2");
@@ -172,6 +179,28 @@ function main(p) {
 			}
 			var dif = Math.floor(Player.getY()) - y;
 			colourMsg("You ascended §b" + dif + " §fblocks.");
+			break;
+
+		case "bind":
+			if(!isset(p[1])) {
+				dismissBind();
+				colourMsg("Removed all binds.");
+			}
+			else if(p[1] === "give" || p[1] === "eval") {
+				errorMsg("Cannot bind /give or /eval!");
+			}
+			else if(p[1] === "bind") {
+				errorMsg("Cannot bind itself!");
+			}
+			else if(p[1] !== "give" && p[1] !== "eval" && p[1] !== "bind") {
+				dismissBind();
+				bindCommand = [];
+				for(i = 1; i <= p.length; i++) {
+					bindCommand.push(p[i]);
+				}
+				showBind();
+				colourMsg("Binded §b" + p[1] + "§f.");
+			}
 			break;
 
 		case "bounce":
@@ -484,26 +513,28 @@ function main(p) {
 function modTick() {
 	if(active === false) {
 		print("SPCPE by Connor4898");
-		ctx.runOnUiThread(new java.lang.Runnable({ run: function() {
-			try {
-				var dir = new java.io.File("/sdcard/SPCPE/");
-				if(!dir.isDirectory()) {
-					var makedir = d.mkdir();
-				}
-				var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
-				if(giveFile.isFile()) {
-					if(!hasGiveFile) {
-						colourMsg("/give config found and loaded!");
+		ctx.runOnUiThread(new java.lang.Runnable({
+			run: function() {
+				try {
+					var dir = new java.io.File("/sdcard/SPCPE/");
+					if(!dir.isDirectory()) {
+						var makedir = d.mkdir();
 					}
-					hasGiveFile = true;
+					var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
+					if(giveFile.isFile()) {
+						if(!hasGiveFile) {
+							colourMsg("/give config found and loaded!");
+						}
+						hasGiveFile = true;
+					}
+					if(!giveFile.isFile()) {
+						errorMsg("/give config not found!");
+						hasGiveFile = false;
+					}
 				}
-				if(!giveFile.isFile()) {
-					errorMsg("/give config not found!");
-					hasGiveFile = false;
-				}
+				catch(e) { }
 			}
-			catch(e) { }
-		}}));
+		}));
 		active = true;
 	}
 	if(mcActive) {
@@ -514,30 +545,32 @@ function modTick() {
 		Entity.setRot(Player.getEntity(), nextYaw + 0.33, Entity.getPitch(Player.getEntity()));
 	}
 	if(showingCoords) {
-		ctx.runOnUiThread(new java.lang.Runnable({ run: function() {
-			try {
-				if(coordsActive) {
-					textview.setText("x: " + Math.floor(Player.getX()) + "\ny: " + Math.floor(Player.getY()) + "\nz: " + Math.floor(Player.getZ()));
+		ctx.runOnUiThread(new java.lang.Runnable({
+			run: function() {
+				try {
+					if(coordsActive) {
+						textview.setText("x: " + Math.floor(Player.getX()) + "\ny: " + Math.floor(Player.getY()) + "\nz: " + Math.floor(Player.getZ()));
+					}
+					else {
+						window = new android.widget.PopupWindow();
+						var layout = new android.widget.RelativeLayout(ctx);
+						textview = new android.widget.TextView(ctx);
+						textview.setTextSize(25);
+						textview.setTextColor(android.graphics.Color.GRAY);
+						layout.addView(textview);
+						window.setContentView(layout);
+						window.setWidth(dip2px(ctx, 100));
+						window.setHeight(dip2px(ctx, 100));
+						window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+						window.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.LEFT | android.view.Gravity.TOP, dip2px(ctx, 5), dip2px(ctx, 40));
+						coordsActive = true;
+					}
 				}
-				else {
-					window = new android.widget.PopupWindow();
-					var layout = new android.widget.RelativeLayout(ctx);
-					textview = new android.widget.TextView(ctx);
-					textview.setTextSize(25);
-					textview.setTextColor(android.graphics.Color.GRAY);
-					layout.addView(textview);
-					window.setContentView(layout);
-					window.setWidth(dip2px(ctx, 100));
-					window.setHeight(dip2px(ctx, 100));
-					window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
-					window.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.LEFT | android.view.Gravity.TOP, dip2px(ctx, 5), dip2px(ctx, 40));
-					coordsActive = true;
+				catch(err){
+					print("Failed to show button." + err);
 				}
 			}
-			catch(err){
-				print("Failed to show button." + err);
-			}
-		} }));
+		}));
 	}
 }
 
@@ -622,9 +655,11 @@ function showCredits() {
 
 
 function dismissCoords() {
-	ctx.runOnUiThread(new java.lang.Runnable({ run: function() {
-		window.dismiss();
-	}}));
+	ctx.runOnUiThread(new java.lang.Runnable({
+		run: function() {
+			window.dismiss();
+		}
+	}));
 	showingCoords = false;
 	coordsActive = false;
 }
@@ -712,6 +747,7 @@ function leaveGame() {
 	if(showingCoords) {
 		dismissCoords();
 	}
+	dismissBind();
 }
 
 function dip2px(ctx, dips){
@@ -720,8 +756,7 @@ function dip2px(ctx, dips){
 
 //jump command stuffs
 /*
---- Modified by 500ISE ---
---- Taken from 500ise_paintbrush.js ---
+--- Taken and modified from 500ise_paintbrush.js ---
 --- https://github.com/zhuowei/ModPEScripts/blob/master/500ise_paintbrush.js ---
 
 Taken from https://raw.github.com/Overv/MineAssemble/master/reference/src/mineassemble.c .
@@ -904,3 +939,35 @@ function jump() {
 	}
 }
 //end of jump stuffs
+
+function showBind() {
+	ctx.runOnUiThread(new java.lang.Runnable() {
+		run: function () {
+			try {
+				var btn = new android.widget.Button(ctx);
+				btn.setText(bindCommand[0].toUpperCase());
+				btn.setTextColor(android.graphics.Color.CYAN);
+				btn.setOnClickListener(new android.view.View.OnClickListener() {
+					onClick: function () {
+						main(bindCommand);
+					}
+				});
+				bindBtn = new android.widget.PopupWindow(btn, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+				bindBtn.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.BOTTOM | android.view.Gravity.RIGHT, dip2px(ctx, 85), dip2px(ctx, 85));
+			} catch (e) {
+				print(e);
+			}
+		}
+	});
+}
+
+function dismissBind() {
+	ctx.runOnUiThread(new java.lang.Runnable() {
+		run: function () {
+			if (bindBtn != null) {
+				bindBtn.dismiss();
+			}
+		}
+	});
+	bindCommand = [];
+}
