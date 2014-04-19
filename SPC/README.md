@@ -10,6 +10,7 @@
 | /ascend | Ascends the player to the platform above | /ascend | /ascend |
 | /bind | Binds a command to a GUI button | /bind `<COMMAND>` `[PARAMETERS]` | /bind jump |
 | /bounce | Launches the player into the air | /bounce `<POWER>` | /bounce 2 |
+| /cannon | Launches ignited TNT in the direction the player is facing | /cannon | /cannon |
 | /coords | Shows the player's current coordinates | /coords | /coords |
 | /descend | Descends the player to the platform below | /descend | /descend |
 | /explode | Sets off an explosion at the player's location | /explode `[RADIUS]` | /explode 5 |

@@ -97,6 +97,9 @@ function main(p) {
 				case "bounce":
 					showHelp("bounce", "Launches the player into the air", "<POWER>", "2");
 					break;
+				case "cannon":
+					showHelp("cannon", "Launches ignited TNT in the direction the player is facing", "", "");
+					break;
 				case "coords":
 				case "coordinates":
 					showHelp("coords", "Shows the player's current coordinates", "", "");
@@ -216,6 +219,18 @@ function main(p) {
 			else {
 				errorMsg("Error in bounce command.");
 			}
+			break;
+
+		case "cannon":
+			var yaw = Entity.getYaw(Player.getEntity());
+			var pitch = Entity.getPitch(Player.getEntity());
+			var velY = Math.sin((pitch - 180) / 180 * Math.PI);
+			var velX = Math.sin(yaw / 180 * Math.PI) * Math.cos((pitch - 180) / 180 * Math.PI);
+			var velZ = -1 * Math.cos(yaw / 180 * Math.PI) * Math.cos((pitch - 180) / 180 * Math.PI);
+			var entity = Level.spawnMob(Player.getX(), Player.getY(), Player.getZ(), 65);
+			Entity.setVelX(entity, velX);
+			Entity.setVelY(entity, velY);
+			Entity.setVelZ(entity, velZ);
 			break;
 
 		case "coords":
@@ -601,18 +616,23 @@ function showHelp(command, description, usage, example) {
 var helpPages = new Array(
 	new Array(
 		"/ascend",
+		"/bind <COMMAND> [PARAMETERS]",
 		"/bounce <POWER>",
 		"/descend",
-		"/explode [RADIUS]",
-		"/gamemode [survival|creative]"),
+		"/explode [RADIUS]"),
 	new Array(
+		"/gamemode [survival|creative]",
 		"/give <ID|ITEMNAME> <QUANTITY>",
 		"/heal [QUANTITY]",
 		"/health <min|max|infinite|get>",
-		"/hole",
-		"/ignite"),
+		"/hole"),
 	new Array(
+		"/ignite",
+		"/jump",
 		"/kill",
+		"/magiccarpet",
+		"/panorama"),
+	new Array(
 		"/spcpe",
 		"/time <day|night|sunrise|sunset|midday|midnight>",
 		"/tp <X> <Y> <Z>")
