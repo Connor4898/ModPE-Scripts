@@ -153,6 +153,9 @@ function main(p) {
 				case "tp":
 					showHelp("tp", "Teleports the player to the specified coordinates", "<X> <Y> <Z>", "43, 64, 78");
 					break;
+				case "unbind":
+					showHelp("unbind", "Unbinds all commands from the GUI button", "", "");
+					break;
 				default:
 					if(isset(p[1])) {
 						if(parseInt(p[1])) {
@@ -186,8 +189,7 @@ function main(p) {
 
 		case "bind":
 			if(!isset(p[1])) {
-				dismissBind();
-				colourMsg("Removed all binds.");
+				errorMsg("Not enough parameters!");
 			}
 			else if(p[1] === "give" || p[1] === "eval") {
 				errorMsg("Cannot bind /give or /eval!");
@@ -519,6 +521,12 @@ function main(p) {
 				errorMsg("Error in tp command.");
 			}
 			break;
+
+		case "unbind":
+			dismissBind();
+			colourMsg("Removed all binds.");
+			break;
+
 		default:
 			errorMsg("Command " + p[0] + " does not exist!");
 			break;

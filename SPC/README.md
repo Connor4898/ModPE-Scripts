@@ -26,6 +26,7 @@
 | /spcpe | Provides generic information about SPCPE | /spcpe | /spcpe |
 | /time | Sets the in-game time | /time `<day/night/sunrise/sunset/midday/midnight>` | /time sunrise |
 | /tp | Teleports the player to the specified coordinates | /tp `<X>` `<Y>` `<Z>` | /tp 43 64 78 |
+| /unbind | Unbinds all commands from the GUI button | /unbind | /unbind |
 ###Key
 #####lowercase = type exact word
 #####UPERCASE = typed word can vary
