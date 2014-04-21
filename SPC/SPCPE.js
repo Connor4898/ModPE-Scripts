@@ -37,6 +37,7 @@ var textview = null;
 var mcActive = false;
 var mcTick = 0;
 var bindCommand = [];
+var bindLft = false;
 var bindBtn = null;
 
 function procCmd(cmd) {
@@ -100,6 +101,9 @@ function main(p) {
 				case "cannon":
 					showHelp("cannon", "Launches ignited TNT in the direction the player is facing", "", "");
 					break;
+				case "clear":
+					showHelp("clear", "Clears the player's survival inventory", "", "");
+					break;
 				case "coords":
 				case "coordinates":
 					showHelp("coords", "Shows the player's current coordinates", "", "");
@@ -135,6 +139,9 @@ function main(p) {
 					break;
 				case "kill":
 					showHelp("kill", "Kills the player", "", "");
+					break;
+				case "lbind":
+					showHelp("lbind", "/bind for left handed users", "<COMMAND> [PARAMETERS]", "jump");
 					break;
 				case "mc":
 				case "magiccarpet":
@@ -188,16 +195,17 @@ function main(p) {
 			break;
 
 		case "bind":
+			bindLft = false;
 			if(!isset(p[1])) {
 				errorMsg("Not enough parameters!");
 			}
 			else if(p[1] === "give" || p[1] === "eval") {
 				errorMsg("Cannot bind /give or /eval!");
 			}
-			else if(p[1] === "bind") {
+			else if(p[1] === "bind" || p[1] === "lbind") {
 				errorMsg("Cannot bind itself!");
 			}
-			else if(p[1] !== "give" && p[1] !== "eval" && p[1] !== "bind") {
+			else if(p[1] !== "give" && p[1] !== "eval" && p[1] !== "bind" && p[1] !== "lbind") {
 				dismissBind();
 				bindCommand = [];
 				for(i = 1; i <= p.length; i++) {
@@ -233,6 +241,24 @@ function main(p) {
 			Entity.setVelX(entity, velX);
 			Entity.setVelY(entity, velY);
 			Entity.setVelZ(entity, velZ);
+			break;
+
+		case "clear":
+			if(Level.getGameMode() === 1) {
+				errorMsg("Cannot clear the creative inventory!");
+			}
+			else {
+				var count = 0;
+				for(i = 9; i <= 44; i++) {
+					if(Player.getInventorySlot(i) !== 0) {				
+						for(j = 1; j <= Player.getInventorySlotCount(i); j++) {
+							count++;
+						}
+						Player.clearInventorySlot(i);
+					}
+				}
+				colourMsg("Cleared §b" + count + " §ritem(s)!")
+			}
 			break;
 
 		case "coords":
@@ -440,6 +466,28 @@ function main(p) {
 
 		case "kill":
 			Player.setHealth(0);
+			break;
+
+		case "lbind":
+			bindLft = true;
+			if(!isset(p[1])) {
+				errorMsg("Not enough parameters!");
+			}
+			else if(p[1] === "give" || p[1] === "eval") {
+				errorMsg("Cannot bind /give or /eval!");
+			}
+			else if(p[1] === "bind" || p[1] === "lbind") {
+				errorMsg("Cannot bind itself!");
+			}
+			else if(p[1] !== "give" && p[1] !== "eval" && p[1] !== "bind" && p[1] !== "lbind") {
+				dismissBind();
+				bindCommand = [];
+				for(i = 1; i <= p.length; i++) {
+					bindCommand.push(p[i]);
+				}
+				showBind();
+				colourMsg("Binded §b" + p[1] + "§f.");
+			}
 			break;
 
 		case "mc":
@@ -981,7 +1029,12 @@ function showBind() {
 					}
 				});
 				bindBtn = new android.widget.PopupWindow(btn, android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-				bindBtn.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.BOTTOM | android.view.Gravity.RIGHT, dip2px(ctx, 85), dip2px(ctx, 85));
+				if(bindLft) {
+					bindBtn.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.BOTTOM | android.view.Gravity.LEFT, dip2px(ctx, 85), dip2px(ctx, 85));
+				}
+				else {
+					bindBtn.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.BOTTOM | android.view.Gravity.RIGHT, dip2px(ctx, 85), dip2px(ctx, 85));
+				}
 			} catch (e) {
 				print(e);
 			}

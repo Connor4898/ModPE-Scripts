@@ -10,6 +10,7 @@
 | /ascend | Ascends the player to the platform above | /ascend | /ascend |
 | /bind | Binds a command to a GUI button | /bind `<COMMAND>` `[PARAMETERS]` | /bind jump |
 | /bounce | Launches the player into the air | /bounce `<POWER>` | /bounce 2 |
+| /clear | Clears the player's survival inventory | /clear | /clear |
 | /cannon | Launches ignited TNT in the direction the player is facing | /cannon | /cannon |
 | /coords | Shows the player's current coordinates | /coords | /coords |
 | /descend | Descends the player to the platform below | /descend | /descend |
@@ -21,6 +22,7 @@
 | /ignite | Sets the player on fire | /ignite `[SECONDS]` | /ignite 5 |
 | /jump | Teleports the player to the block being looked at | /jump | /jump |
 | /kill | Kills the player | /kill | /kill |
+| /lbind | /bind for left handed users | /lbind | /lbind |
 | /magiccarpet | Created a carpet of glass under the player | /magiccarpet | /magiccarpet |
 | /panorama | Makes viewing a panorama easier | /panorama | /panorama |
 | /spcpe | Provides generic information about SPCPE | /spcpe | /spcpe |
