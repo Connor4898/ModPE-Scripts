@@ -34,3 +34,4 @@
 #####UPERCASE = typed word can vary
 #####< > = required parameter
 #####[ ] = optional parameter
+####Do not include the [ ] or < > in your commands
