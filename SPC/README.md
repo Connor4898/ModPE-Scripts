@@ -11,7 +11,7 @@
 | /bind | Binds a command to a GUI button | /bind `<COMMAND>` `[PARAMETERS]` | /bind jump |
 | /bounce | Launches the player into the air | /bounce `<POWER>` | /bounce 2 |
 | /clear | Clears the player's survival inventory | /clear | /clear |
-| /cannon | Launches ignited TNT in the direction the player is facing | /cannon | /cannon |
+| /commands | Lists every command | /commands | /commands |
 | /coords | Shows the player's current coordinates | /coords | /coords |
 | /descend | Descends the player to the platform below | /descend | /descend |
 | /explode | Sets off an explosion at the player's location | /explode `[RADIUS]` | /explode 5 |

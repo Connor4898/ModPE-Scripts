@@ -86,7 +86,6 @@ function main(p) {
 	switch(p[0]) {
 		case "help":
 		case "?":
-		case "commands":
 			switch(p[1]) {
 				case "asc":
 				case "ascend":
@@ -98,11 +97,14 @@ function main(p) {
 				case "bounce":
 					showHelp("bounce", "Launches the player into the air", "<POWER>", "2");
 					break;
-				case "cannon":
+				/*case "cannon":
 					showHelp("cannon", "Launches ignited TNT in the direction the player is facing", "", "");
-					break;
+					break;*/
 				case "clear":
 					showHelp("clear", "Clears the player's survival inventory", "", "");
+					break;
+				case "commands":
+					showHelp("commands", "Lists every command", "", "");
 					break;
 				case "coords":
 				case "coordinates":
@@ -231,7 +233,8 @@ function main(p) {
 			}
 			break;
 
-		case "cannon":
+		//Does not work in 0.9
+		/*case "cannon":
 			var yaw = Entity.getYaw(Player.getEntity());
 			var pitch = Entity.getPitch(Player.getEntity());
 			var velY = Math.sin((pitch - 180) / 180 * Math.PI);
@@ -241,7 +244,7 @@ function main(p) {
 			Entity.setVelX(entity, velX);
 			Entity.setVelY(entity, velY);
 			Entity.setVelZ(entity, velZ);
-			break;
+			break;*/
 
 		case "clear":
 			if(Level.getGameMode() === 1) {
@@ -259,6 +262,10 @@ function main(p) {
 				}
 				colourMsg("Cleared §b" + count + " §ritem(s)!")
 			}
+			break;
+
+		case "commands":
+			showCommands();
 			break;
 
 		case "coords":
@@ -674,24 +681,31 @@ var helpPages = new Array(
 		"/ascend",
 		"/bind <COMMAND> [PARAMETERS]",
 		"/bounce <POWER>",
-		"/descend",
-		"/explode [RADIUS]"),
+		/*"/cannon",*/
+		"/clear",
+		"/commands"),
 	new Array(
+		"/coords",
+		"/descend",
+		"/explode [RADIUS]",
 		"/gamemode [survival|creative]",
-		"/give <ID|ITEMNAME> <QUANTITY>",
+		"/give <ID|ITEMNAME> <QUANTITY>"),
+	new Array(
 		"/heal [QUANTITY]",
 		"/health <min|max|infinite|get>",
-		"/hole"),
-	new Array(
+		"/hole",
 		"/ignite",
-		"/jump",
-		"/kill",
-		"/magiccarpet",
-		"/panorama"),
+		"/jump"),
 	new Array(
-		"/spcpe",
+		"/kill",
+		"/lbind <COMMAND> [PARAMETERS]",
+		"/magiccarpet",
+		"/panorama",
+		"/spcpe"),
+	new Array(
 		"/time <day|night|sunrise|sunset|midday|midnight>",
-		"/tp <X> <Y> <Z>")
+		"/tp <X> <Y> <Z>",
+		"/unbind")
 );
 
 function showHelpPage(page) {
@@ -719,7 +733,7 @@ function showHelpPage(page) {
 function showCredits() {
 	var info = new android.app.AlertDialog.Builder(ctx);
 	info.setTitle("Information");
-	info.setMessage("Version " + version + "\nCreated by Connor4898\nAssisted by CheesyFriedBacon\nAssisted by MrARM\n\n+Thanks for using my ModPE Script!");
+	info.setMessage("Version " + version + "\nCreated by Connor4898\nAssisted by CheesyFriedBacon\nAssisted by MrARM\n\nThanks for using my ModPE Script!");
 	info.setNegativeButton("Ok", new android.content.DialogInterface.OnClickListener() {
 		onClick: function(par1){
 			dialog.dismiss();
@@ -729,15 +743,31 @@ function showCredits() {
 	dialog.show();
 }
 
+function showCommands() {
+	var commands = new android.app.AlertDialog.Builder(ctx);
+	commands.setTitle("Commands List");
+	var list = helpPages[0];
+	for(i = 1; i < helpPages.length; i++) {
+		list = list.concat(helpPages[i]);
+	}
+	commands.setMessage(list.join("\n"));
+	commands.setNegativeButton("Ok", new android.content.DialogInterface.OnClickListener() {
+		onClick: function(par1){
+			dialog.dismiss();
+		}
+	});
+	var dialog = commands.create();
+	dialog.show();
+}
 
 function dismissCoords() {
+	showingCoords = false;
+	coordsActive = false;
 	ctx.runOnUiThread(new java.lang.Runnable({
 		run: function() {
 			window.dismiss();
 		}
 	}));
-	showingCoords = false;
-	coordsActive = false;
 }
 
 function buildCarpet() {
@@ -897,7 +927,7 @@ function raytrace(pos, dir, info, radius) {
     var radius2 = radius * radius;
     
     // Assumption is made that the camera is never outside the world
-    while (in_world(x, y, z)) {
+	while (in_world(x, y, z)) {
         var dx = start[0] - pos[0];
         var dy = start[1] - pos[1];
         var dz = start[2] - pos[2];
@@ -973,7 +1003,9 @@ function toDirectionalVector(vector, yaw, pitch) {
 }
 
 function in_world(x, y, z) {
-	return x >= 0 && x < 256 && y >= 0 && y < 128 && z >= 0 && z < 256;
+	return true;
+	//Commented out due to infinite worlds
+	//return x >= 0 && x < 256 && y >= 0 && y < 128 && z >= 0 && z < 256;
 }
 
 var playerPos = [0, 0, 0];
