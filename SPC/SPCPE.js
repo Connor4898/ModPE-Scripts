@@ -43,10 +43,12 @@ var bindBtn = null;
 function procCmd(cmd) {
 	names = [];
 	ids = [];
+	data = [];
 
 	var evalParams = cmd.split(" ");
 	var params = cmd.toLowerCase().split(" ");
 	var moarData;
+	var dataValues;
 	ctx.runOnUiThread(new java.lang.Runnable({
 		run: function() {
 			try {
@@ -59,7 +61,15 @@ function procCmd(cmd) {
 						while((s = fis.readLine()) !== null) {
 							moarData = s.split("=");
 							names.push(""+moarData[0]);
-							ids.push(""+moarData[1]);
+							dataValues = moarData[1].split(":");
+							if(isset(dataValues[1])) {
+								ids.push(""+dataValues[0]);
+								data.push(""+dataValues[1]);
+							}
+							else {
+								ids.push(""+moarData[1]);
+								data.push("0");
+							}
 						}
 					}
 					else {
@@ -369,18 +379,24 @@ function main(p) {
 				var id = p[1].split(':');
 				if(isset(id[1])) {
 					Player.addItemInventory(id[0], p[2], id[1]);
-					colourMsg("Added §b" + p[2] + " §fof §b" + names[ids.indexOf(id[0])] + "§f (§b" + id[0] + "§f)");
+					colourMsg("Given §b" + p[2] + " §fof §b" + names[ids.indexOf(id[0])] + "§f (§b" + id[0] + "§f)");
 				}
 				else {
 					Player.addItemInventory(p[1], p[2]);
-					colourMsg("Added §b" + p[2] + " §fof §b" + names[ids.indexOf(p[1])] + "§f (§b" + p[1] + "§f)");
+					colourMsg("Given §b" + p[2] + " §fof §b" + names[ids.indexOf(p[1])] + "§f (§b" + p[1] + "§f)");
 				}
 			}
 			else if(!parseInt(p[1])) {
 				if(hasGiveFile) {
 					if(names.indexOf(p[1].toUpperCase()) > -1) {
-						Player.addItemInventory(ids[names.indexOf(p[1].toUpperCase())], p[2]);
-						colourMsg("Added §b" + p[2] + " §fof §b" + p[1].toUpperCase() + "§f (§b" + ids[names.indexOf(p[1].toUpperCase())] + "§f)");
+						if(data[names.indexOf(p[1].toUpperCase())] == 0) {
+							Player.addItemInventory(ids[names.indexOf(p[1].toUpperCase())], p[2]);
+							colourMsg("Given §b" + p[2] + " §fof §b" + p[1].toUpperCase() + "§f (§b" + ids[names.indexOf(p[1].toUpperCase())] + "§f)");
+						}
+						else {
+							Player.addItemInventory(ids[names.indexOf(p[1].toUpperCase())], p[2], data[names.indexOf(p[1].toUpperCase())]);
+							colourMsg("Given §b" + p[2] + " §fof §b" + p[1].toUpperCase() + "§f (§b" + ids[names.indexOf(p[1].toUpperCase())] + "§f:§b" + data[names.indexOf(p[1].toUpperCase())] + "§f)");
+						}
 					}
 					else {
 						errorMsg("Item not found!");
