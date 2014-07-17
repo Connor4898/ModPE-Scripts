@@ -14,6 +14,7 @@
 | /commands | Lists every command | /commands | /commands |
 | /coords | Shows the player's current coordinates | /coords | /coords |
 | /descend | Descends the player to the platform below | /descend | /descend |
+| /eval | Runs code in-game | /eval `<CODE>` | /eval clientMessage("Hi"); |
 | /explode | Sets off an explosion at the player's location | /explode `[RADIUS]` | /explode 5 |
 | /gamemode | Changes the player's gamemode | /gamemode `[survival/creative/s/c/0/1]` | /gamemode creative |
 | /give | Gives the player the specified item | /give `<ID/ITEMNAME>` `<QUANTITY>` | /give diamond 32 |
