@@ -28,6 +28,7 @@ var version = "BETA";
 //Arrays to store the /give names and IDs
 var names = [];
 var ids = [];
+var data = [];
 //A bunch of other variables
 var panoActive = false;
 var showingCoords = false;
@@ -45,15 +46,15 @@ function procCmd(cmd) {
 	ids = [];
 	data = [];
 
-	var evalParams = cmd.split(" ");
 	var params = cmd.toLowerCase().split(" ");
+	var evalParams = cmd.split(" ");
 	var moarData;
 	var dataValues;
 	ctx.runOnUiThread(new java.lang.Runnable({
 		run: function() {
 			try {
 				if(params[0] === "give") {
-					var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
+					var giveFile = new java.io.File(android.os.Environment.getExternalStorageDirectory()+"/SPCPE/", "SPCPE-Give-Config.txt");
 					if(giveFile.isFile()) {
 						hasGiveFile = true;
 						var fis = new java.io.BufferedReader(new java.io.FileReader(giveFile));
@@ -80,10 +81,20 @@ function procCmd(cmd) {
 			catch (e) { }
 			if(evalParams[0].toLowerCase() === "eval") {
 				evalMsg = "";
-				for(i = 1; i <= (evalParams.length); i++) {
-					evalMsg += evalParams[i] + " ";
+				if(evalParams.length === 1) {
+					errorMsg("Not enough parameters!");
 				}
-				eval(evalMsg);
+				else {
+					for(i = 1; i <= (evalParams.length); i++) {
+						evalMsg += evalParams[i] + " ";
+					}
+					try {
+						eval(evalMsg);
+					}
+					catch(e) {
+						print("Error: " + e);
+					}
+				}
 			}
 			else {
 				main(params);
@@ -126,6 +137,9 @@ function main(p) {
 					break;
 				case "explode":
 					showHelp("explode", "Sets off an explosion at your location", "[RADIUS]", "5");
+					break;
+				case "eval":
+					showHelp("eval", "Runs code in-game", "<CODE>", "clientMessage(\"Hi.\");");
 					break;
 				case "gm":
 				case "gamemode":
@@ -610,23 +624,31 @@ function modTick() {
 		ctx.runOnUiThread(new java.lang.Runnable({
 			run: function() {
 				try {
-					var dir = new java.io.File("/sdcard/SPCPE/");
+					var dir = new java.io.File(android.os.Environment.getExternalStorageDirectory()+"/SPCPE/");
 					if(!dir.isDirectory()) {
-						var makedir = d.mkdir();
+						var makedir = dir.mkdirs();
 					}
-					var giveFile = new java.io.File("/sdcard/SPCPE/", "SPCPE-Give-Config.txt");
+					var giveFile = new java.io.File(android.os.Environment.getExternalStorageDirectory()+"/SPCPE/", "SPCPE-Give-Config.txt");
 					if(giveFile.isFile()) {
 						if(!hasGiveFile) {
 							colourMsg("/give config found and loaded!");
 						}
 						hasGiveFile = true;
-					}
-					if(!giveFile.isFile()) {
+					} else if(!giveFile.isFile()) {
 						errorMsg("/give config not found!");
 						hasGiveFile = false;
+						var r  = new java.lang.Runnable() {
+							run: function() {
+								downloadConfig("https://raw.githubusercontent.com/Connor4898/ModPE-Scripts/master/SPC/SPCPE-Give-Config.txt", "SPCPE-Give-Config.txt");
+							}
+						}
+						var th = new java.lang.Thread(r);
+						th.start();
 					}
 				}
-				catch(e) { }
+				catch(e) {
+					print("Error: "+e);
+				}
 			}
 		}));
 		active = true;
@@ -703,22 +725,23 @@ var helpPages = new Array(
 	new Array(
 		"/coords",
 		"/descend",
+		"/eval <CODE>",
 		"/explode [RADIUS]",
-		"/gamemode [survival|creative]",
-		"/give <ID|ITEMNAME> <QUANTITY>"),
+		"/gamemode [survival|creative]"),
 	new Array(
+		"/give <ID|ITEMNAME> <QUANTITY>",
 		"/heal [QUANTITY]",
 		"/health <min|max|infinite|get>",
 		"/hole",
-		"/ignite",
-		"/jump"),
+		"/ignite"),
 	new Array(
+		"/jump",
 		"/kill",
 		"/lbind <COMMAND> [PARAMETERS]",
 		"/magiccarpet",
-		"/panorama",
-		"/spcpe"),
+		"/panorama"),
 	new Array(
+		"/spcpe",
 		"/time <day|night|sunrise|sunset|midday|midnight>",
 		"/tp <X> <Y> <Z>",
 		"/unbind")
@@ -749,7 +772,7 @@ function showHelpPage(page) {
 function showCredits() {
 	var info = new android.app.AlertDialog.Builder(ctx);
 	info.setTitle("Information");
-	info.setMessage("Version " + version + "\nCreated by Connor4898\nAssisted by CheesyFriedBacon\nAssisted by MrARM\n\nThanks for using my ModPE Script!");
+	info.setMessage("Version " + version + "\nCreated by Connor4898\n\nThanks to:\nCheesyFriedBacon - Helped out with the original SPCPE\nMrARM - Helped with /give (reading from a config)\nTemena - Helped with downloading the config automatically\n\nThanks for using SPCPE!");
 	info.setNegativeButton("Ok", new android.content.DialogInterface.OnClickListener() {
 		onClick: function(par1){
 			dialog.dismiss();
@@ -907,6 +930,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+var fullBlocks = [1, 2, 3, 4, 5, 7, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 26, 35, 41, 42, 43, 44, 45, 46, 47, 48, 49, 53, 54, 56, 57, 59, 60, 61, 61, 67, 73, 74, 79, 80, 81, 82, 85, 86, 87, 88, 89, 91, 98, 101, 102, 103, 107, 108, 109, 110, 111, 112, 114, 120, 121, 126, 128, 129, 133, 134, 135, 136, 139, 155, 156, 157, 158, 159, 161, 162, 170, 172, 173, 174, 243, 245, 246, 247, 248, 249];
+
 var FACE_LEFT = 0;
 var FACE_RIGHT = 1;
 var FACE_BOTTOM = 2;
@@ -953,7 +978,7 @@ function raytrace(pos, dir, info, radius) {
             return;
         }
         // Determine if block is solid
-        if (getTile(x, y, z) != 0) {
+        if (fullBlocks.indexOf(Level.getTile(x, y, z)) != -1) {
             var dist = Math.sqrt(dist2);
 
             pos[0] -= x;
@@ -1099,4 +1124,35 @@ function dismissBind() {
 		}
 	});
 	bindCommand = [];
+}
+
+//DOWNLOAD FILE - by Temena
+//Modified for SPCPE
+function downloadConfig(url_dl, filename) {
+	try {
+		var root = android.os.Environment.getExternalStorageDirectory();
+		var u = new java.net.URL(url_dl);
+		var c = u.openConnection();
+		c.setRequestMethod("GET");
+		c.setDoOutput(true);
+		c.connect();
+		c.getContentLength();
+		var f = new java.io.FileOutputStream(new java.io.File(root + "/SPCPE/", fileName));
+		var inRead = c.getInputStream();
+		var buffer = java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, 1024);
+		var len1 = 0;
+		while((len1 = inRead.read(buffer)) > 0) {
+			f.write(buffer, 0, len1);
+		}
+		f.close();
+		print("Config file downloaded");
+		hasConfig = true;
+	} catch (e) {
+		if(e == "JavaException: java.net.UnknownHostException: Unable to resolve host \"raw.githubusercontent.com\": No address associated with hostname") {
+			errorMsg("No internet connection, download failed.");
+		}
+		else {
+			print("Error: "+e);
+		}
+	}
 }
