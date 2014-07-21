@@ -25,6 +25,8 @@ var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
 var hasGiveFile = false;
 //What version is the user running?
 var version = "BETA";
+//New version available?
+var newVersion;
 //Arrays to store the /give names and IDs
 var names = [];
 var ids = [];
@@ -40,6 +42,8 @@ var mcTick = 0;
 var bindCommand = [];
 var bindLft = false;
 var bindBtn = null;
+var showDownloadAlert = false;
+var newScript;
 
 function procCmd(cmd) {
     names = [];
@@ -78,7 +82,7 @@ function procCmd(cmd) {
                     }
                 }
             }
-            catch (e) { }
+            catch(e) { }
             if(evalParams[0].toLowerCase() === "eval") {
                 evalMsg = "";
                 if(evalParams.length === 1) {
@@ -92,7 +96,7 @@ function procCmd(cmd) {
                         eval(evalMsg);
                     }
                     catch(e) {
-                        print("Error: " + e);
+                        errorMsg("Line 99: " + e);
                     }
                 }
             }
@@ -177,6 +181,9 @@ function main(p) {
                 case "panorama":
                     showHelp("panorama", "Makes viewing a panorama easier", "", "");
                     break;
+                case "setblock":
+                    showHelp("setblock", "Places a block at the specified coordinates", "<X> <Y> <Z> <TILEID> [DAMAGEVALUE]", "54 79 75 59");
+                    break;
                 case "spcpe":
                     showHelp("spcpe", "Provides generic information about SPCPE", "", "");
                     break;
@@ -184,7 +191,7 @@ function main(p) {
                     showHelp("time", "Sets the in-game time", "<day|night|sunrise|sunset|midday|midnight>", "sunrise");
                     break;
                 case "tp":
-                    showHelp("tp", "Teleports the player to the specified coordinates", "<X> <Y> <Z>", "43, 64, 78");
+                    showHelp("tp", "Teleports the player to the specified coordinates", "<X> <Y> <Z>", "43 64 78");
                     break;
                 case "unbind":
                     showHelp("unbind", "Unbinds all commands from the GUI button", "", "");
@@ -542,6 +549,18 @@ function main(p) {
             colourMsg("Panorama is now §b" + (panoActive ? "active" : "inactive") + "§f!");
             break;
 
+        case "setblock":
+            if(!isset(p[1]) || !isset(p[2]) || !isset(p[3]) || !isset(p[4])) {
+                errorMsg("Not enough parameters!");
+            }
+            else if(isset(p[5])) {
+                Level.setTile(p[1], p[2], p[3], p[4], p[5]);
+            }
+            else {
+                Level.setTile(p[1], p[2], p[3], p[4]);
+            }
+            break;
+
         case "spcpe":
             showCredits();
             break;
@@ -587,7 +606,7 @@ function main(p) {
             if(!isset(p[1]) || !isset(p[2]) || !isset(p[3])) {
                 errorMsg("Not enough parameters!")
             }
-            else if(!parseInt(p[1]) || !parseInt(p[2]) || !parseInt(p[3])) {
+            else if((!parseInt(p[1]) || !parseInt(p[2]) || !parseInt(p[3])) && (p[1] != 0 && p[2] != 0 && p[3] != 0)) {
                 errorMsg("The coordinates must be numbers!");
             }
             else if(parseInt(p[1]) && parseInt(p[2]) && parseInt(p[3])) {
@@ -621,9 +640,11 @@ function main(p) {
 function modTick() {
     if(active === false) {
         print("SPCPE by Connor4898");
+        colourMsg("SPCPE version §b" + version + "§f by Connor4898");
         ctx.runOnUiThread(new java.lang.Runnable({
             run: function() {
                 try {
+                    compareVersion();
                     var dir = new java.io.File(android.os.Environment.getExternalStorageDirectory()+"/SPCPE/");
                     if(!dir.isDirectory()) {
                         var makedir = dir.mkdirs();
@@ -635,19 +656,12 @@ function modTick() {
                         }
                         hasGiveFile = true;
                     } else if(!giveFile.isFile()) {
-                        errorMsg("/give config not found!");
                         hasGiveFile = false;
-                        var r  = new java.lang.Runnable() {
-                            run: function() {
-                                downloadConfig("https://raw.githubusercontent.com/Connor4898/ModPE-Scripts/master/SPC/SPCPE-Give-Config.txt", "SPCPE-Give-Config.txt");
-                            }
-                        }
-                        var th = new java.lang.Thread(r);
-                        th.start();
+                        downloadConfig("https://raw.githubusercontent.com/Connor4898/ModPE-Scripts/master/SPC/SPCPE-Give-Config.txt", "SPCPE-Give-Config.txt");
                     }
                 }
                 catch(e) {
-                    print("Error: "+e);
+                    errorMsg("Line 664: "+e);
                 }
             }
         }));
@@ -682,11 +696,25 @@ function modTick() {
                         coordsActive = true;
                     }
                 }
-                catch(err){
-                    print("Failed to show button." + err);
+                catch(e){
+                    errorMsg("Line 700: " + e);
                 }
             }
         }));
+    }
+    if(showDownloadAlert) {
+        colourMsg("showDownloadAlert true!");
+        ctx.runOnUiThread(new java.lang.Runnable({
+            run: function() {
+                try {
+                    updateScript();
+                }
+                catch(e) {
+                    errorMsg("Line 713: " + e);
+                }
+            }
+        }));
+        showDownloadAlert = false;
     }
 }
 
@@ -741,7 +769,8 @@ var helpPages = new Array(
         "/magiccarpet",
         "/panorama"),
     new Array(
-        "/spcpe",
+        "/setblooooock <X> <Y> <Z> <TILEID> [TILEDATA]",
+		"/spcpe",
         "/time <day|night|sunrise|sunset|midday|midnight>",
         "/tp <X> <Y> <Z>",
         "/unbind")
@@ -1108,8 +1137,8 @@ function showBind() {
                 else {
                     bindBtn.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.BOTTOM | android.view.Gravity.RIGHT, dip2px(ctx, 85), dip2px(ctx, 85));
                 }
-            } catch (e) {
-                print(e);
+            } catch(e) {
+                errorMsg("Line 1140: " + e);
             }
         }
     });
@@ -1126,33 +1155,154 @@ function dismissBind() {
     bindCommand = [];
 }
 
-//DOWNLOAD FILE - by Temena
-//Modified for SPCPE
 function downloadConfig(url_dl, filename) {
     try {
-        var root = android.os.Environment.getExternalStorageDirectory();
-        var u = new java.net.URL(url_dl);
-        var c = u.openConnection();
-        c.setRequestMethod("GET");
-        c.setDoOutput(true);
-        c.connect();
-        c.getContentLength();
-        var f = new java.io.FileOutputStream(new java.io.File(root + "/SPCPE/", fileName));
-        var inRead = c.getInputStream();
-        var buffer = java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, 1024);
-        var len1 = 0;
-        while((len1 = inRead.read(buffer)) > 0) {
-            f.write(buffer, 0, len1);
+        var builder = new android.app.AlertDialog.Builder(ctx);
+        builder.setTitle("Config not found!");
+        builder.setMessage("The configuration file for the /give command was not found!\nWould you like to download it now?\nThe script will still work if you do not download this file, but you will not be able to use item or block names in /give");
+        builder.setNegativeButton("No", new android.content.DialogInterface.OnClickListener() {
+            onClick: function(par1) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("Yes", new android.content.DialogInterface.OnClickListener() {
+            onClick: function(par1) {
+                colourMsg("Downloading config file...");
+                var r  = new java.lang.Runnable() {
+                    run: function() {
+                        try {
+                            var root = android.os.Environment.getExternalStorageDirectory();
+                            var u = new java.net.URL(url_dl);
+                            var c = u.openConnection();
+                            c.setRequestMethod("GET");
+                            c.setDoOutput(true);
+                            c.connect();
+                            c.getContentLength();
+                            var f = new java.io.FileOutputStream(new java.io.File(root + "/SPCPE/", filename));
+                            var inRead = c.getInputStream();
+                            var buffer = java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, 1024);
+                            var len1 = 0;
+                            while((len1 = inRead.read(buffer)) > 0) {
+                                f.write(buffer, 0, len1);
+                            }
+                            f.close();
+                            colourMsg("Config file downloaded!");
+                            hasConfig = true;
+                            
+                        }
+                        catch(e) {
+                            errorMsg("Download failed!");
+                            if(e == "JavaException: java.net.UnknownHostException: Unable to resolve host \"raw.githubusercontent.com\": No address associated with hostname") {
+                                errorMsg("No internet connection.");
+                            }
+                            else {
+                                errorMsg("Line 1199: " + e);
+                            }
+                        }
+                        dialog.dismiss();
+                    }
+                }
+                var th = new java.lang.Thread(r);
+                th.start();
+            }
+        });
+        var dialog = builder.create();
+        dialog.show();
+    }
+    catch(e) {
+        errorMsg("Line 1213: " + e);
+    }
+}
+//End of Temena's contribution
+
+function compareVersion() {
+    colourMsg("Comparing...")
+    var r  = new java.lang.Runnable() {
+        run: function() {
+            try {
+                var u = new java.net.URL("https://raw.githubusercontent.com/Connor4898/ModPE-Scripts/master/SPC/version");
+                var c = u.openConnection();
+                c.setRequestMethod("GET");
+                c.setDoOutput(true);
+                c.connect();
+                c.getContentLength();
+                var input = c.getInputStream();
+                var contents = java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, 1024);
+                var bytesRead = 0; 
+                var strFileContents;
+                while((bytesRead = input.read(contents)) != -1) { 
+                    strFileContents = new java.lang.String(contents, 0, bytesRead);               
+                }
+                if(version !== strFileContents) {
+                    newVersion = strFileContents;
+                    colourMsg("New version! " + newVersion);
+                    showDownloadAlert = true;
+                }
+                
+            }
+            catch(e) {
+                errorMsg("Line 1244: " + e);
+            }
         }
-        f.close();
-        print("Config file downloaded");
-        hasConfig = true;
-    } catch (e) {
-        if(e == "JavaException: java.net.UnknownHostException: Unable to resolve host \"raw.githubusercontent.com\": No address associated with hostname") {
-            errorMsg("No internet connection, download failed.");
-        }
-        else {
-            print("Error: "+e);
-        }
+    }
+    var th = new java.lang.Thread(r);
+    th.start();
+}
+
+function updateScript() {
+    try {
+        var builder = new android.app.AlertDialog.Builder(ctx);
+        builder.setTitle("New version available!");
+        builder.setMessage("An update to SPCPE was found!\nWould you like to download it now?\nCurrent version: " + version + "\nNew version: " + newVersion);
+        builder.setNegativeButton("No", new android.content.DialogInterface.OnClickListener() {
+            onClick: function(par1) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("Yes", new android.content.DialogInterface.OnClickListener() {
+            onClick: function(par1) {
+                var ru  = new java.lang.Runnable() {
+                    run: function() {
+                        try {
+                            var u = new java.net.URL("https://raw.githubusercontent.com/Connor4898/ModPE-Scripts/master/SPC/SPCPE.js");
+                            var c = u.openConnection();
+                            c.setRequestMethod("GET");
+                            c.setDoOutput(true);
+                            c.connect();
+                            c.getContentLength();
+                            var input = c.getInputStream();
+                            var contents = java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, 1024);
+                            var bytesRead = 0;
+                            while((bytesRead = input.read(contents)) != -1) { 
+                                newScript += new java.lang.String(contents, 0, bytesRead);               
+                            }
+                            var patchesFolder = ctx.getDir("modscripts", 0);
+                            var scriptFile = new java.io.File(patchesFolder, "SPCPE.js");
+                            var printWriter = new java.io.PrintWriter(scriptFile);
+                            printWriter.write(newScript);
+                            printWriter.flush();
+                            printWriter.close();
+                            try {
+                                net.zhuoweizhang.mcpelauncher.ScriptManager.setEnabled(scriptFile, false);
+                                net.zhuoweizhang.mcpelauncher.ScriptManager.setEnabled(scriptFile, true);
+                            }
+                            catch(e) {
+                                errorMsg("Line 1290: " + e);
+                            }
+                        }
+                        catch(e) {
+                            errorMsg("Line 1294: " + e);
+                        }
+                    }
+                }
+                var th = new java.lang.Thread(ru);
+                th.start();
+            }
+        });
+        var dialog = builder.create();
+        dialog.show()
+    }
+    catch(e) {
+        errorMsg("Line 1306: " + e);
     }
 }
