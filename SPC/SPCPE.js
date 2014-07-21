@@ -703,7 +703,6 @@ function modTick() {
         }));
     }
     if(showDownloadAlert) {
-        colourMsg("showDownloadAlert true!");
         ctx.runOnUiThread(new java.lang.Runnable({
             run: function() {
                 try {
@@ -1216,7 +1215,6 @@ function downloadConfig(url_dl, filename) {
 //End of Temena's contribution
 
 function compareVersion() {
-    colourMsg("Comparing...")
     var r  = new java.lang.Runnable() {
         run: function() {
             try {
@@ -1233,8 +1231,8 @@ function compareVersion() {
                 while((bytesRead = input.read(contents)) != -1) { 
                     strFileContents = new java.lang.String(contents, 0, bytesRead);               
                 }
-                if(version !== strFileContents) {
-                    newVersion = strFileContents;
+				newVersion = strFileContents;
+				if(version+"\n" != strFileContents) {
                     colourMsg("New version! " + newVersion);
                     showDownloadAlert = true;
                 }
@@ -1285,6 +1283,7 @@ function updateScript() {
                             try {
                                 net.zhuoweizhang.mcpelauncher.ScriptManager.setEnabled(scriptFile, false);
                                 net.zhuoweizhang.mcpelauncher.ScriptManager.setEnabled(scriptFile, true);
+								colourMsg("Downloaded and enabled!");
                             }
                             catch(e) {
                                 errorMsg("Line 1290: " + e);
