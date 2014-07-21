@@ -24,7 +24,7 @@ var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
 //Does the user have the config for /give?
 var hasGiveFile = false;
 //What version is the user running?
-var version = "1.0.0";
+var version = "1.0.1";
 //New version available?
 var newVersion;
 //Arrays to store the /give names and IDs
@@ -768,7 +768,7 @@ var helpPages = new Array(
         "/magiccarpet",
         "/panorama"),
     new Array(
-        "/setblooooock <X> <Y> <Z> <TILEID> [TILEDATA]",
+        "/setblock <X> <Y> <Z> <TILEID> [TILEDATA]",
         "/spcpe",
         "/time <day|night|sunrise|sunset|midday|midnight>",
         "/tp <X> <Y> <Z>",
