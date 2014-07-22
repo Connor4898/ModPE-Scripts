@@ -24,7 +24,7 @@ var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
 //Does the user have the config for /give?
 var hasGiveFile = false;
 //What version is the user running?
-var version = "1.0.2";
+var version = "1.0.3";
 //New version available?
 var newVersion;
 //Arrays to store the /give names and IDs
@@ -675,7 +675,7 @@ function modTick() {
 				}
 			}
 			catch(e){
-				errorMsg("Line 778: " + e);
+				errorMsg("Line 678: " + e);
 			}
 		}}));
 	}
@@ -1075,9 +1075,7 @@ function jump() {
 			case 5: sides = [0, 0, 1]; break;
 		}
 		for(i = rayTraceInfo.y; i <= 128; i++) {
-			clientMessage("Maybe " + i);
 			if(Level.getTile(rayTraceInfo.x, i, rayTraceInfo.z) === 0 && Level.getTile(rayTraceInfo.x, i + 1, rayTraceInfo.z) === 0) {
-				clientMessage("Success! " + i);
 				Entity.setPosition(Player.getEntity(), rayTraceInfo.x + 0.5, i + 2.25, rayTraceInfo.z + 0.5);
 				colourMsg("Poof!");
 				return;
@@ -1109,7 +1107,7 @@ function showBind() {
 				bindBtn.showAtLocation(ctx.getWindow().getDecorView(), android.view.Gravity.BOTTOM | android.view.Gravity.RIGHT, dip2px(ctx, 85), dip2px(ctx, 85));
 			}
 		} catch(e) {
-			errorMsg("Line 1112: " + e);
+			errorMsg("Line 1110: " + e);
 		}
 	}}));
 }
@@ -1163,7 +1161,7 @@ function downloadConfig(url_dl, filename) {
 							errorMsg("No internet connection.");
 						}
 						else {
-							errorMsg("Line 1166: " + e);
+							errorMsg("Line 1164: " + e);
 						}
 					}
 					dialog.dismiss();
@@ -1254,11 +1252,11 @@ function updateScript() {
 							colourMsg("Downloaded and enabled!");
 						}
 						catch(e) {
-							errorMsg("Line 1257: " + e);
+							errorMsg("Line 1255: " + e);
 						}
 					}
 					catch(e) {
-						errorMsg("Line 1261: " + e);
+						errorMsg("Line 1259: " + e);
 					}
 				}});
 				var th = new java.lang.Thread(ru);
@@ -1269,6 +1267,6 @@ function updateScript() {
 		dialog.show()
 	}
 	catch(e) {
-		errorMsg("Line 1272: " + e);
+		errorMsg("Line 1270: " + e);
 	}
 }
