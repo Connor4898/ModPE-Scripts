@@ -32,7 +32,7 @@
 | /unbind | Unbinds all commands from the GUI button | /unbind | /unbind |
 ###Key
 #####lowercase = type exact word
-#####UPERCASE = typed word can vary
+#####UPPERCASE = typed word can vary
 #####< > = required parameter
 #####[ ] = optional parameter
 ####Do not include the [ ] or < > in your commands
